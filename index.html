@@ -4,32 +4,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#ff007a">
-<meta name="mobile-web-app-capable" content="yes">
 
-<title>Ghazi Abbas | Study OS V3</title>
+<title>Ghazi Abbas | Ultimate Study Command Center</title>
 
 <link rel="icon" type="image/png" href="https://i.postimg.cc/m2PRngnY/logo512-png.png">
 <link rel="apple-touch-icon" href="https://i.postimg.cc/m2PRngnY/logo512-png.png">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#ff007a">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Orbitron:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
+
+/* =========================================================
+   ROOT
+========================================================= */
+
 :root{
     --bg:#03050a;
-    --panel:rgba(10,15,25,.72);
-    --panel-solid:#0b111b;
+    --bg2:#070b15;
+    --card:rgba(12,16,24,.78);
+
     --pink:#ff007a;
     --blue:#00d2ff;
-    --purple:#8b5cf6;
-    --green:#00e889;
-    --yellow:#ffd000;
-    --red:#ff4668;
+    --green:#00ff88;
+    --yellow:#ffcc00;
+    --purple:#9b5cff;
+    --red:#ff3b5c;
+
     --text:#edf4ff;
-    --muted:#8290a7;
+    --muted:#8490a4;
+
     --border:rgba(255,255,255,.09);
+
+    --shadow:
+        0 20px 60px rgba(0,0,0,.55);
+
+    --radius:28px;
 }
+
+/* =========================================================
+   GLOBAL
+========================================================= */
 
 *{
     margin:0;
@@ -42,4232 +62,3888 @@ html{
 }
 
 body{
-    font-family:'Poppins',sans-serif;
-    background:var(--bg);
-    color:var(--text);
     min-height:100vh;
     overflow-x:hidden;
+
+    font-family:'Poppins',sans-serif;
+
+    color:var(--text);
+
+    background:
+        radial-gradient(circle at 10% 10%,rgba(255,0,122,.12),transparent 25%),
+        radial-gradient(circle at 90% 20%,rgba(0,210,255,.10),transparent 25%),
+        radial-gradient(circle at 50% 90%,rgba(155,92,255,.08),transparent 30%),
+        var(--bg);
 }
 
-/* =========================
+/* =========================================================
    ADVANCED BACKGROUND
-========================= */
+========================================================= */
 
-#particleCanvas{
+#bgCanvas{
     position:fixed;
     inset:0;
+
     width:100%;
     height:100%;
-    z-index:-6;
+
+    z-index:-4;
+
     pointer-events:none;
 }
 
-.aurora{
+.background-grid{
     position:fixed;
-    inset:-40%;
-    z-index:-5;
+    inset:0;
+
+    z-index:-3;
     pointer-events:none;
-    background:
-        radial-gradient(circle at 20% 30%,rgba(255,0,122,.14),transparent 22%),
-        radial-gradient(circle at 75% 20%,rgba(0,210,255,.13),transparent 25%),
-        radial-gradient(circle at 50% 75%,rgba(139,92,246,.12),transparent 25%);
-    filter:blur(60px);
-    animation:auroraMove 16s ease-in-out infinite alternate;
-}
 
-@keyframes auroraMove{
-    0%{
-        transform:translate3d(-3%,-2%,0) scale(1);
-    }
+    opacity:.25;
 
-    50%{
-        transform:translate3d(3%,4%,0) scale(1.08) rotate(2deg);
-    }
+    background-image:
+        linear-gradient(rgba(0,210,255,.05) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,210,255,.05) 1px,transparent 1px);
 
-    100%{
-        transform:translate3d(-2%,5%,0) scale(1.04);
-    }
+    background-size:60px 60px;
+
+    mask-image:
+        linear-gradient(
+            to bottom,
+            transparent,
+            black 15%,
+            black 80%,
+            transparent
+        );
 }
 
 .orb{
     position:fixed;
-    width:380px;
-    height:380px;
+
+    width:500px;
+    height:500px;
+
     border-radius:50%;
-    filter:blur(85px);
+
+    filter:blur(120px);
+
     opacity:.12;
-    z-index:-4;
+
     pointer-events:none;
-    animation:orbFloat 14s ease-in-out infinite;
+
+    z-index:-3;
+
+    animation:orbMove 18s ease-in-out infinite alternate;
 }
 
 .orb.one{
     background:var(--pink);
-    left:-140px;
-    top:10%;
+    top:-150px;
+    left:-150px;
 }
 
 .orb.two{
     background:var(--blue);
-    right:-140px;
-    top:30%;
-    animation-delay:-5s;
+    right:-150px;
+    top:25%;
+
+    animation-delay:-8s;
 }
 
 .orb.three{
     background:var(--purple);
-    left:35%;
+
     bottom:-200px;
-    animation-delay:-9s;
+    left:30%;
+
+    animation-delay:-12s;
 }
 
-@keyframes orbFloat{
-    0%,100%{
-        transform:translate3d(0,0,0) scale(1);
+@keyframes orbMove{
+
+    0%{
+        transform:translate(0,0) scale(1);
     }
 
-    50%{
-        transform:translate3d(70px,-60px,0) scale(1.2);
+    100%{
+        transform:translate(150px,100px) scale(1.35);
     }
 }
 
-.mouse-glow{
+#cursorGlow{
     position:fixed;
-    width:400px;
-    height:400px;
+
+    width:300px;
+    height:300px;
+
     border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,210,255,.12),
+            rgba(255,0,122,.04) 35%,
+            transparent 70%
+        );
+
+    transform:
+        translate(-50%,-50%);
+
     pointer-events:none;
-    z-index:-3;
-    background:radial-gradient(circle,rgba(0,210,255,.08),transparent 65%);
-    transform:translate(-50%,-50%);
+
+    z-index:-2;
+
+    filter:blur(15px);
 }
 
-/* ========================= */
+/* =========================================================
+   MAIN
+========================================================= */
 
-.app{
+.container{
     width:min(1500px,95%);
     margin:auto;
-    padding-bottom:110px;
+
+    padding-bottom:180px;
 }
+
+/* =========================================================
+   HEADER
+========================================================= */
 
 .header{
+    padding:45px 0 25px;
+
+    text-align:center;
+}
+
+.header-top{
     display:flex;
-    align-items:center;
+
     justify-content:space-between;
-    gap:20px;
-    padding:28px 0;
-}
-
-.brand{
-    display:flex;
     align-items:center;
-    gap:15px;
-}
 
-.logo{
-    width:58px;
-    height:58px;
-    border-radius:18px;
-    display:grid;
-    place-items:center;
-    background:linear-gradient(135deg,var(--pink),var(--purple),var(--blue));
-    font-size:1.6rem;
-    box-shadow:
-        0 0 30px rgba(255,0,122,.4),
-        inset 0 0 15px rgba(255,255,255,.2);
-}
+    gap:20px;
 
-.brand h1{
-    font-size:clamp(1.3rem,4vw,2.2rem);
-    font-weight:800;
-    line-height:1;
-}
-
-.brand p{
-    color:var(--muted);
-    font-size:.68rem;
-    margin-top:6px;
-    letter-spacing:1px;
-}
-
-.header-actions{
-    display:flex;
-    gap:8px;
-}
-
-.icon-btn{
-    width:46px;
-    height:46px;
-    border-radius:15px;
-    border:1px solid var(--border);
-    background:var(--panel);
-    backdrop-filter:blur(20px);
-    color:white;
-    font-size:1rem;
-    cursor:pointer;
-    transition:.25s;
-}
-
-.icon-btn:hover{
-    transform:translateY(-3px);
-    border-color:var(--pink);
-    box-shadow:0 10px 25px rgba(255,0,122,.15);
-}
-
-/* NAV */
-
-.nav{
-    display:flex;
-    gap:8px;
-    overflow-x:auto;
-    scrollbar-width:none;
     margin-bottom:25px;
 }
 
-.nav::-webkit-scrollbar{
-    display:none;
+.brand{
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:15px 38px;
+
+    border-radius:999px;
+
+    border:3px solid var(--pink);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,0,122,.14),
+            rgba(0,210,255,.08)
+        );
+
+    box-shadow:
+        0 0 25px rgba(255,0,122,.7),
+        inset 0 0 25px rgba(255,0,122,.15);
+
+    backdrop-filter:blur(20px);
 }
 
-.nav button{
-    border:1px solid var(--border);
-    background:var(--panel);
-    color:var(--muted);
-    padding:11px 16px;
-    border-radius:14px;
-    white-space:nowrap;
-    cursor:pointer;
-    font-weight:700;
-    font-size:.75rem;
+.brand h1{
+    font-size:clamp(1.8rem,5vw,4rem);
+
+    font-weight:900;
+
+    letter-spacing:-2px;
+
+    color:white;
+
+    text-shadow:
+        0 0 20px var(--pink),
+        0 0 50px rgba(255,0,122,.7);
+}
+
+.live-clock{
+    min-width:245px;
+
+    padding:14px 20px;
+
+    border-radius:22px;
+
+    border:1px solid rgba(0,210,255,.3);
+
+    background:rgba(4,9,18,.65);
+
     backdrop-filter:blur(20px);
+
+    box-shadow:
+        0 0 30px rgba(0,210,255,.12);
+}
+
+.clock-time{
+    font-family:'Orbitron',sans-serif;
+
+    font-size:1.3rem;
+
+    color:var(--blue);
+
+    text-shadow:
+        0 0 15px var(--blue);
+}
+
+.clock-date{
+    margin-top:5px;
+
+    font-size:.7rem;
+
+    color:var(--muted);
+}
+
+.greeting{
+    margin-top:10px;
+
+    font-size:.72rem;
+
+    color:var(--green);
+
+    font-weight:700;
+}
+
+/* =========================================================
+   DASHBOARD STATS
+========================================================= */
+
+.quick-stats{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:16px;
+
+    margin:25px 0 40px;
+}
+
+.quick-card{
+    position:relative;
+
+    overflow:hidden;
+
+    padding:20px;
+
+    border-radius:20px;
+
+    background:rgba(10,15,25,.7);
+
+    border:1px solid var(--border);
+
+    backdrop-filter:blur(15px);
+
     transition:.25s;
 }
 
-.nav button.active,
-.nav button:hover{
-    color:white;
-    border-color:transparent;
-    background:linear-gradient(135deg,var(--pink),#b80062);
-    box-shadow:0 8px 25px rgba(255,0,122,.2);
+.quick-card:hover{
+    transform:translateY(-5px);
+
+    border-color:rgba(0,210,255,.35);
 }
 
-/* PAGES */
-
-.page{
-    display:none;
-    animation:pageIn .35s ease;
-}
-
-.page.active{
-    display:block;
-}
-
-@keyframes pageIn{
-    from{
-        opacity:0;
-        transform:translateY(12px);
-    }
-
-    to{
-        opacity:1;
-        transform:none;
-    }
-}
-
-/* CARDS */
-
-.card,
-.hero{
-    background:var(--panel);
-    border:1px solid var(--border);
-    backdrop-filter:blur(18px);
-    border-radius:26px;
-    box-shadow:0 20px 50px rgba(0,0,0,.18);
-}
-
-.hero{
-    padding:28px;
-    margin-bottom:22px;
-    position:relative;
-    overflow:hidden;
-}
-
-.hero::after{
-    content:"";
-    position:absolute;
-    width:280px;
-    height:280px;
-    border-radius:50%;
-    right:-100px;
-    top:-130px;
-    background:radial-gradient(circle,rgba(255,0,122,.15),transparent 65%);
-}
-
-.hero h2{
-    font-size:clamp(1.5rem,4vw,2.4rem);
-    position:relative;
-    z-index:1;
-}
-
-.hero p{
-    color:var(--muted);
-    font-size:.82rem;
-    margin-top:7px;
-    position:relative;
-    z-index:1;
-}
-
-.card{
-    padding:22px;
-}
-
-.card-title{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:18px;
-}
-
-.card-title h3{
-    font-size:1rem;
-}
-
-/* DASHBOARD */
-
-.level-hero{
-    display:flex;
-    justify-content:space-between;
-    gap:25px;
-    align-items:center;
-}
-
-.level-info h2{
-    font-size:clamp(1.7rem,4vw,2.7rem);
-}
-
-.level-info p{
-    color:var(--muted);
-    margin-top:8px;
-    font-size:.82rem;
-}
-
-.level-badge{
-    min-width:160px;
-    text-align:center;
-    padding:18px;
-    border-radius:20px;
-    background:rgba(255,255,255,.04);
-    border:1px solid var(--border);
-}
-
-.level-number{
-    font-size:2.4rem;
-    font-weight:800;
-    color:var(--yellow);
-}
-
-.xp-bar{
-    height:10px;
-    border-radius:20px;
-    background:#121a28;
-    overflow:hidden;
-    margin-top:22px;
-}
-
-.xp-fill{
-    height:100%;
-    width:0;
-    border-radius:inherit;
-    background:linear-gradient(90deg,var(--pink),var(--purple),var(--blue));
-    transition:1s;
-}
-
-.stats-grid{
-    display:grid;
-    grid-template-columns:repeat(6,1fr);
-    gap:14px;
-    margin-bottom:22px;
-}
-
-.stat{
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:20px;
-    padding:18px;
-    position:relative;
-    overflow:hidden;
-}
-
-.stat .icon{
-    position:absolute;
-    right:14px;
-    top:12px;
-}
-
-.stat label{
-    display:block;
-    color:var(--muted);
-    font-size:.62rem;
-    font-weight:700;
-}
-
-.stat strong{
-    display:block;
-    font-size:1.5rem;
-    margin-top:7px;
-}
-
-.dashboard-grid{
-    display:grid;
-    grid-template-columns:1.25fr .75fr;
-    gap:22px;
-}
-
-.big-progress{
-    display:flex;
-    gap:25px;
-    align-items:center;
-}
-
-.big-ring{
-    width:145px;
-    height:145px;
-    position:relative;
-    flex-shrink:0;
-}
-
-.big-ring svg{
-    width:100%;
-    height:100%;
-    transform:rotate(-90deg);
-}
-
-.big-ring circle{
-    fill:none;
-    stroke-width:10;
-}
-
-.big-ring .bg{
-    stroke:#172131;
-}
-
-.big-ring .fg{
-    stroke:var(--pink);
-    stroke-linecap:round;
-    filter:drop-shadow(0 0 8px var(--pink));
-}
-
-.big-percent{
-    position:absolute;
-    inset:0;
-    display:grid;
-    place-items:center;
-    font-size:1.8rem;
-    font-weight:800;
-}
-
-.progress-description h3{
-    font-size:1.35rem;
-}
-
-.progress-description p{
-    color:var(--muted);
-    font-size:.78rem;
-    margin-top:7px;
-    line-height:1.7;
-}
-
-.bar{
-    height:8px;
-    background:#141d2a;
-    border-radius:20px;
-    overflow:hidden;
-}
-
-.bar span{
-    display:block;
-    height:100%;
-    width:0;
-    border-radius:inherit;
-    background:linear-gradient(90deg,var(--blue),var(--pink));
-    transition:1s;
-}
-
-.subject-row{
-    margin:13px 0;
-}
-
-.subject-row-top{
-    display:flex;
-    justify-content:space-between;
+.quick-label{
     font-size:.72rem;
-    margin-bottom:6px;
+
+    color:var(--muted);
+
+    font-weight:700;
+
+    text-transform:uppercase;
 }
 
-.mini-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
+.quick-value{
+    margin-top:8px;
+
+    font-size:1.8rem;
+
+    font-weight:900;
+
+    color:white;
 }
 
-.goal-ring{
-    width:80px;
-    height:80px;
-    border-radius:50%;
-    background:conic-gradient(var(--green) calc(var(--p)*1%),#172131 0);
+/* =========================================================
+   COUNTDOWN
+========================================================= */
+
+.timer-container{
     display:grid;
-    place-items:center;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:30px;
+
+    margin-bottom:55px;
+}
+
+.year-block{
+    padding:28px;
+
+    border-radius:35px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    box-shadow:var(--shadow);
+
+    backdrop-filter:blur(20px);
+}
+
+.year-title{
+    margin-bottom:25px;
+
+    text-align:center;
+
+    font-family:'Orbitron',sans-serif;
+
+    font-size:2rem;
+
+    font-weight:900;
+
+    color:var(--yellow);
+
+    text-shadow:
+        0 0 15px rgba(255,204,0,.8);
+}
+
+.exams-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:18px;
+}
+
+.exam-box{
     position:relative;
+
+    overflow:hidden;
+
+    padding:22px 15px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.04),
+            rgba(0,0,0,.25)
+        );
+
+    border:1px solid rgba(255,255,255,.07);
+
+    text-align:center;
 }
 
-.goal-ring::after{
+.exam-box::before{
     content:"";
+
     position:absolute;
-    width:64px;
-    height:64px;
-    background:#0b111b;
-    border-radius:50%;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--blue),
+            var(--pink),
+            transparent
+        );
 }
 
-.goal-ring span{
-    position:relative;
-    z-index:1;
-    font-size:.75rem;
+.exam-name{
+    margin-bottom:16px;
+
+    font-size:.85rem;
+
+    font-weight:800;
+
+    color:var(--blue);
+}
+
+.countdown{
+    display:flex;
+
+    justify-content:center;
+
+    gap:8px;
+}
+
+.unit{
+    min-width:58px;
+
+    padding:10px 7px;
+
+    border-radius:12px;
+
+    background:#111925;
+
+    border:1px solid rgba(255,255,255,.09);
+}
+
+.unit span{
+    display:block;
+
+    font-family:'Orbitron',sans-serif;
+
+    font-size:1.1rem;
+
     font-weight:800;
 }
 
-/* CHAPTERS */
+.unit label{
+    display:block;
 
-.toolbar{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-bottom:22px;
+    margin-top:4px;
+
+    font-size:.5rem;
+
+    color:var(--muted);
+
+    text-transform:uppercase;
 }
 
-.search,
-.select{
-    border:1px solid var(--border);
-    background:var(--panel);
-    color:white;
-    border-radius:14px;
-    padding:13px 15px;
-    outline:none;
-    backdrop-filter:blur(15px);
-}
+/* =========================================================
+   STUDY TRACKER
+========================================================= */
 
-.search{
-    flex:1;
-    min-width:220px;
-}
-
-.select{
-    min-width:150px;
-}
-
-.class-grid{
+.main-grid{
     display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:25px;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:40px;
 }
 
-.class-title{
+.col-title{
+    margin-bottom:28px;
+
     text-align:center;
-    font-size:1.8rem;
-    margin-bottom:18px;
+
+    font-size:2.3rem;
+
+    font-weight:900;
+
+    color:white;
+
+    text-shadow:
+        0 0 25px rgba(255,255,255,.12);
 }
 
 .subject-card{
-    background:var(--panel);
+    margin-bottom:28px;
+
+    padding:25px;
+
+    border-radius:28px;
+
+    background:var(--card);
+
     border:1px solid var(--border);
-    border-radius:23px;
-    padding:20px;
-    margin-bottom:20px;
+
+    box-shadow:var(--shadow);
+
     backdrop-filter:blur(18px);
+
+    transition:.25s;
+}
+
+.subject-card:hover{
+    transform:translateY(-4px);
+
+    border-color:
+        rgba(0,210,255,.25);
 }
 
 .subject-head{
     display:flex;
+
     justify-content:space-between;
     align-items:center;
-    margin-bottom:16px;
+
+    gap:20px;
+
+    margin-bottom:20px;
 }
 
-.subject-head h3{
+.sub-info h3{
+    font-size:1.6rem;
+
+    font-weight:900;
+
     color:var(--blue);
 }
 
-.subject-head small{
-    color:var(--muted);
-}
+/* =========================================================
+   PROGRESS CIRCLE
+========================================================= */
 
 .progress-circle{
-    width:68px;
-    height:68px;
     position:relative;
+
+    width:80px;
+    height:80px;
+
+    flex-shrink:0;
 }
 
 .progress-circle svg{
     width:100%;
     height:100%;
+
     transform:rotate(-90deg);
 }
 
 .progress-circle circle{
     fill:none;
+
     stroke-width:8;
+
+    stroke-linecap:round;
 }
 
 .progress-circle .bg{
-    stroke:#172131;
+    stroke:#1a2231;
 }
 
 .progress-circle .fg{
     stroke:var(--pink);
-    stroke-linecap:round;
+
+    transition:
+        stroke-dashoffset .7s ease;
+
+    filter:
+        drop-shadow(0 0 8px var(--pink));
 }
 
 .percent{
     position:absolute;
+
     inset:0;
-    display:grid;
-    place-items:center;
-    font-size:.72rem;
-    font-weight:800;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    font-size:.85rem;
+
+    font-weight:900;
 }
 
-.chapter{
+/* =========================================================
+   CHAPTERS
+========================================================= */
+
+.ch-item{
     display:flex;
+
+    justify-content:space-between;
     align-items:center;
-    gap:9px;
-    padding:10px;
-    border-radius:13px;
-    background:rgba(255,255,255,.025);
-    margin-top:7px;
+
+    gap:15px;
+
+    padding:13px 16px;
+
+    margin-bottom:9px;
+
+    border-radius:14px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    border:
+        1px solid transparent;
+
     transition:.2s;
 }
 
-.chapter:hover{
-    background:rgba(255,255,255,.05);
+.ch-item:hover{
+    transform:translateX(4px);
+
+    background:
+        rgba(0,210,255,.04);
+
+    border-color:
+        rgba(0,210,255,.08);
 }
 
-.chapter.done{
-    background:rgba(0,232,137,.04);
-}
+.ch-item span{
+    font-size:.88rem;
 
-.check{
-    width:29px;
-    height:29px;
-    flex-shrink:0;
-    border:2px solid #394455;
-    border-radius:9px;
-    display:grid;
-    place-items:center;
-    cursor:pointer;
-    color:#05130d;
-}
-
-.check.active{
-    background:var(--green);
-    border-color:var(--green);
-}
-
-.chapter-name{
-    flex:1;
-    font-size:.77rem;
     font-weight:600;
 }
 
-.chapter.done .chapter-name{
-    text-decoration:line-through;
-    opacity:.55;
-}
+.check{
+    width:32px;
+    height:32px;
 
-.chapter-actions{
-    display:flex;
-    gap:5px;
-}
+    flex-shrink:0;
 
-.chapter-actions button{
-    width:29px;
-    height:29px;
-    border-radius:8px;
-    background:#131c29;
-    color:#d9e1ec;
-    border:1px solid var(--border);
+    border-radius:10px;
+
+    border:2px solid #30394a;
+
     cursor:pointer;
-    font-size:.72rem;
-}
 
-.chapter-actions button.active{
-    border-color:var(--yellow);
-    color:var(--yellow);
-}
-
-.chapter-actions .weak.active{
-    border-color:var(--red);
-    color:var(--red);
-}
-
-/* PLANNER */
-
-.planner-form{
-    display:grid;
-    grid-template-columns:2fr 1fr 1fr 1fr auto;
-    gap:10px;
-}
-
-.input{
-    width:100%;
-    border:1px solid var(--border);
-    background:#0d1521;
-    color:white;
-    padding:12px;
-    border-radius:12px;
-    outline:none;
-}
-
-.btn{
-    padding:11px 16px;
-    border-radius:12px;
-    background:linear-gradient(135deg,var(--pink),#bc0061);
-    color:white;
-    font-weight:700;
-    cursor:pointer;
-}
-
-.btn.secondary{
-    background:#151f2c;
-}
-
-.task-list{
     display:flex;
-    flex-direction:column;
-    gap:9px;
-    margin-top:20px;
-}
 
-.task{
-    display:flex;
     align-items:center;
-    gap:12px;
-    padding:14px;
-    border-radius:15px;
-    background:rgba(255,255,255,.025);
-    border:1px solid var(--border);
+    justify-content:center;
+
+    transition:.25s;
 }
 
-.task.done .task-name{
-    text-decoration:line-through;
-    opacity:.5;
+.check:hover{
+    transform:scale(1.1);
+
+    border-color:var(--green);
 }
 
-.task-name{
-    flex:1;
-    font-size:.8rem;
+.check.done{
+    background:var(--green);
+
+    border-color:var(--green);
+
+    color:#001b0d;
+
+    box-shadow:
+        0 0 16px rgba(0,255,136,.5);
 }
 
-.priority{
-    font-size:.6rem;
-    padding:4px 7px;
-    border-radius:7px;
+/* =========================================================
+   ANALYTICS BUTTON
+========================================================= */
+
+.ana-btn{
+    position:fixed;
+
+    right:25px;
+    bottom:25px;
+
+    width:70px;
+    height:70px;
+
+    border:none;
+
+    border-radius:22px;
+
+    cursor:pointer;
+
+    font-size:1.8rem;
+
+    color:white;
+
+    z-index:100;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--pink),
+            var(--purple),
+            var(--blue)
+        );
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.65),
+        0 0 25px rgba(255,0,122,.35);
+
+    transition:.25s;
 }
 
-.priority.high{
-    background:rgba(255,70,104,.14);
-    color:var(--red);
+.ana-btn:hover{
+    transform:
+        translateY(-5px)
+        rotate(5deg);
 }
 
-.priority.medium{
-    background:rgba(255,208,0,.12);
-    color:var(--yellow);
+/* =========================================================
+   ANALYTICS POPUP
+========================================================= */
+
+.popup{
+    position:fixed;
+
+    inset:0;
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+
+    padding:20px;
+
+    background:
+        rgba(0,0,0,.88);
+
+    backdrop-filter:blur(15px);
+
+    z-index:1000;
 }
 
-.priority.low{
-    background:rgba(0,210,255,.12);
+.popup-box{
+    position:relative;
+
+    width:min(1000px,96%);
+
+    max-height:90vh;
+
+    overflow-y:auto;
+
+    padding:35px;
+
+    border-radius:35px;
+
+    background:
+        #080c14;
+
+    border:
+        1px solid rgba(255,255,255,.1);
+
+    box-shadow:
+        0 30px 100px black;
+}
+
+.close-pop{
+    position:absolute;
+
+    top:18px;
+    right:18px;
+
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+
+    background:var(--red);
+
+    font-weight:900;
+}
+
+.ana-content{
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:25px;
+}
+
+.ana-inner{
+    padding:24px;
+
+    margin-bottom:20px;
+
+    border-radius:25px;
+
+    background:
+        rgba(255,255,255,.02);
+
+    border:2px solid;
+}
+
+.ana-inner h3{
+    margin-bottom:20px;
+
+    text-align:center;
+}
+
+.prog-row{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:15px;
+}
+
+/* =========================================================
+   TODO BUTTON
+========================================================= */
+
+.todo-launcher{
+    position:fixed;
+
+    left:25px;
+    bottom:25px;
+
+    min-width:165px;
+
+    padding:16px 22px;
+
+    border:none;
+
+    border-radius:20px;
+
+    cursor:pointer;
+
+    z-index:100;
+
+    color:white;
+
+    font-family:'Poppins',sans-serif;
+
+    font-size:.85rem;
+
+    font-weight:800;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue),
+            var(--purple)
+        );
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.6);
+
+    transition:.25s;
+}
+
+.todo-launcher:hover{
+    transform:
+        translateY(-5px);
+}
+
+/* =========================================================
+   BOTTOM TODO SHEET
+========================================================= */
+
+.todo-overlay{
+    position:fixed;
+
+    inset:0;
+
+    display:none;
+
+    background:
+        rgba(0,0,0,.55);
+
+    backdrop-filter:blur(6px);
+
+    z-index:1500;
+}
+
+.todo-panel{
+    position:absolute;
+
+    left:50%;
+    bottom:0;
+
+    transform:translateX(-50%);
+
+    width:min(1400px,100%);
+
+    max-height:92vh;
+
+    overflow-y:auto;
+
+    padding:25px 25px 40px;
+
+    border-radius:
+        35px 35px 0 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(13,19,31,.98),
+            #05080f
+        );
+
+    border:
+        1px solid rgba(0,210,255,.18);
+
+    box-shadow:
+        0 -20px 80px rgba(0,0,0,.8);
+
+    animation:
+        slideUp .35s ease;
+}
+
+@keyframes slideUp{
+
+    from{
+        transform:
+            translateX(-50%)
+            translateY(100%);
+    }
+
+    to{
+        transform:
+            translateX(-50%)
+            translateY(0);
+    }
+}
+
+.todo-handle{
+    width:70px;
+    height:6px;
+
+    margin:
+        0 auto 22px;
+
+    border-radius:999px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--pink),
+            var(--blue)
+        );
+}
+
+.todo-header{
+    display:flex;
+
+    justify-content:space-between;
+    align-items:center;
+
+    gap:20px;
+
+    margin-bottom:25px;
+}
+
+.todo-title{
+    font-size:1.8rem;
+
+    font-weight:900;
+}
+
+.todo-title span{
     color:var(--blue);
 }
 
-/* MOCK TEST */
+.close-todo{
+    width:42px;
+    height:42px;
 
-.mock-form{
-    display:grid;
-    grid-template-columns:1.5fr 1fr 1fr 1fr 1fr auto;
-    gap:10px;
+    border:none;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    color:white;
+
+    background:
+        rgba(255,59,92,.18);
+
+    border:
+        1px solid rgba(255,59,92,.35);
 }
 
-.mock-list{
+/* =========================================================
+   TODO STATS
+========================================================= */
+
+.todo-stats{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:14px;
-    margin-top:20px;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:12px;
+
+    margin-bottom:20px;
 }
 
-.mock{
-    background:#0d1521;
-    border:1px solid var(--border);
-    padding:18px;
+.todo-stat{
+    padding:15px;
+
     border-radius:18px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    border:
+        1px solid rgba(255,255,255,.05);
 }
 
-.mock-score{
-    font-size:1.7rem;
-    font-weight:800;
-    color:var(--green);
+.todo-stat-label{
+    font-size:.65rem;
+
+    color:var(--muted);
+
+    font-weight:700;
+
+    text-transform:uppercase;
 }
 
-/* CALENDAR */
+.todo-stat-value{
+    margin-top:5px;
 
-.calendar-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:15px;
+    font-size:1.5rem;
+
+    font-weight:900;
 }
 
-.calendar{
+/* =========================================================
+   ADD TASK FORM
+========================================================= */
+
+.task-form{
     display:grid;
-    grid-template-columns:repeat(7,1fr);
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:12px;
+
+    padding:18px;
+
+    margin-bottom:20px;
+
+    border-radius:24px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    border:
+        1px solid rgba(255,255,255,.06);
+}
+
+.field{
+    display:flex;
+
+    flex-direction:column;
+
     gap:6px;
 }
 
-.cal-day-name{
-    text-align:center;
-    font-size:.65rem;
-    color:var(--muted);
-    padding:5px;
-}
+.field label{
+    font-size:.62rem;
 
-.cal-day{
-    min-height:70px;
-    padding:8px;
-    background:#0d1521;
-    border:1px solid var(--border);
-    border-radius:10px;
-    font-size:.7rem;
-}
-
-.cal-day.today{
-    border-color:var(--pink);
-    box-shadow:0 0 15px rgba(255,0,122,.15);
-}
-
-.cal-day.has-study{
-    background:rgba(0,232,137,.07);
-}
-
-/* ANALYTICS */
-
-.analytics-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:14px;
-}
-
-.analytics-card{
-    background:var(--panel);
-    border:1px solid var(--border);
-    padding:20px;
-    border-radius:20px;
-}
-
-.chart-box{
-    height:220px;
-    display:flex;
-    align-items:flex-end;
-    gap:12px;
-    padding:15px 0;
-}
-
-.chart-bar-wrap{
-    flex:1;
-    text-align:center;
-    font-size:.6rem;
-    color:var(--muted);
-}
-
-.chart-bar{
-    width:100%;
-    min-height:4px;
-    background:linear-gradient(to top,var(--pink),var(--blue));
-    border-radius:8px 8px 2px 2px;
-    margin-bottom:7px;
-}
-
-/* REVISION */
-
-.revision-item{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-    padding:14px;
-    border-radius:15px;
-    background:var(--panel);
-    border:1px solid var(--border);
-    margin-top:9px;
-}
-
-.revision-item p{
-    color:var(--muted);
-    font-size:.68rem;
-    margin-top:4px;
-}
-
-/* FOCUS */
-
-.focus-display{
-    font-size:clamp(3rem,10vw,6rem);
     font-weight:800;
-    text-align:center;
-    color:var(--blue);
-    text-shadow:0 0 30px rgba(0,210,255,.3);
-    padding:30px 0;
+
+    color:var(--muted);
+
+    text-transform:uppercase;
 }
 
-.focus-actions{
+.field input,
+.field select{
+    width:100%;
+
+    padding:12px;
+
+    outline:none;
+
+    color:white;
+
+    border-radius:12px;
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    background:
+        rgba(0,0,0,.28);
+
+    font-family:'Poppins',sans-serif;
+
+    font-size:.75rem;
+}
+
+.field select option{
+    background:#101722;
+}
+
+.add-task{
+    min-height:44px;
+
+    align-self:end;
+
+    border:none;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-weight:900;
+
+    color:#001b10;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--green),
+            #00d2ff
+        );
+}
+
+/* =========================================================
+   TODO FILTERS
+========================================================= */
+
+.todo-tools{
     display:flex;
-    justify-content:center;
-    gap:10px;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:18px;
 }
 
-/* COUNTDOWN */
+.todo-search{
+    flex:1;
 
-.countdown-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:22px;
-}
+    max-width:400px;
 
-.year-block{
-    background:var(--panel);
-    border:1px solid var(--border);
-    padding:22px;
-    border-radius:25px;
-}
+    padding:12px 15px;
 
-.year-title{
-    text-align:center;
-    color:var(--yellow);
-    margin-bottom:15px;
-}
+    outline:none;
 
-.exam-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-}
-
-.exam{
-    background:#0d1521;
-    border:1px solid var(--border);
-    padding:15px;
     border-radius:14px;
-    text-align:center;
+
+    color:white;
+
+    background:
+        rgba(255,255,255,.04);
+
+    border:
+        1px solid rgba(255,255,255,.08);
 }
 
-.exam-name{
-    color:var(--blue);
-    font-size:.7rem;
+.filter-group{
+    display:flex;
+
+    gap:8px;
+
+    flex-wrap:wrap;
+}
+
+.filter-btn{
+    padding:9px 14px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    color:#aab4c5;
+
+    background:
+        rgba(255,255,255,.03);
+
+    border:
+        1px solid rgba(255,255,255,.06);
+
+    font-family:'Poppins',sans-serif;
+
+    font-size:.68rem;
+
     font-weight:700;
-    margin-bottom:10px;
 }
 
-.exam-time{
+.filter-btn.active{
+    color:white;
+
+    border-color:
+        rgba(0,210,255,.5);
+
+    background:
+        rgba(0,210,255,.1);
+}
+
+/* =========================================================
+   TASK LIST
+========================================================= */
+
+.task-list{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:5px;
+
+    gap:10px;
 }
 
-.time-box{
-    background:#151f2c;
-    padding:7px 2px;
-    border-radius:8px;
+.task-item{
+    display:grid;
+
+    grid-template-columns:
+        auto 1fr auto;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:15px;
+
+    border-radius:18px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    border:
+        1px solid rgba(255,255,255,.05);
+
+    transition:.2s;
 }
 
-.time-box strong{
-    display:block;
-    font-size:.8rem;
+.task-item:hover{
+    transform:translateX(3px);
+
+    background:
+        rgba(255,255,255,.04);
 }
 
-.time-box small{
-    font-size:.48rem;
+.task-item.completed{
+    opacity:.55;
+}
+
+.task-check{
+    width:34px;
+    height:34px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border:
+        2px solid #334054;
+
+    transition:.25s;
+}
+
+.task-item.completed .task-check{
+    color:#002b15;
+
+    border-color:var(--green);
+
+    background:var(--green);
+}
+
+.task-main{
+    min-width:0;
+}
+
+.task-name{
+    font-size:.9rem;
+
+    font-weight:800;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+}
+
+.task-item.completed .task-name{
+    text-decoration:line-through;
+}
+
+.task-meta{
+    display:flex;
+
+    gap:6px;
+
+    flex-wrap:wrap;
+
+    margin-top:7px;
+}
+
+.tag{
+    padding:4px 7px;
+
+    border-radius:7px;
+
+    font-size:.55rem;
+
+    font-weight:800;
+
+    background:
+        rgba(255,255,255,.06);
+
+    color:#aab5c6;
+}
+
+.tag.exam{
+    color:var(--yellow);
+}
+
+.tag.subject{
+    color:var(--blue);
+}
+
+.tag.type{
+    color:var(--pink);
+}
+
+.tag.chapter{
+    color:var(--purple);
+}
+
+.priority{
+    padding:4px 7px;
+
+    border-radius:7px;
+
+    font-size:.55rem;
+
+    font-weight:900;
+}
+
+.priority.low{
+    color:var(--green);
+}
+
+.priority.medium{
+    color:var(--yellow);
+}
+
+.priority.high{
+    color:var(--red);
+}
+
+.task-actions{
+    display:flex;
+
+    gap:8px;
+
+    align-items:center;
+}
+
+.delete-task{
+    width:32px;
+    height:32px;
+
+    border:none;
+
+    border-radius:9px;
+
+    cursor:pointer;
+
+    color:#ff6980;
+
+    background:
+        rgba(255,59,92,.1);
+}
+
+.empty-tasks{
+    padding:45px 20px;
+
+    text-align:center;
+
     color:var(--muted);
 }
 
-/* MODAL */
-
-.modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.75);
-    backdrop-filter:blur(10px);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:1000;
-    padding:15px;
-}
-
-.modal.show{
-    display:flex;
-}
-
-.modal-box{
-    width:min(600px,100%);
-    background:#0a1019;
-    border:1px solid var(--border);
-    border-radius:25px;
-    padding:22px;
-}
-
-.modal-head{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:15px;
-}
-
-textarea{
-    width:100%;
-    min-height:160px;
-    resize:vertical;
-    background:#111a27;
-    color:white;
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:12px;
-    outline:none;
-}
-
-/* TOAST */
+/* =========================================================
+   TOAST
+========================================================= */
 
 .toast{
     position:fixed;
-    right:20px;
-    bottom:20px;
-    z-index:2000;
-    background:#101824;
-    border:1px solid var(--border);
-    border-left:4px solid var(--green);
-    padding:14px 17px;
+
+    top:20px;
+    left:50%;
+
+    transform:
+        translateX(-50%)
+        translateY(-120px);
+
+    padding:13px 22px;
+
     border-radius:14px;
-    transform:translateY(100px);
-    opacity:0;
-    transition:.3s;
+
+    color:white;
+
+    background:
+        rgba(8,15,25,.95);
+
+    border:
+        1px solid rgba(0,255,136,.35);
+
+    box-shadow:
+        0 15px 40px black;
+
+    z-index:3000;
+
+    transition:.35s;
 }
 
 .toast.show{
-    transform:none;
-    opacity:1;
+    transform:
+        translateX(-50%)
+        translateY(0);
 }
 
-/* MOBILE */
+/* =========================================================
+   MOBILE
+========================================================= */
 
-.mobile-nav{
-    display:none;
+@media(max-width:1100px){
+
+    .quick-stats{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .task-form{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .todo-stats{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
 }
 
-@media(max-width:1200px){
+@media(max-width:950px){
 
-    .stats-grid{
-        grid-template-columns:repeat(3,1fr);
+    .timer-container,
+    .main-grid,
+    .ana-content{
+        grid-template-columns:
+            1fr;
     }
 
-    .analytics-grid{
-        grid-template-columns:repeat(2,1fr);
+    .header-top{
+        flex-direction:column;
     }
-
-    .planner-form,
-    .mock-form{
-        grid-template-columns:1fr 1fr;
-    }
-
 }
 
-@media(max-width:900px){
+@media(max-width:650px){
 
-    .nav{
-        display:none;
-    }
-
-    .mobile-nav{
-        position:fixed;
-        display:grid;
-        grid-template-columns:repeat(5,1fr);
-        bottom:0;
-        left:0;
-        right:0;
-        z-index:500;
-        padding:8px;
-        background:rgba(5,8,14,.94);
-        backdrop-filter:blur(20px);
-        border-top:1px solid var(--border);
-    }
-
-    .mobile-nav button{
-        background:transparent;
-        color:var(--muted);
-        font-size:1rem;
-        border:none;
-        padding:6px;
-    }
-
-    .mobile-nav button.active{
-        color:var(--pink);
-    }
-
-    .mobile-nav span{
-        display:block;
-        font-size:.5rem;
-    }
-
-    .dashboard-grid,
-    .class-grid,
-    .countdown-grid{
-        grid-template-columns:1fr;
-    }
-
-    .mock-list{
-        grid-template-columns:1fr 1fr;
-    }
-
-}
-
-@media(max-width:600px){
-
-    .app{
-        width:94%;
+    .container{
+        width:min(94%,100%);
     }
 
     .header{
-        padding:18px 0;
+        padding-top:25px;
     }
 
-    .header-actions{
+    .brand{
+        padding:12px 20px;
+    }
+
+    .brand h1{
+        letter-spacing:-1px;
+    }
+
+    .quick-stats{
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .exams-grid{
+        grid-template-columns:
+            1fr;
+    }
+
+    .countdown{
         gap:5px;
     }
 
-    .icon-btn{
-        width:40px;
-        height:40px;
+    .unit{
+        min-width:52px;
     }
 
-    .level-hero{
+    .task-form{
+        grid-template-columns:
+            1fr;
+    }
+
+    .todo-tools{
         flex-direction:column;
-        align-items:flex-start;
+        align-items:stretch;
     }
 
-    .level-badge{
-        width:100%;
+    .todo-search{
+        max-width:none;
     }
 
-    .stats-grid{
-        grid-template-columns:1fr 1fr;
+    .todo-panel{
+        padding:18px 14px 30px;
     }
 
-    .big-progress{
-        flex-direction:column;
-        text-align:center;
+    .todo-title{
+        font-size:1.3rem;
     }
 
-    .mini-grid,
-    .analytics-grid{
-        grid-template-columns:1fr;
+    .task-item{
+        grid-template-columns:
+            auto 1fr;
     }
 
-    .planner-form,
-    .mock-form{
-        grid-template-columns:1fr;
+    .task-actions{
+        grid-column:
+            2;
     }
 
-    .mock-list{
-        grid-template-columns:1fr;
+    .todo-launcher{
+        left:15px;
+        bottom:15px;
+
+        min-width:auto;
+        padding:15px;
     }
 
-    .exam-grid{
-        grid-template-columns:1fr;
+    .ana-btn{
+        right:15px;
+        bottom:15px;
     }
-
-    .chapter{
-        flex-wrap:wrap;
-    }
-
-    .chapter-name{
-        min-width:calc(100% - 42px);
-    }
-
-    .chapter-actions{
-        margin-left:38px;
-    }
-
 }
+
 </style>
 
 </head>
 
 <body>
 
-<canvas id="particleCanvas"></canvas>
+<canvas id="bgCanvas"></canvas>
 
-<div class="aurora"></div>
+<div class="background-grid"></div>
+
 <div class="orb one"></div>
 <div class="orb two"></div>
 <div class="orb three"></div>
-<div class="mouse-glow" id="mouseGlow"></div>
 
-<div class="app">
+<div id="cursorGlow"></div>
+
+<div id="toast" class="toast"></div>
+
+<div class="container">
 
 <header class="header">
 
-<div class="brand">
+```
+<div class="header-top">
 
-<div class="logo">⚡</div>
+    <div class="brand">
+        <h1>GHAZI ABBAS ✔️</h1>
+    </div>
 
-<div>
-<h1>GHAZI ABBAS</h1>
-<p>STUDY COMMAND CENTER • VERSION 3.0</p>
-</div>
+    <div class="live-clock">
 
-</div>
+        <div class="clock-time" id="clockTime">
+            00:00:00
+        </div>
 
-<div class="header-actions">
+        <div class="clock-date" id="clockDate">
+            Loading...
+        </div>
 
-<button class="icon-btn" onclick="exportData()">💾</button>
+        <div class="greeting" id="greeting">
+            Welcome Back!
+        </div>
 
-<button class="icon-btn" onclick="document.getElementById('importFile').click()">📂</button>
-
-<input
-id="importFile"
-type="file"
-accept=".json"
-hidden
-onchange="importData(event)"
-
->
-
-<button class="icon-btn" onclick="requestNotification()">🔔</button>
+    </div>
 
 </div>
+```
 
 </header>
 
-<nav class="nav">
+<div class="quick-stats">
 
-<button class="active" onclick="showPage('dashboard',this)">🏠 Dashboard</button>
+```
+<div class="quick-card">
 
-<button onclick="showPage('chapters',this)">📚 Chapters</button>
+    <div class="quick-label">
+        Overall Progress
+    </div>
 
-<button onclick="showPage('planner',this)">🗓 Planner</button>
-
-<button onclick="showPage('revision',this)">🔄 Revision</button>
-
-<button onclick="showPage('mocktests',this)">📝 Mock Tests</button>
-
-<button onclick="showPage('calendar',this)">📅 Calendar</button>
-
-<button onclick="showPage('focus',this)">⏱ Focus</button>
-
-<button onclick="showPage('exams',this)">🎯 Exams</button>
-
-<button onclick="showPage('analytics',this)">📊 Analytics</button>
-
-</nav>
-
-<!-- DASHBOARD -->
-
-<section id="dashboard" class="page active">
-
-<div class="hero">
-
-<div class="level-hero">
-
-<div class="level-info">
-
-<h2 id="welcomeText">Ready to dominate today? 🔥</h2>
-
-<p id="smartMessage">
-Your study journey is waiting for the next completed chapter.
-</p>
+    <div class="quick-value" id="overallProgress">
+        0%
+    </div>
 
 </div>
 
-<div class="level-badge">
+<div class="quick-card">
 
-<div style="font-size:.65rem;color:var(--muted)">
-CURRENT LEVEL
-</div>
+    <div class="quick-label">
+        Chapters Done
+    </div>
 
-<div class="level-number" id="levelNumber">
-1
-</div>
-
-<div id="xpText" style="font-size:.7rem;color:var(--yellow)">
-0 XP
-</div>
+    <div class="quick-value" id="chaptersDone">
+        0
+    </div>
 
 </div>
 
-</div>
+<div class="quick-card">
 
-<div class="xp-bar">
-<div class="xp-fill" id="xpFill"></div>
-</div>
+    <div class="quick-label">
+        Pending Chapters
+    </div>
 
-</div>
-
-<div class="stats-grid">
-
-<div class="stat">
-<div class="icon">📚</div>
-<label>TOTAL</label>
-<strong id="totalChapters">0</strong>
-</div>
-
-<div class="stat">
-<div class="icon">✅</div>
-<label>COMPLETED</label>
-<strong id="completedChapters">0</strong>
-</div>
-
-<div class="stat">
-<div class="icon">⏳</div>
-<label>REMAINING</label>
-<strong id="remainingChapters">0</strong>
-</div>
-
-<div class="stat">
-<div class="icon">🔥</div>
-<label>STREAK</label>
-<strong id="streak">0</strong>
-</div>
-
-<div class="stat">
-<div class="icon">⭐</div>
-<label>IMPORTANT</label>
-<strong id="importantCount">0</strong>
-</div>
-
-<div class="stat">
-<div class="icon">⚠️</div>
-<label>WEAK</label>
-<strong id="weakCount">0</strong>
-</div>
+    <div class="quick-value" id="chaptersPending">
+        0
+    </div>
 
 </div>
 
-<div class="dashboard-grid">
+<div class="quick-card">
 
-<div>
+    <div class="quick-label">
+        Todo Completed
+    </div>
 
-<div class="card">
+    <div class="quick-value" id="todoCompletedQuick">
+        0
+    </div>
 
-<div class="card-title">
-<h3>🎯 Overall Progress</h3>
-<span id="overallPercent">0%</span>
 </div>
-
-<div class="big-progress">
-
-<div class="big-ring">
-
-<svg viewBox="0 0 120 120">
-
-<circle
-class="bg"
-cx="60"
-cy="60"
-r="50"
-
-> </circle>
-
-<circle
-id="overallRing"
-class="fg"
-cx="60"
-cy="60"
-r="50"
-
-> </circle>
-
-</svg>
-
-<div class="big-percent" id="overallBigPercent">
-0%
-</div>
+```
 
 </div>
 
-<div class="progress-description">
+<div class="timer-container">
 
-<h3 id="progressStatus">
-Mission Started
-</h3>
-
-<p id="progressText">
-Start completing chapters and your progress will appear here.
-</p>
-
-<div class="bar" style="margin-top:15px">
-<span id="overallBar"></span>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="card-title">
-<h3>📈 Subject Progress</h3>
-</div>
-
-<div id="subjectProgress"></div>
-
-</div>
-
-</div>
-
-<div>
-
-<div class="card">
-
-<div class="card-title">
-<h3>🎯 Daily Goal</h3>
-<span id="dailyGoalText">0/3</span>
-</div>
-
-<div style="display:flex;align-items:center;gap:18px">
-
-<div class="goal-ring" id="goalRing" style="--p:0">
-<span id="goalPercent">0%</span>
-</div>
-
-<div>
-
-<h3>Today's Mission</h3>
-
-<p style="color:var(--muted);font-size:.72rem;margin-top:5px">
-Complete chapters and maintain your consistency.
-</p>
-
-<div style="display:flex;gap:8px;margin-top:12px">
-
-<button class="btn secondary" onclick="changeGoal(-1)">−</button>
-
-<button class="btn secondary" onclick="changeGoal(1)">+</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="card-title">
-<h3>🔄 Revision Due</h3>
-</div>
-
-<div id="dashboardRevision"></div>
-
-</div>
-
-<div class="card">
-
-<div class="card-title">
-<h3>🤖 Smart Planner</h3>
-</div>
-
-<p
-id="aiAdvice"
-style="color:var(--muted);font-size:.78rem;line-height:1.8"
->
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- CHAPTERS -->
-
-<section id="chapters" class="page">
-
-<div class="hero">
-<h2>📚 Chapter Command Center</h2>
-<p>Track every chapter, mark weak topics and keep revision under control.</p>
-</div>
-
-<div class="toolbar">
-
-<input
-id="chapterSearch"
-class="search"
-placeholder="🔍 Search any chapter..."
-oninput="renderChapters()"
-
->
-
-<select
-id="chapterFilter"
-class="select"
-onchange="renderChapters()"
-
->
-
-<option value="all">All Chapters</option>
-<option value="completed">Completed</option>
-<option value="pending">Pending</option>
-<option value="important">Important</option>
-<option value="weak">Weak</option>
-<option value="revision">Revision Due</option>
-
-</select>
-
-</div>
-
-<div class="class-grid">
-
-<div>
-<h2 class="class-title">Class 11th</h2>
-<div id="class11"></div>
-</div>
-
-<div>
-<h2 class="class-title">Class 12th</h2>
-<div id="class12"></div>
-</div>
-
-</div>
-
-</section>
-
-<!-- PLANNER -->
-
-<section id="planner" class="page">
-
-<div class="hero">
-<h2>🗓 Daily Study Planner</h2>
-<p>Plan your day, organize priorities and track completed tasks.</p>
-</div>
-
-<div class="card">
-
-<div class="planner-form">
-
-<input
-id="taskName"
-class="input"
-placeholder="Task name..."
-
->
-
-<select id="taskSubject" class="input">
-<option>Physics</option>
-<option>Chemistry</option>
-<option>Maths</option>
-<option>Biology</option>
-<option>Revision</option>
-<option>Mock Test</option>
-<option>Other</option>
-</select>
-
-<input
-id="taskTime"
-type="time"
-class="input"
-
->
-
-<select id="taskPriority" class="input">
-<option value="high">High Priority</option>
-<option value="medium">Medium Priority</option>
-<option value="low">Low Priority</option>
-</select>
-
-<button class="btn" onclick="addTask()">
-+ Add
-</button>
-
-</div>
-
-<div class="task-list" id="taskList"></div>
-
-</div>
-
-</section>
-
-<!-- REVISION -->
-
-<section id="revision" class="page">
-
-<div class="hero">
-<h2>🔄 Smart Revision Engine</h2>
-<p>Your completed chapters automatically enter a spaced revision cycle.</p>
-</div>
-
-<div class="card">
-
-<div class="card-title">
-<h3>Revision Queue</h3>
-<span id="revisionCount">0</span>
-</div>
-
-<div id="revisionList"></div>
-
-</div>
-
-</section>
-
-<!-- MOCK TESTS -->
-
-<section id="mocktests" class="page">
-
-<div class="hero">
-<h2>📝 Mock Test Tracker</h2>
-<p>Track your scores and monitor your improvement.</p>
-</div>
-
-<div class="card">
-
-<div class="mock-form">
-
-<input
-id="mockName"
-class="input"
-placeholder="Test name"
-
->
-
-<select id="mockExam" class="input">
-<option>JEE</option>
-<option>NEET</option>
-<option>Custom</option>
-</select>
-
-<input
-id="mockTotal"
-type="number"
-class="input"
-placeholder="Total Marks"
-
->
-
-<input
-id="mockScore"
-type="number"
-class="input"
-placeholder="Obtained Marks"
-
->
-
-<input
-id="mockDate"
-type="date"
-class="input"
-
->
-
-<button class="btn" onclick="addMockTest()">
-Add Test
-</button>
-
-</div>
-
-<div class="mock-list" id="mockList"></div>
-
-</div>
-
-</section>
-
-<!-- CALENDAR -->
-
-<section id="calendar" class="page">
-
-<div class="hero">
-<h2>📅 Study Calendar</h2>
-<p>See your study activity throughout the month.</p>
-</div>
-
-<div class="card">
-
-<div class="calendar-head">
-
-<button class="btn secondary" onclick="changeMonth(-1)">
-←
-</button>
-
-<h3 id="calendarTitle"></h3>
-
-<button class="btn secondary" onclick="changeMonth(1)">
-→
-</button>
-
-</div>
-
-<div class="calendar" id="calendarGrid"></div>
-
-</div>
-
-</section>
-
-<!-- FOCUS -->
-
-<section id="focus" class="page">
-
-<div class="hero">
-<h2>⏱ Deep Focus Mode</h2>
-<p>Focus completely. One session at a time.</p>
-</div>
-
-<div class="card">
-
-<div style="display:flex;justify-content:center;gap:8px">
-
-<button class="btn secondary" onclick="setTimer(25)">25m</button>
-
-<button class="btn secondary" onclick="setTimer(50)">50m</button>
-
-<button class="btn secondary" onclick="setTimer(90)">90m</button>
-
-</div>
-
-<div
-id="focusDisplay"
-class="focus-display"
->
-25:00
-</div>
-
-<div class="focus-actions">
-
-<button
-id="focusButton"
-class="btn"
-onclick="toggleFocus()"
-
->
-
-▶ Start </button>
-
-<button
-class="btn secondary"
-onclick="resetFocus()"
-
->
-
-↻ Reset </button>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- EXAMS -->
-
-<section id="exams" class="page">
-
-<div class="hero">
-<h2>🎯 Exam Countdown</h2>
-<p>Every second matters. Stay focused on the target.</p>
-</div>
-
-<div class="countdown-grid">
-
+```
 <div class="year-block">
 
-<h2 class="year-title">
-TARGET 2027
-</h2>
+    <div class="year-title">
+        TARGET 2027
+    </div>
 
-<div class="exam-grid" id="exam2027"></div>
+    <div
+        class="exams-grid"
+        id="timer_2027_grid">
+    </div>
 
 </div>
 
 <div class="year-block">
 
-<h2 class="year-title">
-TARGET 2028
-</h2>
+    <div class="year-title">
+        TARGET 2028
+    </div>
 
-<div class="exam-grid" id="exam2028"></div>
+    <div
+        class="exams-grid"
+        id="timer_2028_grid">
+    </div>
+
+</div>
+```
+
+</div>
+
+<div class="main-grid">
+
+```
+<div id="col11">
+
+    <h2 class="col-title">
+        Class 11th
+    </h2>
+
+    <div id="data11"></div>
+
+</div>
+
+<div id="col12">
+
+    <h2 class="col-title">
+        Class 12th
+    </h2>
+
+    <div id="data12"></div>
+
+</div>
+```
 
 </div>
 
 </div>
 
-</section>
+<!-- ANALYTICS BUTTON -->
+
+<button
+ class="ana-btn"
+ onclick="openAna()">
+
+```
+📊
+```
+
+</button>
+
+<!-- TODO BUTTON -->
+
+<button
+ class="todo-launcher"
+ onclick="openTodo()">
+
+```
+📝 OPEN TODO
+```
+
+</button>
 
 <!-- ANALYTICS -->
 
-<section id="analytics" class="page">
-
-<div class="hero">
-<h2>📊 Performance Analytics</h2>
-<p>Analyze your preparation and identify what needs attention.</p>
-</div>
-
-<div class="analytics-grid" id="analyticsGrid"></div>
-
-<div class="card" style="margin-top:20px">
-
-<div class="card-title">
-<h3>📈 Mock Test Performance</h3>
-</div>
-
-<div class="chart-box" id="mockChart"></div>
-
-</div>
-
-</section>
-
-</div>
-
-<!-- MOBILE NAV -->
-
-<div class="mobile-nav">
-
-<button
-class="active"
-onclick="showPage('dashboard',this)"
-
->
-
-🏠 <span>Home</span> </button>
-
-<button onclick="showPage('chapters',this)">
-📚
-<span>Study</span>
-</button>
-
-<button onclick="showPage('planner',this)">
-🗓
-<span>Plan</span>
-</button>
-
-<button onclick="showPage('focus',this)">
-⏱
-<span>Focus</span>
-</button>
-
-<button onclick="showPage('analytics',this)">
-📊
-<span>Stats</span>
-</button>
-
-</div>
-
-<!-- NOTES MODAL -->
-
 <div
-class="modal"
-id="notesModal"
->
+    class="popup"
+    id="pop">
 
-<div class="modal-box">
+```
+<div class="popup-box">
 
-<div class="modal-head">
+    <div
+        class="close-pop"
+        onclick="closeAna()">
 
-<h3 id="notesTitle">
-Notes
-</h3>
+        ✕
 
-<button
-class="btn secondary"
-onclick="closeNotes()"
+    </div>
 
->
-
-✕ </button>
-
-</div>
-
-<textarea
-id="notesText"
-placeholder="Write chapter notes here..."
-></textarea>
-
-<button
-class="btn"
-style="margin-top:12px"
-onclick="saveNotes()"
-
->
-
-Save Notes </button>
-
-</div>
-
-</div>
-
-<div
-class="toast"
-id="toast"
-></div>
-
-<script>
-
-/* =====================================
-   DATABASE
-===================================== */
-
-const DB = [
-
-{
-cls:'11th',
-sub:'Maths',
-ch:[
-'Basic Math',
-'Sets',
-'Trigonometric Functions',
-'Trigonometric Equation',
-'Quadratic Equations',
-'Sequence and Series',
-'Relations and Functions',
-'Permutations and Combination',
-'Binomial Theorem',
-'Limit and Derivatives',
-'Linear Inequalities',
-'Straight Lines',
-'Circles',
-'Parabola',
-'Ellipse',
-'Hyperbola',
-'Probability (XI)',
-'Introduction To 3D',
-'Complex Numbers',
-'Statistics',
-'Solution of Triangle'
-]
-},
-
-{
-cls:'11th',
-sub:'Physics',
-ch:[
-'Unit and Dimension',
-'Basic Maths',
-'Vectors',
-'Motion in a Straight Line',
-'Errors and Measurement',
-'Motion in a Plane',
-'Laws of Motion',
-'Circular Motion',
-'Work Power Energy',
-'Centre of Mass',
-'Thermal Properties of Matter',
-'Mechanical Properties of Solids',
-'Rotational Motion',
-'KTG and Thermodynamics',
-'Oscillations',
-'Waves',
-'Mechanical Properties of Fluids',
-'Gravitation'
-]
-},
-
-{
-cls:'11th',
-sub:'Chemistry',
-ch:[
-'Mole Concept',
-'Structure of Atom',
-'State of Matter',
-'Thermodynamics',
-'Redox Reaction',
-'Chemical Equilibrium',
-'Ionic Equilibrium',
-'IUPAC Naming',
-'Isomerism',
-'GOC',
-'Hydrocarbons',
-'Purification',
-'Environmental Chemistry',
-'Periodic Table',
-'Chemical Bonding',
-'P-Block',
-'S-Block',
-'Hydrogen'
-]
-},
-
-{
-cls:'11th',
-sub:'Biology',
-ch:[
-'Cell - The Unit of Life',
-'Cell Cycle and Cell Division',
-'The Living World',
-'Biological Classification',
-'Plant Kingdom',
-'Morphology',
-'Anatomy',
-'Photosynthesis',
-'Respiration',
-'Plant Growth',
-'Structural Organization',
-'Breathing',
-'Body Fluids',
-'Excretory Products',
-'Locomotion',
-'Neural Control',
-'Chemical Coordination',
-'Animal Kingdom',
-'Biomolecules'
-]
-},
-
-{
-cls:'12th',
-sub:'Maths',
-ch:[
-'Determinants',
-'Matrices',
-'Relations and Functions',
-'Inverse Trigonometric Function',
-'LCD',
-'Method of Differentiation',
-'Application of Derivatives',
-'Indefinite Integration',
-'Definite Integration',
-'Application of Integrals',
-'Differential Equation',
-'Vector Algebra',
-'Three Dimensional Geometry',
-'Probability'
-]
-},
-
-{
-cls:'12th',
-sub:'Physics',
-ch:[
-'Electric Charges and Fields',
-'Electrostatic Potential',
-'Current Electricity',
-'Moving Charges',
-'Magnetism and Matter',
-'Electromagnetic Induction',
-'Alternating Current',
-'EM Waves',
-'Ray Optics',
-'Wave Optics',
-'Dual Nature',
-'Atoms',
-'Nuclei',
-'Semiconductors'
-]
-},
-
-{
-cls:'12th',
-sub:'Chemistry',
-ch:[
-'Solution',
-'Electrochemistry',
-'Chemical Kinetics',
-'Surface Chemistry',
-'Optical Isomerism',
-'Hydrocarbon (12th)',
-'Haloalkanes',
-'Alcohols',
-'Aldehydes',
-'Amines',
-'Biomolecules (Chem)',
-'Polymers',
-'Everyday Life',
-'Environmental Chem (12)',
-'Coordination Compounds',
-'P-Block (12)',
-'D and F Block',
-'Qualitative Analysis',
-'Isolation of Metals'
-]
-},
-
-{
-cls:'12th',
-sub:'Biology',
-ch:[
-'Sexual Reproduction',
-'Principles of Inheritance',
-'Molecular Basis',
-'Microbes',
-'Tissue Culture',
-'Organisms',
-'Ecosystem',
-'Biodiversity',
-'Human Reproduction',
-'Reproductive Health',
-'Human Health',
-'Biotech Principles',
-'Biotech Applications',
-'Evolution'
-]
-}
-
-];
-
-
-/* =====================================
-   STORAGE
-===================================== */
-
-const STORAGE_KEY='ghazi_study_os_v3';
-
-function getStore(){
-    return JSON.parse(
-        localStorage.getItem(STORAGE_KEY)||'{}'
-    );
-}
-
-function saveStore(data){
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(data)
-    );
-}
-
-function getValue(key,def=null){
-    const data=getStore();
-    return data[key]===undefined?def:data[key];
-}
-
-function setValue(key,value){
-    const data=getStore();
-    data[key]=value;
-    saveStore(data);
-}
-
-function chapterKey(item,index){
-    return `chapter_${item.cls}_${item.sub}_${index}`;
-}
-
-function getChapter(key){
-
-    return getValue(key,{
-        done:false,
-        important:false,
-        weak:false,
-        notes:'',
-        completedAt:null,
-        revisionIndex:0,
-        lastRevision:null
-    });
-
-}
-
-function updateChapter(key,changes){
-
-    const current=getChapter(key);
-
-    setValue(
-        key,
-        {
-            ...current,
-            ...changes
-        }
-    );
-
-}
-
-
-/* =====================================
-   CHAPTER UTILITIES
-===================================== */
-
-function getAllChapters(){
-
-    let all=[];
-
-    DB.forEach(item=>{
-
-        item.ch.forEach((name,index)=>{
-
-            all.push({
-                item,
-                name,
-                index,
-                key:chapterKey(item,index)
-            });
-
-        });
-
-    });
-
-    return all;
-}
-
-
-/* =====================================
-   XP
-===================================== */
-
-function getXP(){
-    return getValue('xp',0);
-}
-
-function addXP(amount){
-
-    setValue(
-        'xp',
-        Math.max(0,getXP()+amount)
-    );
-
-}
-
-function getLevel(){
-    return Math.floor(getXP()/100)+1;
-}
-
-
-/* =====================================
-   STREAK
-===================================== */
-
-function updateStreak(){
-
-    const today=
-        new Date().toISOString().split('T')[0];
-
-    let streak=
-        getValue(
-            'streakData',
-            {
-                count:0,
-                lastDate:null
-            }
-        );
-
-    if(streak.lastDate===today)
-        return;
-
-    const yesterday=
-        new Date(
-            Date.now()-86400000
-        )
-        .toISOString()
-        .split('T')[0];
-
-    if(streak.lastDate===yesterday){
-
-        streak.count++;
-
-    }else{
-
-        streak.count=1;
-
-    }
-
-    streak.lastDate=today;
-
-    setValue(
-        'streakData',
-        streak
-    );
-
-}
-
-function getStreak(){
-
-    return getValue(
-        'streakData',
-        {count:0}
-    ).count;
-
-}
-
-
-/* =====================================
-   DAILY GOAL
-===================================== */
-
-function getGoal(){
-    return getValue('dailyGoal',3);
-}
-
-function changeGoal(value){
-
-    setValue(
-        'dailyGoal',
-        Math.max(1,getGoal()+value)
-    );
-
-    refresh();
-
-}
-
-function getTodayCompleted(){
-
-    const today=
-        new Date().toISOString().split('T')[0];
-
-    return getAllChapters()
-        .filter(ch=>{
-
-            const data=getChapter(ch.key);
-
-            return data.done &&
-                data.completedAt &&
-                data.completedAt.startsWith(today);
-
-        }).length;
-
-}
-
-
-/* =====================================
-   CHAPTER ACTIONS
-===================================== */
-
-function toggleChapter(key){
-
-    const data=getChapter(key);
-
-    if(!data.done){
-
-        updateChapter(
-            key,
-            {
-                done:true,
-                completedAt:new Date().toISOString(),
-                revisionIndex:0,
-                lastRevision:null
-            }
-        );
-
-        addXP(10);
-
-        updateStreak();
-
-        celebrate();
-
-        toast('Chapter completed! +10 XP 🔥');
-
-    }else{
-
-        updateChapter(
-            key,
-            {
-                done:false,
-                completedAt:null
-            }
-        );
-
-        addXP(-10);
-
-        toast('Marked as pending');
-
-    }
-
-    refresh();
-
-}
-
-function toggleImportant(key){
-
-    const data=getChapter(key);
-
-    updateChapter(
-        key,
-        {
-            important:!data.important
-        }
-    );
-
-    refresh();
-
-}
-
-function toggleWeak(key){
-
-    const data=getChapter(key);
-
-    updateChapter(
-        key,
-        {
-            weak:!data.weak
-        }
-    );
-
-    refresh();
-
-}
-
-
-/* =====================================
-   NOTES
-===================================== */
-
-let activeNotesKey=null;
-
-function openNotes(key,name){
-
-    activeNotesKey=key;
-
-    document.getElementById('notesTitle')
-        .textContent=name;
-
-    document.getElementById('notesText')
-        .value=getChapter(key).notes||'';
-
-    document.getElementById('notesModal')
-        .classList.add('show');
-
-}
-
-function closeNotes(){
-
-    document.getElementById('notesModal')
-        .classList.remove('show');
-
-    activeNotesKey=null;
-
-}
-
-function saveNotes(){
-
-    if(!activeNotesKey)
-        return;
-
-    updateChapter(
-        activeNotesKey,
-        {
-            notes:
-            document.getElementById('notesText').value
-        }
-    );
-
-    toast('Notes saved 📝');
-
-    closeNotes();
-
-    refresh();
-
-}
-
-
-/* =====================================
-   REVISION SYSTEM
-===================================== */
-
-const revisionSchedule=[
-    1,3,7,15,30
-];
-
-function getRevisionDate(data){
-
-    if(!data.done || !data.completedAt)
-        return null;
-
-    const index=
-        data.revisionIndex||0;
-
-    if(index>=revisionSchedule.length)
-        return null;
-
-    const base=
-        data.lastRevision
-        ?new Date(data.lastRevision)
-        :new Date(data.completedAt);
-
-    return new Date(
-        base.getTime()+
-        revisionSchedule[index]*86400000
-    );
-
-}
-
-function isRevisionDue(data){
-
-    const date=
-        getRevisionDate(data);
-
-    return date &&
-        Date.now()>=date.getTime();
-
-}
-
-function completeRevision(key){
-
-    const data=getChapter(key);
-
-    updateChapter(
-        key,
-        {
-            revisionIndex:
-                (data.revisionIndex||0)+1,
-
-            lastRevision:
-                new Date().toISOString()
-        }
-    );
-
-    addXP(5);
-
-    toast('Revision complete! +5 XP 🔄');
-
-    refresh();
-
-}
-
-
-/* =====================================
-   CHAPTER RENDER
-===================================== */
-
-function renderChapters(){
-
-    const search=
-        document.getElementById('chapterSearch')
-        .value
-        .toLowerCase();
-
-    const filter=
-        document.getElementById('chapterFilter')
-        .value;
-
-    const class11=
-        document.getElementById('class11');
-
-    const class12=
-        document.getElementById('class12');
-
-    class11.innerHTML='';
-    class12.innerHTML='';
-
-    DB.forEach(item=>{
-
-        const completed=
-            item.ch.filter((_,index)=>
-                getChapter(
-                    chapterKey(item,index)
-                ).done
-            ).length;
-
-        const percent=
-            Math.round(
-                completed/item.ch.length*100
-            );
-
-        const chapters=
-            item.ch
-            .map((name,index)=>({
-
-                name,
-                index,
-                key:chapterKey(item,index),
-
-                data:getChapter(
-                    chapterKey(item,index)
-                )
-
-            }))
-            .filter(ch=>{
-
-                if(
-                    search &&
-                    !ch.name
-                    .toLowerCase()
-                    .includes(search)
-                )
-                    return false;
-
-                if(
-                    filter==='completed' &&
-                    !ch.data.done
-                )
-                    return false;
-
-                if(
-                    filter==='pending' &&
-                    ch.data.done
-                )
-                    return false;
-
-                if(
-                    filter==='important' &&
-                    !ch.data.important
-                )
-                    return false;
-
-                if(
-                    filter==='weak' &&
-                    !ch.data.weak
-                )
-                    return false;
-
-                if(
-                    filter==='revision' &&
-                    !isRevisionDue(ch.data)
-                )
-                    return false;
-
-                return true;
-
-            });
-
-        if(!chapters.length)
-            return;
-
-        const card=
-            document.createElement('div');
-
-        card.className='subject-card';
-
-        card.innerHTML=`
-
-        <div class="subject-head">
+    <div class="ana-content">
 
         <div>
 
-        <h3>${item.sub}</h3>
+            <div
+                class="ana-inner"
+                style="border-color:var(--blue)">
 
-        <small>
-        ${completed}/${item.ch.length} completed
-        </small>
+                <h3 style="color:var(--blue)">
+                    JEE 11th Progress
+                </h3>
 
-        </div>
+                <div
+                    class="prog-row"
+                    id="jee11">
+                </div>
 
-        <div class="progress-circle">
+            </div>
 
-        <svg viewBox="0 0 80 80">
+            <div
+                class="ana-inner"
+                style="border-color:var(--blue)">
 
-        <circle
-        class="bg"
-        cx="40"
-        cy="40"
-        r="35"
-        ></circle>
+                <h3 style="color:var(--blue)">
+                    JEE 12th Progress
+                </h3>
 
-        <circle
-        class="fg"
-        cx="40"
-        cy="40"
-        r="35"
-        style="
-        stroke-dasharray:220;
-        stroke-dashoffset:
-        ${220-(220*percent/100)}
-        "
-        ></circle>
+                <div
+                    class="prog-row"
+                    id="jee12">
+                </div>
 
-        </svg>
-
-        <div class="percent">
-        ${percent}%
-        </div>
+            </div>
 
         </div>
 
+        <div>
+
+            <div
+                class="ana-inner"
+                style="border-color:var(--pink)">
+
+                <h3 style="color:var(--pink)">
+                    NEET 11th Progress
+                </h3>
+
+                <div
+                    class="prog-row"
+                    id="neet11">
+                </div>
+
+            </div>
+
+            <div
+                class="ana-inner"
+                style="border-color:var(--pink)">
+
+                <h3 style="color:var(--pink)">
+                    NEET 12th Progress
+                </h3>
+
+                <div
+                    class="prog-row"
+                    id="neet12">
+                </div>
+
+            </div>
+
         </div>
 
-        ${chapters.map(ch=>`
+    </div>
 
-        <div
-        class="chapter
-        ${ch.data.done?'done':''}"
-        >
+</div>
+```
 
-        <div
-        class="check
-        ${ch.data.done?'active':''}"
-        onclick="toggleChapter('${ch.key}')"
-        >
-        ${ch.data.done?'✓':''}
-        </div>
+</div>
 
-        <div class="chapter-name">
+<!-- TODO PANEL -->
 
-        ${ch.name}
+<div
+    class="todo-overlay"
+    id="todoOverlay">
 
-        ${ch.data.important?
-        ' ⭐':''}
+```
+<div class="todo-panel">
 
-        ${ch.data.weak?
-        ' ⚠️':''}
+    <div class="todo-handle"></div>
 
-        ${ch.data.notes?
-        ' 📝':''}
+    <div class="todo-header">
+
+        <div class="todo-title">
+
+            MY <span>STUDY TODO</span>
 
         </div>
-
-        <div class="chapter-actions">
 
         <button
-        class="${ch.data.important?'active':''}"
-        onclick="toggleImportant('${ch.key}')"
-        >
-        ⭐
+            class="close-todo"
+            onclick="closeTodo()">
+
+            ✕
+
         </button>
 
-        <button
-        class="weak
-        ${ch.data.weak?'active':''}"
-        onclick="toggleWeak('${ch.key}')"
-        >
-        ⚠️
-        </button>
+    </div>
 
-        <button
-        onclick="openNotes(
-        '${ch.key}',
-        '${ch.name.replace(/'/g,"\\'")}'
-        )"
-        >
-        📝
-        </button>
+    <div class="todo-stats">
+
+        <div class="todo-stat">
+
+            <div class="todo-stat-label">
+                Total Tasks
+            </div>
+
+            <div
+                class="todo-stat-value"
+                id="todoTotal">
+
+                0
+
+            </div>
 
         </div>
 
+        <div class="todo-stat">
+
+            <div class="todo-stat-label">
+                Completed
+            </div>
+
+            <div
+                class="todo-stat-value"
+                id="todoCompleted">
+
+                0
+
+            </div>
+
         </div>
 
-        `).join('')}
+        <div class="todo-stat">
+
+            <div class="todo-stat-label">
+                Pending
+            </div>
+
+            <div
+                class="todo-stat-value"
+                id="todoPending">
+
+                0
+
+            </div>
+
+        </div>
+
+        <div class="todo-stat">
+
+            <div class="todo-stat-label">
+                Completion
+            </div>
+
+            <div
+                class="todo-stat-value"
+                id="todoPercent">
+
+                0%
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ADD TASK -->
+
+    <div class="task-form">
+
+        <div class="field">
+
+            <label>
+                Task Name
+            </label>
+
+            <input
+                id="taskName"
+                placeholder="Example: Finish Lecture">
+
+        </div>
+
+        <div class="field">
+
+            <label>
+                Class
+            </label>
+
+            <select id="taskClass">
+
+                <option value="11th">
+                    Class 11th
+                </option>
+
+                <option value="12th">
+                    Class 12th
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="field">
+
+            <label>
+                Exam
+            </label>
+
+            <select id="taskExam">
+
+                <option value="JEE">
+                    JEE
+                </option>
+
+                <option value="NEET">
+                    NEET
+                </option>
+
+                <option value="Both">
+                    Both
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="field">
+
+            <label>
+                Subject
+            </label>
+
+            <select id="taskSubject">
+
+                <option value="Physics">
+                    Physics
+                </option>
+
+                <option value="Maths">
+                    Maths
+                </option>
+
+                <option value="Physical Chemistry">
+                    Physical Chemistry
+                </option>
+
+                <option value="Organic Chemistry">
+                    Organic Chemistry
+                </option>
+
+                <option value="Inorganic Chemistry">
+                    Inorganic Chemistry
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="field">
+
+            <label>
+                Chapter
+            </label>
+
+            <input
+                id="taskChapter"
+                placeholder="Optional / Future use">
+
+        </div>
+
+        <div class="field">
+
+            <label>
+                Work Type
+            </label>
+
+            <select id="taskType">
+
+                <option value="Lecture">
+                    Lecture
+                </option>
+
+                <option value="Notes">
+                    Notes
+                </option>
+
+                <option value="DPP">
+                    DPP
+                </option>
+
+                <option value="Test">
+                    Test
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="field">
+
+            <label>
+                Priority
+            </label>
+
+            <select id="taskPriority">
+
+                <option value="Low">
+                    Low
+                </option>
+
+                <option value="Medium">
+                    Medium
+                </option>
+
+                <option value="High">
+                    High
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="field">
+
+            <label>
+                Due Date
+            </label>
+
+            <input
+                id="taskDue"
+                type="date">
+
+        </div>
+
+        <button
+            class="add-task"
+            onclick="addTask()">
+
+            + ADD TASK
+
+        </button>
+
+    </div>
+
+    <!-- FILTER -->
+
+    <div class="todo-tools">
+
+        <input
+            class="todo-search"
+            id="todoSearch"
+            placeholder="Search task, chapter, subject..."
+            oninput="renderTodos()">
+
+        <div class="filter-group">
+
+            <button
+                class="filter-btn active"
+                data-filter="all"
+                onclick="setFilter('all',this)">
+
+                All
+
+            </button>
+
+            <button
+                class="filter-btn"
+                data-filter="pending"
+                onclick="setFilter('pending',this)">
+
+                Pending
+
+            </button>
+
+            <button
+                class="filter-btn"
+                data-filter="completed"
+                onclick="setFilter('completed',this)">
+
+                Completed
+
+            </button>
+
+            <button
+                class="filter-btn"
+                data-filter="high"
+                onclick="setFilter('high',this)">
+
+                High Priority
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <div
+        class="task-list"
+        id="taskList">
+
+    </div>
+
+</div>
+```
+
+</div>
+
+<script>
+
+/* =========================================================
+   DATABASE
+========================================================= */
+
+const DB = [
+
+    {
+        cls:'11th',
+        sub:'Maths',
+
+        ch:[
+            'Basic Math',
+            'Sets',
+            'Trignometric functions',
+            'Trignometric Equation',
+            'Quadratic Equations',
+            'Sequence and series',
+            'Relations and functions',
+            'Permutations and combination',
+            'Binomial theorem',
+            'Limit and Derivatives',
+            'Linear inequalities',
+            'Straight Lines',
+            'Circles',
+            'Parabola',
+            'Ellipse',
+            'Hyperbola',
+            'Probability (XI)',
+            'Introduction To 3D',
+            'Complex Numbers',
+            'Statistics',
+            'Solution of Triangle'
+        ]
+    },
+
+    {
+        cls:'11th',
+        sub:'Physics',
+
+        ch:[
+            'Unit and Dimension',
+            'Basic Maths',
+            'Vectors',
+            'Motion in a Straight Line',
+            'Errors and measurement',
+            'Motion in a plane',
+            'Laws of motion',
+            'Circular Motion',
+            'Work power energy',
+            'Centre of mass',
+            'Thermal properties of matter',
+            'Mechanical properties of solids',
+            'Rotational motion',
+            'KTG and thermodynamics',
+            'Oscillations',
+            'Waves',
+            'Mechanical properties of fluids',
+            'Gravitation'
+        ]
+    },
+
+    {
+        cls:'11th',
+        sub:'Chemistry',
+
+        ch:[
+            'Mole concept',
+            'Structure of atom',
+            'State of matter',
+            'Thermodynamics',
+            'Redox reaction',
+            'Chemical equilibrium',
+            'Ionic equilibrium',
+            'IUPAC Naming',
+            'Isomerism',
+            'GOC',
+            'Hydrocarbons',
+            'Purification',
+            'Environmental chemistry',
+            'Periodic table',
+            'Chemical bonding',
+            'P-Block',
+            'S-Block',
+            'Hydrogen'
+        ]
+    },
+
+    {
+        cls:'11th',
+        sub:'Biology',
+
+        ch:[
+            'Cell - the unit of life',
+            'Cell cycle and cell division',
+            'The living world',
+            'Biological classification',
+            'Plant kingdom',
+            'Morphology',
+            'Anatomy',
+            'Photosynthesis',
+            'Respiration',
+            'Plant growth',
+            'Structural organization',
+            'Breathing',
+            'Body fluids',
+            'Excretory product',
+            'Locomotion',
+            'Neural control',
+            'Chemical coordination',
+            'Animal kingdom',
+            'Biomolecules'
+        ]
+    },
+
+    {
+        cls:'12th',
+        sub:'Maths',
+
+        ch:[
+            'Determinants',
+            'Matrices',
+            'Relations and functions',
+            'Inverse trignometric function',
+            'LCD',
+            'Method of differentiation',
+            'Application of derivatives',
+            'Indefinite integration',
+            'Definite integration',
+            'Application of integrals',
+            'Differential equation',
+            'Vector algebra',
+            'Three dimensional geometry',
+            'Probability'
+        ]
+    },
+
+    {
+        cls:'12th',
+        sub:'Physics',
+
+        ch:[
+            'Electric charges and fields',
+            'Electrostatic potential',
+            'Current electricity',
+            'Moving charges',
+            'Magnetism and matter',
+            'Electromagnetic induction',
+            'Alternating current',
+            'EM Waves',
+            'Ray optics',
+            'Wave optics',
+            'Dual nature',
+            'Atoms',
+            'Nuclei',
+            'Semiconductors'
+        ]
+    },
+
+    {
+        cls:'12th',
+        sub:'Chemistry',
+
+        ch:[
+            'Solution',
+            'Electrochemistry',
+            'Chemical kinetics',
+            'Surface chemistry',
+            'Optical isomerism',
+            'Hydrocarbon (12th)',
+            'Haloalkanes',
+            'Alcohols',
+            'Aldehydes',
+            'Amines',
+            'Biomolecules (Chem)',
+            'Polymers',
+            'Everyday Life',
+            'Environmental Chem (12)',
+            'Coordination compounds',
+            'P-Block (12)',
+            'D and F block',
+            'Qualitative analysis',
+            'Isolation of metals'
+        ]
+    },
+
+    {
+        cls:'12th',
+        sub:'Biology',
+
+        ch:[
+            'Sexual reproduction',
+            'Principles of inheritance',
+            'Molecular basis',
+            'Microbes',
+            'Tissue culture',
+            'Organisms',
+            'Ecosystem',
+            'Biodiversity',
+            'Human reproduction',
+            'Reproductive health',
+            'Human health',
+            'Biotech principles',
+            'Biotech applications',
+            'Evolution'
+        ]
+    }
+
+];
+
+
+/* =========================================================
+   LIVE CLOCK
+========================================================= */
+
+function updateClock(){
+
+    const now = new Date();
+
+    const time = now.toLocaleTimeString(
+        'en-IN',
+        {
+            hour:'2-digit',
+            minute:'2-digit',
+            second:'2-digit',
+            hour12:true
+        }
+    );
+
+    const date = now.toLocaleDateString(
+        'en-IN',
+        {
+            weekday:'long',
+            day:'numeric',
+            month:'long',
+            year:'numeric'
+        }
+    );
+
+    const hour = now.getHours();
+
+    let greet = 'Good Night 🌙';
+
+    if(hour >= 5 && hour < 12){
+        greet = 'Good Morning ☀️';
+    }
+    else if(hour >= 12 && hour < 17){
+        greet = 'Good Afternoon ⚡';
+    }
+    else if(hour >= 17 && hour < 21){
+        greet = 'Good Evening 🌆';
+    }
+
+    document.getElementById('clockTime').textContent =
+        time;
+
+    document.getElementById('clockDate').textContent =
+        date;
+
+    document.getElementById('greeting').textContent =
+        greet;
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+
+/* =========================================================
+   CHAPTER TRACKER
+========================================================= */
+
+function chapterKey(item,index){
+
+    return (
+        'chapter_' +
+        item.cls +
+        '_' +
+        item.sub +
+        '_' +
+        index
+    );
+
+}
+
+function render(){
+
+    const c11 =
+        document.getElementById('data11');
+
+    const c12 =
+        document.getElementById('data12');
+
+    c11.innerHTML = '';
+
+    c12.innerHTML = '';
+
+    let total = 0;
+
+    let completed = 0;
+
+    DB.forEach(item=>{
+
+        let done = 0;
+
+        item.ch.forEach((_,index)=>{
+
+            total++;
+
+            const key =
+                chapterKey(item,index);
+
+            if(localStorage.getItem(key)){
+
+                done++;
+
+                completed++;
+
+            }
+
+        });
+
+        const percent =
+            Math.round(
+                (done/item.ch.length)*100
+            );
+
+        const card =
+            document.createElement('div');
+
+        card.className =
+            'subject-card';
+
+        card.innerHTML = `
+
+            <div class="subject-head">
+
+                <div class="sub-info">
+
+                    <h3>${item.sub}</h3>
+
+                    <div style="
+                        font-size:.65rem;
+                        color:#8490a4;
+                        margin-top:3px;
+                    ">
+
+                        ${done} / ${item.ch.length}
+                        chapters completed
+
+                    </div>
+
+                </div>
+
+                <div class="progress-circle">
+
+                    <svg viewBox="0 0 80 80">
+
+                        <circle
+                            class="bg"
+                            cx="40"
+                            cy="40"
+                            r="35">
+
+                        </circle>
+
+                        <circle
+                            class="fg"
+                            cx="40"
+                            cy="40"
+                            r="35"
+
+                            style="
+                                stroke-dasharray:220;
+                                stroke-dashoffset:
+                                ${220-(220*percent/100)}
+                            ">
+
+                        </circle>
+
+                    </svg>
+
+                    <div class="percent">
+                        ${percent}%
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="ch-list">
+
+                ${item.ch.map(
+                    (chapter,index)=>{
+
+                        const key =
+                            chapterKey(item,index);
+
+                        const isDone =
+                            localStorage.getItem(key);
+
+                        return `
+
+                            <div class="ch-item">
+
+                                <span>
+                                    ${chapter}
+                                </span>
+
+                                <div
+                                    class="
+                                        check
+                                        ${isDone?'done':''}
+                                    "
+
+                                    onclick="
+                                        toggleChapter(
+                                            '${key}'
+                                        )
+                                    ">
+
+                                    ${isDone?'✓':''}
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }
+                ).join('')}
+
+            </div>
 
         `;
 
-        if(item.cls==='11th'){
+        if(item.cls === '11th'){
 
-            class11.appendChild(card);
+            c11.appendChild(card);
 
-        }else{
+        }
+        else{
 
-            class12.appendChild(card);
+            c12.appendChild(card);
 
         }
 
     });
 
+    updateQuickStats(
+        completed,
+        total
+    );
+
 }
 
 
-/* =====================================
-   DASHBOARD
-===================================== */
+/* =========================================================
+   TOGGLE CHAPTER
+========================================================= */
 
-function renderDashboard(){
+function toggleChapter(key){
 
-    const chapters=
-        getAllChapters();
+    if(!localStorage.getItem(key)){
 
-    const total=
-        chapters.length;
+        localStorage.setItem(
+            key,
+            '1'
+        );
 
-    const completed=
-        chapters.filter(ch=>
-            getChapter(ch.key).done
-        ).length;
+        celebrate();
 
-    const important=
-        chapters.filter(ch=>
-            getChapter(ch.key).important
-        ).length;
+        showToast(
+            'Chapter Completed! 🔥'
+        );
 
-    const weak=
-        chapters.filter(ch=>
-            getChapter(ch.key).weak
-        ).length;
+    }
+    else{
 
-    const percent=
+        localStorage.removeItem(key);
+
+        showToast(
+            'Chapter marked pending'
+        );
+
+    }
+
+    render();
+
+}
+
+
+/* =========================================================
+   QUICK STATS
+========================================================= */
+
+function updateQuickStats(
+    completed,
+    total
+){
+
+    const percent =
+        total
+        ?
         Math.round(
             completed/total*100
-        );
-
-    document.getElementById('totalChapters')
-        .textContent=total;
-
-    document.getElementById('completedChapters')
-        .textContent=completed;
-
-    document.getElementById('remainingChapters')
-        .textContent=total-completed;
-
-    document.getElementById('importantCount')
-        .textContent=important;
-
-    document.getElementById('weakCount')
-        .textContent=weak;
-
-    document.getElementById('streak')
-        .textContent=getStreak();
-
-    document.getElementById('overallPercent')
-        .textContent=percent+'%';
-
-    document.getElementById('overallBigPercent')
-        .textContent=percent+'%';
-
-    document.getElementById('overallBar')
-        .style.width=percent+'%';
-
-    const ring=
-        document.getElementById('overallRing');
-
-    const circumference=314;
-
-    ring.style.strokeDasharray=
-        circumference;
-
-    ring.style.strokeDashoffset=
-        circumference-
-        circumference*percent/100;
-
-    let status='Mission Started';
-    let message='Start your first chapter and begin building momentum.';
-
-    if(percent>=90){
-
-        status='Legend Mode 👑';
-
-        message='Outstanding. You are extremely close to completing the mission.';
-
-    }else if(percent>=75){
-
-        status='Final Phase 🔥';
-
-        message='You are in the final stretch. Revision and consistency are everything now.';
-
-    }else if(percent>=50){
-
-        status='Halfway Warrior ⚡';
-
-        message='More than half the mission is complete. Keep pushing.';
-
-    }else if(percent>=25){
-
-        status='Momentum Building 🚀';
-
-        message='Your preparation is gaining speed. Stay consistent.';
-
-    }
-
-    document.getElementById('progressStatus')
-        .textContent=status;
-
-    document.getElementById('progressText')
-        .textContent=message;
-
-    const xp=getXP();
-
-    document.getElementById('levelNumber')
-        .textContent=getLevel();
-
-    document.getElementById('xpText')
-        .textContent=xp+' XP';
-
-    document.getElementById('xpFill')
-        .style.width=
-        xp%100+'%';
-
-    /* SUBJECT PROGRESS */
-
-    const subjectBox=
-        document.getElementById('subjectProgress');
-
-    subjectBox.innerHTML='';
-
-    DB.forEach(item=>{
-
-        const done=
-            item.ch.filter((_,i)=>
-                getChapter(
-                    chapterKey(item,i)
-                ).done
-            ).length;
-
-        const p=
-            Math.round(
-                done/item.ch.length*100
-            );
-
-        subjectBox.innerHTML+=`
-
-        <div class="subject-row">
-
-        <div class="subject-row-top">
-
-        <span>
-        ${item.cls} ${item.sub}
-        </span>
-
-        <span>
-        ${p}%
-        </span>
-
-        </div>
-
-        <div class="bar">
-        <span style="width:${p}%"></span>
-        </div>
-
-        </div>
-
-        `;
-
-    });
-
-    /* DAILY GOAL */
-
-    const goal=getGoal();
-
-    const today=getTodayCompleted();
-
-    const goalPercent=
-        Math.min(
-            100,
-            Math.round(today/goal*100)
-        );
-
-    document.getElementById('dailyGoalText')
-        .textContent=
-        `${today}/${goal}`;
-
-    document.getElementById('goalPercent')
-        .textContent=
-        goalPercent+'%';
-
-    document.getElementById('goalRing')
-        .style.setProperty(
-            '--p',
-            goalPercent
-        );
-
-    /* REVISION */
-
-    const due=
-        chapters.filter(ch=>
-            isRevisionDue(
-                getChapter(ch.key)
-            )
-        );
-
-    const revisionBox=
-        document.getElementById('dashboardRevision');
-
-    if(!due.length){
-
-        revisionBox.innerHTML=`
-        <p style="
-        color:var(--muted);
-        font-size:.75rem
-        ">
-        🎉 No chapters are currently due.
-        </p>
-        `;
-
-    }else{
-
-        revisionBox.innerHTML=
-        due.slice(0,4)
-        .map(ch=>`
-
-        <div style="
-        display:flex;
-        justify-content:space-between;
-        margin:9px 0;
-        font-size:.72rem
-        ">
-
-        <span>
-        ${ch.name}
-        </span>
-
-        <span style="color:var(--pink)">
-        Due
-        </span>
-
-        </div>
-
-        `).join('');
-
-    }
-
-    /* SMART ADVICE */
-
-    let advice=
-    'Complete one meaningful task today. Consistency matters more than motivation.';
-
-    if(due.length>0){
-
-        advice=
-        '🔄 Revision is pending. Complete your revision queue before starting too many new chapters.';
-
-    }else if(weak>0){
-
-        advice=
-        `⚠️ You currently have ${weak} weak chapters. Give extra time to these topics.`;
-
-    }else if(today>=goal){
-
-        advice=
-        '🏆 Daily mission completed. You can now revise, solve questions or move ahead.';
-
-    }else if(percent>60){
-
-        advice=
-        '🔥 Your syllabus progress is strong. Begin increasing revision and mock-test frequency.';
-
-    }
-
-    document.getElementById('aiAdvice')
-        .textContent=advice;
+        )
+        :
+        0;
+
+    document.getElementById(
+        'overallProgress'
+    ).textContent =
+        percent+'%';
+
+    document.getElementById(
+        'chaptersDone'
+    ).textContent =
+        completed;
+
+    document.getElementById(
+        'chaptersPending'
+    ).textContent =
+        total-completed;
 
 }
 
 
-/* =====================================
-   REVISION RENDER
-===================================== */
-
-function renderRevision(){
-
-    const all=
-        getAllChapters()
-        .filter(ch=>
-            isRevisionDue(
-                getChapter(ch.key)
-            )
-        );
-
-    document.getElementById('revisionCount')
-        .textContent=
-        all.length+' Due';
-
-    const list=
-        document.getElementById('revisionList');
-
-    if(!all.length){
-
-        list.innerHTML=`
-        <div style="
-        text-align:center;
-        color:var(--muted);
-        padding:40px
-        ">
-        🎉 No revision pending.
-        </div>
-        `;
-
-        return;
-
-    }
-
-    list.innerHTML=
-    all.map(ch=>`
-
-    <div class="revision-item">
-
-    <div>
-
-    <strong style="font-size:.82rem">
-    ${ch.name}
-    </strong>
-
-    <p>
-    ${ch.item.cls} •
-    ${ch.item.sub}
-    </p>
-
-    </div>
-
-    <button
-    class="btn"
-    onclick="completeRevision('${ch.key}')"
-    >
-    Revise ✓
-    </button>
-
-    </div>
-
-    `).join('');
-
-}
-
-
-/* =====================================
-   DAILY PLANNER
-===================================== */
-
-function getTasks(){
-
-    return getValue(
-        'tasks',
-        []
-    );
-
-}
-
-function saveTasks(tasks){
-
-    setValue(
-        'tasks',
-        tasks
-    );
-
-}
-
-function addTask(){
-
-    const name=
-        document.getElementById('taskName')
-        .value
-        .trim();
-
-    if(!name){
-
-        toast('Enter a task first');
-
-        return;
-
-    }
-
-    const task={
-
-        id:Date.now(),
-
-        name,
-
-        subject:
-        document.getElementById('taskSubject').value,
-
-        time:
-        document.getElementById('taskTime').value,
-
-        priority:
-        document.getElementById('taskPriority').value,
-
-        done:false,
-
-        date:
-        new Date().toISOString()
-
-    };
-
-    const tasks=getTasks();
-
-    tasks.unshift(task);
-
-    saveTasks(tasks);
-
-    document.getElementById('taskName')
-        .value='';
-
-    toast('Task added 🗓');
-
-    renderTasks();
-
-}
-
-function toggleTask(id){
-
-    const tasks=
-        getTasks();
-
-    const task=
-        tasks.find(t=>t.id===id);
-
-    if(task){
-
-        task.done=!task.done;
-
-        saveTasks(tasks);
-
-    }
-
-    renderTasks();
-
-}
-
-function deleteTask(id){
-
-    saveTasks(
-        getTasks()
-        .filter(t=>t.id!==id)
-    );
-
-    renderTasks();
-
-}
-
-function renderTasks(){
-
-    const tasks=getTasks();
-
-    const list=
-        document.getElementById('taskList');
-
-    if(!tasks.length){
-
-        list.innerHTML=`
-        <p style="
-        color:var(--muted);
-        text-align:center;
-        padding:30px
-        ">
-        No tasks yet. Plan your first study session.
-        </p>
-        `;
-
-        return;
-
-    }
-
-    list.innerHTML=
-    tasks.map(task=>`
-
-    <div
-    class="task
-    ${task.done?'done':''}"
-    >
-
-    <div
-    class="check
-    ${task.done?'active':''}"
-    onclick="toggleTask(${task.id})"
-    >
-    ${task.done?'✓':''}
-    </div>
-
-    <div class="task-name">
-
-    <strong>
-    ${task.name}
-    </strong>
-
-    <div style="
-    color:var(--muted);
-    font-size:.65rem;
-    margin-top:3px
-    ">
-
-    ${task.subject}
-    ${task.time?' • '+task.time:''}
-
-    </div>
-
-    </div>
-
-    <span
-    class="priority ${task.priority}"
-    >
-
-    ${task.priority.toUpperCase()}
-
-    </span>
-
-    <button
-    class="btn secondary"
-    onclick="deleteTask(${task.id})"
-    >
-    ✕
-    </button>
-
-    </div>
-
-    `).join('');
-
-}
-
-
-/* =====================================
-   MOCK TESTS
-===================================== */
-
-function getMocks(){
-
-    return getValue(
-        'mockTests',
-        []
-    );
-
-}
-
-function addMockTest(){
-
-    const name=
-        document.getElementById('mockName')
-        .value
-        .trim();
-
-    const total=
-        Number(
-            document.getElementById('mockTotal')
-            .value
-        );
-
-    const score=
-        Number(
-            document.getElementById('mockScore')
-            .value
-        );
-
-    if(
-        !name ||
-        !total ||
-        score<0
-    ){
-
-        toast('Enter valid mock test details');
-
-        return;
-
-    }
-
-    const mock={
-
-        id:Date.now(),
-
-        name,
-
-        exam:
-        document.getElementById('mockExam')
-        .value,
-
-        total,
-
-        score,
-
-        date:
-        document.getElementById('mockDate')
-        .value ||
-        new Date().toISOString().split('T')[0]
-
-    };
-
-    const mocks=getMocks();
-
-    mocks.unshift(mock);
-
-    setValue(
-        'mockTests',
-        mocks
-    );
-
-    document.getElementById('mockName').value='';
-    document.getElementById('mockTotal').value='';
-    document.getElementById('mockScore').value='';
-
-    toast('Mock test saved 📝');
-
-    renderMocks();
-
-    renderAnalytics();
-
-}
-
-function deleteMock(id){
-
-    setValue(
-        'mockTests',
-        getMocks()
-        .filter(m=>m.id!==id)
-    );
-
-    renderMocks();
-
-    renderAnalytics();
-
-}
-
-function renderMocks(){
-
-    const mocks=getMocks();
-
-    const list=
-        document.getElementById('mockList');
-
-    if(!mocks.length){
-
-        list.innerHTML=`
-        <p style="
-        color:var(--muted);
-        grid-column:1/-1;
-        text-align:center;
-        padding:30px
-        ">
-        No mock tests added yet.
-        </p>
-        `;
-
-        return;
-
-    }
-
-    list.innerHTML=
-    mocks.map(mock=>{
-
-        const percent=
-            Math.round(
-                mock.score/mock.total*100
-            );
-
-        return `
-
-        <div class="mock">
-
-        <div style="
-        display:flex;
-        justify-content:space-between
-        ">
-
-        <strong>
-        ${mock.name}
-        </strong>
-
-        <button
-        class="btn secondary"
-        onclick="deleteMock(${mock.id})"
-        >
-        ✕
-        </button>
-
-        </div>
-
-        <div class="mock-score">
-
-        ${mock.score}/${mock.total}
-
-        </div>
-
-        <div style="
-        color:var(--green);
-        font-size:.8rem;
-        margin-top:5px
-        ">
-
-        ${percent}%
-
-        </div>
-
-        <div style="
-        color:var(--muted);
-        font-size:.65rem;
-        margin-top:7px
-        ">
-
-        ${mock.exam} •
-        ${mock.date}
-
-        </div>
-
-        </div>
-
-        `;
-
-    }).join('');
-
-}
-
-
-/* =====================================
-   CALENDAR
-===================================== */
-
-let calendarDate=
-    new Date();
-
-function changeMonth(value){
-
-    calendarDate.setMonth(
-        calendarDate.getMonth()+value
-    );
-
-    renderCalendar();
-
-}
-
-function renderCalendar(){
-
-    const year=
-        calendarDate.getFullYear();
-
-    const month=
-        calendarDate.getMonth();
-
-    document.getElementById('calendarTitle')
-        .textContent=
-        new Date(
-            year,
-            month
-        ).toLocaleString(
-            'default',
-            {
-                month:'long',
-                year:'numeric'
-            }
-        );
-
-    const grid=
-        document.getElementById('calendarGrid');
-
-    grid.innerHTML='';
-
-    ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
-    .forEach(day=>{
-
-        grid.innerHTML+=`
-        <div class="cal-day-name">
-        ${day}
-        </div>
-        `;
-
-    });
-
-    const firstDay=
-        new Date(
-            year,
-            month,
-            1
-        ).getDay();
-
-    const days=
-        new Date(
-            year,
-            month+1,
-            0
-        ).getDate();
-
-    for(let i=0;i<firstDay;i++){
-
-        grid.innerHTML+=`
-        <div></div>
-        `;
-
-    }
-
-    const chapters=
-        getAllChapters();
-
-    for(let day=1;day<=days;day++){
-
-        const dateKey=
-        `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-
-        const studied=
-        chapters.some(ch=>{
-
-            const data=
-                getChapter(ch.key);
-
-            return data.completedAt &&
-                data.completedAt.startsWith(dateKey);
-
-        });
-
-        const today=
-            new Date();
-
-        const isToday=
-            today.getFullYear()===year &&
-            today.getMonth()===month &&
-            today.getDate()===day;
-
-        grid.innerHTML+=`
-
-        <div
-        class="
-        cal-day
-        ${studied?'has-study':''}
-        ${isToday?'today':''}
-        "
-        >
-
-        ${day}
-
-        ${studied?
-        '<div style="font-size:.5rem;color:var(--green);margin-top:5px">● Study</div>'
-        :''}
-
-        </div>
-
-        `;
-
-    }
-
-}
-
-
-/* =====================================
-   FOCUS TIMER
-===================================== */
-
-let focusSeconds=1500;
-let focusInterval=null;
-let focusRunning=false;
-
-function setTimer(minutes){
-
-    if(focusRunning)
-        return;
-
-    focusSeconds=minutes*60;
-
-    renderFocus();
-
-}
-
-function renderFocus(){
-
-    const min=
-        Math.floor(focusSeconds/60)
-        .toString()
-        .padStart(2,'0');
-
-    const sec=
-        (focusSeconds%60)
-        .toString()
-        .padStart(2,'0');
-
-    document.getElementById('focusDisplay')
-        .textContent=
-        `${min}:${sec}`;
-
-}
-
-function toggleFocus(){
-
-    if(focusRunning){
-
-        clearInterval(focusInterval);
-
-        focusRunning=false;
-
-        document.getElementById('focusButton')
-            .textContent=
-            '▶ Resume';
-
-        return;
-
-    }
-
-    focusRunning=true;
-
-    document.getElementById('focusButton')
-        .textContent=
-        '⏸ Pause';
-
-    focusInterval=
-        setInterval(()=>{
-
-            focusSeconds--;
-
-            renderFocus();
-
-            if(focusSeconds<=0){
-
-                clearInterval(focusInterval);
-
-                focusRunning=false;
-
-                document.getElementById('focusButton')
-                    .textContent=
-                    '▶ Start';
-
-                addXP(15);
-
-                celebrate();
-
-                toast(
-                    'Focus session complete! +15 XP'
-                );
-
-                focusSeconds=1500;
-
-                renderFocus();
-
-            }
-
-        },1000);
-
-}
-
-function resetFocus(){
-
-    clearInterval(focusInterval);
-
-    focusRunning=false;
-
-    focusSeconds=1500;
-
-    document.getElementById('focusButton')
-        .textContent=
-        '▶ Start';
-
-    renderFocus();
-
-}
-
-
-/* =====================================
-   EXAM COUNTDOWN
-===================================== */
-
-const exams2027=[
-['JEE Main Jan','2027-01-24'],
-['JEE Main Apr','2027-04-06'],
-['JEE Advanced','2027-05-23'],
-['NEET','2027-05-02']
-];
-
-const exams2028=[
-['JEE Main Jan','2028-01-24'],
-['JEE Main Apr','2028-04-06'],
-['JEE Advanced','2028-05-23'],
-['NEET','2028-05-07']
-];
-
-function createExams(id,exams){
-
-    const container=
-        document.getElementById(id);
-
-    container.innerHTML='';
-
-    exams.forEach((exam,index)=>{
-
-        const timerId=
-            id+'_'+index;
-
-        container.innerHTML+=`
-
-        <div class="exam">
-
-        <div class="exam-name">
-        ${exam[0]}
-        </div>
-
-        <div
-        class="exam-time"
-        id="${timerId}"
-        ></div>
-
-        </div>
-
-        `;
-
-        updateExam(
-            timerId,
-            exam[1]
-        );
-
-        setInterval(
-            ()=>updateExam(
-                timerId,
-                exam[1]
-            ),
-            1000
-        );
-
-    });
-
-}
-
-function updateExam(id,date){
-
-    const diff=
-        Math.max(
-            0,
-            new Date(date).getTime()-
-            Date.now()
-        );
-
-    const d=
-        Math.floor(
-            diff/86400000
-        );
-
-    const h=
-        Math.floor(
-            diff%86400000/3600000
-        );
-
-    const m=
-        Math.floor(
-            diff%3600000/60000
-        );
-
-    const s=
-        Math.floor(
-            diff%60000/1000
-        );
-
-    const el=
-        document.getElementById(id);
-
-    if(!el)
-        return;
-
-    el.innerHTML=`
-
-    <div class="time-box">
-    <strong>${d}</strong>
-    <small>D</small>
-    </div>
-
-    <div class="time-box">
-    <strong>${h}</strong>
-    <small>H</small>
-    </div>
-
-    <div class="time-box">
-    <strong>${m}</strong>
-    <small>M</small>
-    </div>
-
-    <div class="time-box">
-    <strong>${s}</strong>
-    <small>S</small>
-    </div>
-
-    `;
-
-}
-
-
-/* =====================================
-   ANALYTICS
-===================================== */
-
-function renderAnalytics(){
-
-    const grid=
-        document.getElementById('analyticsGrid');
-
-    grid.innerHTML='';
-
-    DB.forEach(item=>{
-
-        const done=
-            item.ch.filter((_,i)=>
-                getChapter(
-                    chapterKey(item,i)
-                ).done
-            ).length;
-
-        const weak=
-            item.ch.filter((_,i)=>
-                getChapter(
-                    chapterKey(item,i)
-                ).weak
-            ).length;
-
-        const percent=
-            Math.round(
-                done/item.ch.length*100
-            );
-
-        grid.innerHTML+=`
-
-        <div class="analytics-card">
-
-        <h3 style="font-size:.9rem">
-        ${item.cls} ${item.sub}
-        </h3>
-
-        <div style="
-        font-size:2rem;
-        font-weight:800;
-        margin:10px 0
-        ">
-
-        ${percent}%
-
-        </div>
-
-        <div class="bar">
-
-        <span style="
-        width:${percent}%
-        "></span>
-
-        </div>
-
-        <div style="
-        margin-top:10px;
-        color:var(--muted);
-        font-size:.68rem;
-        line-height:1.8
-        ">
-
-        ${done}/${item.ch.length}
-        completed
-
-        <br>
-
-        ${weak}
-        weak chapters
-
-        </div>
-
-        </div>
-
-        `;
-
-    });
-
-    /* MOCK CHART */
-
-    const mocks=
-        [...getMocks()].reverse();
-
-    const chart=
-        document.getElementById('mockChart');
-
-    if(!mocks.length){
-
-        chart.innerHTML=`
-        <p style="
-        color:var(--muted);
-        width:100%;
-        text-align:center
-        ">
-        Add mock tests to see performance chart.
-        </p>
-        `;
-
-        return;
-
-    }
-
-    chart.innerHTML=
-    mocks.slice(-10)
-    .map(mock=>{
-
-        const p=
-            Math.min(
-                100,
-                mock.score/mock.total*100
-            );
-
-        return `
-
-        <div class="chart-bar-wrap">
-
-        <div
-        class="chart-bar"
-        style="height:${p}%"
-        title="${p.toFixed(1)}%"
-        ></div>
-
-        ${p.toFixed(0)}%
-
-        </div>
-
-        `;
-
-    }).join('');
-
-}
-
-
-/* =====================================
-   PAGE NAVIGATION
-===================================== */
-
-function showPage(id,button){
-
-    document
-    .querySelectorAll('.page')
-    .forEach(page=>
-        page.classList.remove('active')
-    );
-
-    const page=
-        document.getElementById(id);
-
-    if(page)
-        page.classList.add('active');
-
-    document
-    .querySelectorAll(
-        '.nav button,.mobile-nav button'
-    )
-    .forEach(btn=>
-        btn.classList.remove('active')
-    );
-
-    if(button)
-        button.classList.add('active');
-
-    if(id==='chapters')
-        renderChapters();
-
-    if(id==='planner')
-        renderTasks();
-
-    if(id==='revision')
-        renderRevision();
-
-    if(id==='mocktests')
-        renderMocks();
-
-    if(id==='calendar')
-        renderCalendar();
-
-    if(id==='analytics')
-        renderAnalytics();
-
-    window.scrollTo({
-        top:0,
-        behavior:'smooth'
-    });
-
-}
-
-
-/* =====================================
-   BACKUP
-===================================== */
-
-function exportData(){
-
-    const blob=
-        new Blob(
-            [
-                JSON.stringify(
-                    getStore(),
-                    null,
-                    2
-                )
-            ],
-            {
-                type:
-                'application/json'
-            }
-        );
-
-    const url=
-        URL.createObjectURL(blob);
-
-    const a=
-        document.createElement('a');
-
-    a.href=url;
-
-    a.download=
-        'Ghazi-Abbas-Study-OS-V3-Backup.json';
-
-    a.click();
-
-    URL.revokeObjectURL(url);
-
-    toast('Backup downloaded 💾');
-
-}
-
-function importData(event){
-
-    const file=
-        event.target.files[0];
-
-    if(!file)
-        return;
-
-    const reader=
-        new FileReader();
-
-    reader.onload=
-        function(e){
-
-            try{
-
-                const data=
-                    JSON.parse(
-                        e.target.result
-                    );
-
-                saveStore(data);
-
-                refresh();
-
-                toast(
-                    'Backup restored successfully 📂'
-                );
-
-            }catch(error){
-
-                toast(
-                    'Invalid backup file'
-                );
-
-            }
-
-        };
-
-    reader.readAsText(file);
-
-}
-
-
-/* =====================================
-   NOTIFICATIONS
-===================================== */
-
-function requestNotification(){
-
-    if(!('Notification' in window)){
-
-        toast(
-            'Notifications are not supported'
-        );
-
-        return;
-
-    }
-
-    Notification
-        .requestPermission()
-        .then(permission=>{
-
-            if(permission==='granted'){
-
-                new Notification(
-                    'Ghazi Abbas Study OS',
-                    {
-                        body:
-                        'Study reminder system is now active 🔥'
-                    }
-                );
-
-                toast(
-                    'Notifications enabled 🔔'
-                );
-
-            }else{
-
-                toast(
-                    'Notification permission denied'
-                );
-
-            }
-
-        });
-
-}
-
-
-/* =====================================
-   TOAST
-===================================== */
-
-function toast(message){
-
-    const box=
-        document.getElementById('toast');
-
-    box.textContent=message;
-
-    box.classList.add('show');
-
-    clearTimeout(
-        window.toastTimeout
-    );
-
-    window.toastTimeout=
-        setTimeout(()=>{
-
-            box.classList.remove('show');
-
-        },2500);
-
-}
-
-
-/* =====================================
-   CONFETTI
-===================================== */
+/* =========================================================
+   CELEBRATION
+========================================================= */
 
 function celebrate(){
 
-    const end=
+    const end =
         Date.now()+1800;
 
     (function frame(){
 
         confetti({
+
             particleCount:5,
+
             angle:60,
+
             spread:55,
-            origin:{x:0},
+
+            origin:{
+                x:0
+            },
+
             colors:[
                 '#ff007a',
                 '#00d2ff',
-                '#00e889'
+                '#00ff88'
             ]
+
         });
 
         confetti({
+
             particleCount:5,
+
             angle:120,
+
             spread:55,
-            origin:{x:1},
+
+            origin:{
+                x:1
+            },
+
             colors:[
                 '#ff007a',
                 '#00d2ff',
-                '#00e889'
+                '#00ff88'
             ]
+
         });
 
-        if(Date.now()<end)
+        if(Date.now() < end){
+
             requestAnimationFrame(frame);
+
+        }
 
     })();
 
 }
 
 
-/* =====================================
-   ADVANCED PARTICLE BACKGROUND
-===================================== */
+/* =========================================================
+   COUNTDOWN
+========================================================= */
 
-const canvas=
-    document.getElementById(
-        'particleCanvas'
+function setT(
+    gridId,
+    name,
+    date
+){
+
+    const container =
+        document.getElementById(gridId);
+
+    const box =
+        document.createElement('div');
+
+    box.className =
+        'exam-box';
+
+    const id =
+        'timer_'+
+        Math.random()
+            .toString(36)
+            .slice(2,11);
+
+    box.innerHTML = `
+
+        <div class="exam-name">
+            ${name}
+        </div>
+
+        <div
+            class="countdown"
+            id="${id}">
+        </div>
+
+    `;
+
+    container.appendChild(box);
+
+    const target =
+        new Date(date).getTime();
+
+    function update(){
+
+        let diff =
+            target-Date.now();
+
+        if(diff < 0){
+
+            diff = 0;
+
+        }
+
+        const days =
+            Math.floor(
+                diff/86400000
+            );
+
+        const hours =
+            Math.floor(
+                diff%86400000/
+                3600000
+            );
+
+        const minutes =
+            Math.floor(
+                diff%3600000/
+                60000
+            );
+
+        const seconds =
+            Math.floor(
+                diff%60000/
+                1000
+            );
+
+        const el =
+            document.getElementById(id);
+
+        if(!el) return;
+
+        el.innerHTML = `
+
+            <div class="unit">
+                <span>${days}</span>
+                <label>D</label>
+            </div>
+
+            <div class="unit">
+                <span>${hours}</span>
+                <label>H</label>
+            </div>
+
+            <div class="unit">
+                <span>${minutes}</span>
+                <label>M</label>
+            </div>
+
+            <div class="unit">
+                <span>${seconds}</span>
+                <label>S</label>
+            </div>
+
+        `;
+
+    }
+
+    update();
+
+    setInterval(
+        update,
+        1000
     );
 
-const ctx=
-    canvas.getContext('2d');
+}
 
-let particles=[];
 
-let mouse={
+/* =========================================================
+   EXAM DATES
+========================================================= */
+
+setT(
+    'timer_2027_grid',
+    'JEE Main Jan',
+    'January 24, 2027'
+);
+
+setT(
+    'timer_2027_grid',
+    'JEE Main Apr',
+    'April 06, 2027'
+);
+
+setT(
+    'timer_2027_grid',
+    'JEE Advanced',
+    'May 23, 2027'
+);
+
+setT(
+    'timer_2027_grid',
+    'NEET',
+    'May 02, 2027'
+);
+
+setT(
+    'timer_2028_grid',
+    'JEE Main Jan',
+    'January 24, 2028'
+);
+
+setT(
+    'timer_2028_grid',
+    'JEE Main Apr',
+    'April 06, 2028'
+);
+
+setT(
+    'timer_2028_grid',
+    'JEE Advanced',
+    'May 23, 2028'
+);
+
+setT(
+    'timer_2028_grid',
+    'NEET',
+    'May 07, 2028'
+);
+
+
+/* =========================================================
+   ANALYTICS
+========================================================= */
+
+function getProgress(
+    cls,
+    sub
+){
+
+    const item =
+        DB.find(
+            x=>
+            x.cls===cls &&
+            x.sub===sub
+        );
+
+    if(!item) return 0;
+
+    let done = 0;
+
+    item.ch.forEach(
+        (_,index)=>{
+
+            if(
+                localStorage.getItem(
+                    chapterKey(
+                        item,
+                        index
+                    )
+                )
+            ){
+
+                done++;
+
+            }
+
+        }
+    );
+
+    return Math.round(
+        done/item.ch.length*100
+    );
+
+}
+
+
+function ring(
+    percent,
+    label,
+    color
+){
+
+    return `
+
+        <div
+            style="
+                text-align:center;
+            ">
+
+            <div
+                class="progress-circle"
+
+                style="
+                    width:65px;
+                    height:65px;
+                    margin:auto;
+                ">
+
+                <svg viewBox="0 0 80 80">
+
+                    <circle
+                        class="bg"
+                        cx="40"
+                        cy="40"
+                        r="35">
+
+                    </circle>
+
+                    <circle
+                        cx="40"
+                        cy="40"
+                        r="35"
+
+                        stroke="${color}"
+
+                        stroke-width="8"
+
+                        fill="none"
+
+                        stroke-linecap="round"
+
+                        style="
+                            stroke-dasharray:220;
+                            stroke-dashoffset:
+                            ${220-(220*percent/100)};
+                        ">
+
+                    </circle>
+
+                </svg>
+
+                <div
+                    class="percent"
+
+                    style="
+                        font-size:.7rem;
+                    ">
+
+                    ${percent}%
+
+                </div>
+
+            </div>
+
+            <div
+                style="
+                    font-size:.6rem;
+                    margin-top:8px;
+                    font-weight:700;
+                ">
+
+                ${label}
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+function openAna(){
+
+    document.getElementById(
+        'pop'
+    ).style.display =
+        'flex';
+
+    document.getElementById(
+        'jee11'
+    ).innerHTML =
+
+        ring(
+            getProgress(
+                '11th',
+                'Physics'
+            ),
+            'Physics',
+            '#00d2ff'
+        )
+
+        +
+
+        ring(
+            getProgress(
+                '11th',
+                'Chemistry'
+            ),
+            'Chemistry',
+            '#00d2ff'
+        )
+
+        +
+
+        ring(
+            getProgress(
+                '11th',
+                'Maths'
+            ),
+            'Maths',
+            '#00d2ff'
+        );
+
+
+    document.getElementById(
+        'jee12'
+    ).innerHTML =
+
+        ring(
+            getProgress(
+                '12th',
+                'Physics'
+            ),
+            'Physics',
+            '#00d2ff'
+        )
+
+        +
+
+        ring(
+            getProgress(
+                '12th',
+                'Chemistry'
+            ),
+            'Chemistry',
+            '#00d2ff'
+        )
+
+        +
+
+        ring(
+            getProgress(
+                '12th',
+                'Maths'
+            ),
+            'Maths',
+            '#00d2ff'
+        );
+
+
+    document.getElementById(
+        'neet11'
+    ).innerHTML =
+
+        ring(
+            getProgress(
+                '11th',
+                'Physics'
+            ),
+            'Physics',
+            '#ff007a'
+        )
+
+        +
+
+        ring(
+            getProgress(
+                '11th',
+                'Chemistry'
+            ),
+            'Chemistry',
+            '#ff007a'
+        )
+
+        +
+
+        ring(
+            getProgress(
+                '11th',
+                'Biology'
+            ),
+            'Biology',
+            '#ff007a'
+        );
+
+
+    document.getElementById(
+        'neet12'
+    ).innerHTML =
+
+        ring(
+            getProgress(
+                '12th',
+                'Physics'
+            ),
+            'Physics',
+            '#ff007a'
+        )
+
+        +
+
+        ring(
+            getProgress(
+                '12th',
+                'Chemistry'
+            ),
+            'Chemistry',
+            '#ff007a'
+        )
+
+        +
+
+        ring(
+            getProgress(
+                '12th',
+                'Biology'
+            ),
+            'Biology',
+            '#ff007a'
+        );
+
+}
+
+
+function closeAna(){
+
+    document.getElementById(
+        'pop'
+    ).style.display =
+        'none';
+
+}
+
+
+/* =========================================================
+   TODO DATABASE
+========================================================= */
+
+let todos =
+    JSON.parse(
+        localStorage.getItem(
+            'ghazi_study_todos'
+        )
+    )
+    ||
+    [];
+
+let activeFilter =
+    'all';
+
+
+function saveTodos(){
+
+    localStorage.setItem(
+        'ghazi_study_todos',
+        JSON.stringify(todos)
+    );
+
+}
+
+
+/* =========================================================
+   TODO PANEL
+========================================================= */
+
+function openTodo(){
+
+    document.getElementById(
+        'todoOverlay'
+    ).style.display =
+        'block';
+
+    renderTodos();
+
+}
+
+
+function closeTodo(){
+
+    document.getElementById(
+        'todoOverlay'
+    ).style.display =
+        'none';
+
+}
+
+
+/* =========================================================
+   ADD TASK
+========================================================= */
+
+function addTask(){
+
+    const name =
+        document.getElementById(
+            'taskName'
+        ).value.trim();
+
+    if(!name){
+
+        showToast(
+            'Task name likho bro 📝'
+        );
+
+        return;
+
+    }
+
+    const task = {
+
+        id:
+            Date.now()
+            +
+            Math.random(),
+
+        name,
+
+        class:
+            document.getElementById(
+                'taskClass'
+            ).value,
+
+        exam:
+            document.getElementById(
+                'taskExam'
+            ).value,
+
+        subject:
+            document.getElementById(
+                'taskSubject'
+            ).value,
+
+        chapter:
+            document.getElementById(
+                'taskChapter'
+            ).value.trim(),
+
+        type:
+            document.getElementById(
+                'taskType'
+            ).value,
+
+        priority:
+            document.getElementById(
+                'taskPriority'
+            ).value,
+
+        due:
+            document.getElementById(
+                'taskDue'
+            ).value,
+
+        completed:false,
+
+        created:
+            Date.now()
+
+    };
+
+    todos.unshift(task);
+
+    saveTodos();
+
+    document.getElementById(
+        'taskName'
+    ).value =
+        '';
+
+    document.getElementById(
+        'taskChapter'
+    ).value =
+        '';
+
+    document.getElementById(
+        'taskDue'
+    ).value =
+        '';
+
+    renderTodos();
+
+    showToast(
+        'New study task added! 🚀'
+    );
+
+}
+
+
+/* =========================================================
+   TODO TOGGLE
+========================================================= */
+
+function toggleTask(id){
+
+    const task =
+        todos.find(
+            t=>t.id==id
+        );
+
+    if(!task) return;
+
+    task.completed =
+        !task.completed;
+
+    saveTodos();
+
+    renderTodos();
+
+    if(task.completed){
+
+        celebrate();
+
+        showToast(
+            'Task completed! 🔥'
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   DELETE TASK
+========================================================= */
+
+function deleteTask(id){
+
+    todos =
+        todos.filter(
+            t=>t.id!=id
+        );
+
+    saveTodos();
+
+    renderTodos();
+
+    showToast(
+        'Task deleted'
+    );
+
+}
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+function setFilter(
+    filter,
+    button
+){
+
+    activeFilter =
+        filter;
+
+    document
+        .querySelectorAll(
+            '.filter-btn'
+        )
+        .forEach(
+            btn=>
+            btn.classList.remove(
+                'active'
+            )
+        );
+
+    button.classList.add(
+        'active'
+    );
+
+    renderTodos();
+
+}
+
+
+/* =========================================================
+   RENDER TODOS
+========================================================= */
+
+function renderTodos(){
+
+    const list =
+        document.getElementById(
+            'taskList'
+        );
+
+    const search =
+        (
+            document.getElementById(
+                'todoSearch'
+            ).value
+            ||
+            ''
+        )
+        .toLowerCase();
+
+    let filtered =
+        [...todos];
+
+    if(activeFilter === 'pending'){
+
+        filtered =
+            filtered.filter(
+                t=>!t.completed
+            );
+
+    }
+
+    if(activeFilter === 'completed'){
+
+        filtered =
+            filtered.filter(
+                t=>t.completed
+            );
+
+    }
+
+    if(activeFilter === 'high'){
+
+        filtered =
+            filtered.filter(
+                t=>
+                t.priority==='High'
+            );
+
+    }
+
+    if(search){
+
+        filtered =
+            filtered.filter(
+                t=>{
+
+                    const text =
+                        [
+                            t.name,
+                            t.class,
+                            t.exam,
+                            t.subject,
+                            t.chapter,
+                            t.type,
+                            t.priority
+                        ]
+                        .join(' ')
+                        .toLowerCase();
+
+                    return text.includes(
+                        search
+                    );
+
+                }
+            );
+
+    }
+
+    if(!filtered.length){
+
+        list.innerHTML = `
+
+            <div class="empty-tasks">
+
+                <div
+                    style="
+                        font-size:3rem;
+                        margin-bottom:10px;
+                    ">
+
+                    📚
+
+                </div>
+
+                No matching tasks found.
+
+            </div>
+
+        `;
+
+    }
+    else{
+
+        list.innerHTML =
+            filtered.map(
+                task=>`
+
+                <div
+                    class="
+                        task-item
+                        ${task.completed?'completed':''}
+                    ">
+
+                    <div
+                        class="task-check"
+
+                        onclick="
+                            toggleTask(
+                                '${task.id}'
+                            )
+                        ">
+
+                        ${
+                            task.completed
+                            ?
+                            '✓'
+                            :
+                            ''
+                        }
+
+                    </div>
+
+                    <div class="task-main">
+
+                        <div class="task-name">
+
+                            ${escapeHTML(task.name)}
+
+                        </div>
+
+                        <div class="task-meta">
+
+                            <span class="tag">
+                                ${task.class}
+                            </span>
+
+                            <span class="tag exam">
+                                ${task.exam}
+                            </span>
+
+                            <span class="tag subject">
+                                ${task.subject}
+                            </span>
+
+                            ${
+                                task.chapter
+                                ?
+                                `
+                                <span class="tag chapter">
+                                    ${escapeHTML(
+                                        task.chapter
+                                    )}
+                                </span>
+                                `
+                                :
+                                ''
+                            }
+
+                            <span class="tag type">
+                                ${task.type}
+                            </span>
+
+                            <span
+                                class="
+                                    priority
+                                    ${task.priority.toLowerCase()}
+                                ">
+
+                                ${task.priority}
+
+                            </span>
+
+                            ${
+                                task.due
+                                ?
+                                `
+                                <span class="tag">
+                                    📅 ${task.due}
+                                </span>
+                                `
+                                :
+                                ''
+                            }
+
+                        </div>
+
+                    </div>
+
+                    <div class="task-actions">
+
+                        <button
+                            class="delete-task"
+
+                            onclick="
+                                deleteTask(
+                                    '${task.id}'
+                                )
+                            ">
+
+                            🗑
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `
+            )
+            .join('');
+
+    }
+
+    updateTodoStats();
+
+}
+
+
+/* =========================================================
+   TODO STATS
+========================================================= */
+
+function updateTodoStats(){
+
+    const total =
+        todos.length;
+
+    const completed =
+        todos.filter(
+            t=>t.completed
+        ).length;
+
+    const pending =
+        total-completed;
+
+    const percent =
+        total
+        ?
+        Math.round(
+            completed/total*100
+        )
+        :
+        0;
+
+    document.getElementById(
+        'todoTotal'
+    ).textContent =
+        total;
+
+    document.getElementById(
+        'todoCompleted'
+    ).textContent =
+        completed;
+
+    document.getElementById(
+        'todoPending'
+    ).textContent =
+        pending;
+
+    document.getElementById(
+        'todoPercent'
+    ).textContent =
+        percent+'%';
+
+    document.getElementById(
+        'todoCompletedQuick'
+    ).textContent =
+        completed;
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(text){
+
+    const div =
+        document.createElement('div');
+
+    div.textContent =
+        text;
+
+    return div.innerHTML;
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+function showToast(message){
+
+    const toast =
+        document.getElementById(
+            'toast'
+        );
+
+    toast.textContent =
+        message;
+
+    toast.classList.add(
+        'show'
+    );
+
+    clearTimeout(
+        toastTimer
+    );
+
+    toastTimer =
+        setTimeout(
+            ()=>{
+                toast.classList.remove(
+                    'show'
+                );
+            },
+            2500
+        );
+
+}
+
+
+/* =========================================================
+   ADVANCED PARTICLE BACKGROUND
+========================================================= */
+
+const canvas =
+    document.getElementById(
+        'bgCanvas'
+    );
+
+const ctx =
+    canvas.getContext(
+        '2d'
+    );
+
+let particles = [];
+
+let mouse = {
+
     x:null,
     y:null
+
 };
 
-function resizeParticles(){
 
-    canvas.width=
+function resizeCanvas(){
+
+    canvas.width =
         window.innerWidth;
 
-    canvas.height=
+    canvas.height =
         window.innerHeight;
 
 }
 
+
 window.addEventListener(
     'resize',
-    resizeParticles
+    resizeCanvas
 );
 
-resizeParticles();
+resizeCanvas();
 
-document.addEventListener(
+
+window.addEventListener(
     'mousemove',
     event=>{
 
-        mouse.x=event.clientX;
-        mouse.y=event.clientY;
+        mouse.x =
+            event.clientX;
+
+        mouse.y =
+            event.clientY;
+
+        const glow =
+            document.getElementById(
+                'cursorGlow'
+            );
+
+        glow.style.left =
+            mouse.x+'px';
+
+        glow.style.top =
+            mouse.y+'px';
 
     }
 );
+
+
+/* =========================================================
+   PARTICLE CLASS
+========================================================= */
 
 class Particle{
 
@@ -4275,66 +3951,122 @@ class Particle{
 
         this.reset();
 
-        this.y=
-            Math.random()*canvas.height;
+        this.y =
+            Math.random()
+            *
+            canvas.height;
 
     }
 
     reset(){
 
-        this.x=
-            Math.random()*canvas.width;
+        this.x =
+            Math.random()
+            *
+            canvas.width;
 
-        this.y=-10;
+        this.y =
+            canvas.height
+            +
+            Math.random()
+            *100;
 
-        this.vx=
-            (Math.random()-.5)*.25;
+        this.size =
+            Math.random()
+            *2.5
+            +.5;
 
-        this.vy=
-            .15+Math.random()*.45;
+        this.speedX =
+            (
+                Math.random()
+                -.5
+            )
+            *.35;
 
-        this.size=
-            1+Math.random()*2.5;
+        this.speedY =
+            -(
+                Math.random()
+                *.6
+                +.15
+            );
 
-        this.alpha=
-            .15+Math.random()*.35;
+        this.alpha =
+            Math.random()
+            *.6
+            +.1;
+
+        const types = [
+            'blue',
+            'pink',
+            'purple'
+        ];
+
+        this.type =
+            types[
+                Math.floor(
+                    Math.random()
+                    *
+                    types.length
+                )
+            ];
 
     }
 
     update(){
 
-        this.x+=this.vx;
-        this.y+=this.vy;
+        this.x +=
+            this.speedX;
+
+        this.y +=
+            this.speedY;
 
         if(
-            this.y>
-            canvas.height+10
+            this.y < -20
+            ||
+            this.x < -20
+            ||
+            this.x >
+            canvas.width+20
         ){
+
             this.reset();
+
         }
 
         if(
-            mouse.x!==null
+            mouse.x !== null
         ){
 
-            const dx=
-                this.x-mouse.x;
+            const dx =
+                mouse.x-this.x;
 
-            const dy=
-                this.y-mouse.y;
+            const dy =
+                mouse.y-this.y;
 
-            const distance=
+            const distance =
                 Math.sqrt(
-                    dx*dx+dy*dy
+                    dx*dx+
+                    dy*dy
                 );
 
-            if(distance<100){
+            if(distance < 130){
 
-                this.x+=
-                    dx/distance*.3;
+                const force =
+                    (
+                        130-distance
+                    )
+                    /
+                    130;
 
-                this.y+=
-                    dy/distance*.3;
+                this.x -=
+                    dx*
+                    force*
+                    .015;
+
+                this.y -=
+                    dy*
+                    force*
+                    .015;
 
             }
 
@@ -4344,10 +4076,40 @@ class Particle{
 
     draw(){
 
-        ctx.fillStyle=
-            `rgba(120,220,255,${this.alpha})`;
+        let color =
+            '0,210,255';
+
+        if(
+            this.type==='pink'
+        ){
+
+            color =
+                '255,0,122';
+
+        }
+
+        if(
+            this.type==='purple'
+        ){
+
+            color =
+                '155,92,255';
+
+        }
 
         ctx.beginPath();
+
+        ctx.fillStyle =
+            `rgba(
+                ${color},
+                ${this.alpha}
+            )`;
+
+        ctx.shadowBlur =
+            12;
+
+        ctx.shadowColor =
+            `rgb(${color})`;
 
         ctx.arc(
             this.x,
@@ -4359,74 +4121,110 @@ class Particle{
 
         ctx.fill();
 
+        ctx.shadowBlur =
+            0;
+
     }
 
 }
 
-const particleCount=
-    window.innerWidth<700
-    ?30
-    :65;
 
-for(
-    let i=0;
-    i<particleCount;
-    i++
-){
+/* =========================================================
+   CREATE PARTICLES
+========================================================= */
 
-    particles.push(
-        new Particle()
-    );
+function createParticles(){
+
+    particles = [];
+
+    const amount =
+        Math.min(
+            Math.floor(
+                window.innerWidth/10
+            ),
+            150
+        );
+
+    for(
+        let i=0;
+        i<amount;
+        i++
+    ){
+
+        particles.push(
+            new Particle()
+        );
+
+    }
 
 }
+
+createParticles();
+
+
+/* =========================================================
+   CONNECT PARTICLES
+========================================================= */
 
 function connectParticles(){
 
     for(
-        let i=0;
-        i<particles.length;
-        i++
+        let a=0;
+        a<particles.length;
+        a++
     ){
 
         for(
-            let j=i+1;
-            j<particles.length;
-            j++
+            let b=a+1;
+            b<particles.length;
+            b++
         ){
 
-            const dx=
-                particles[i].x-
-                particles[j].x;
+            const dx =
+                particles[a].x
+                -
+                particles[b].x;
 
-            const dy=
-                particles[i].y-
-                particles[j].y;
+            const dy =
+                particles[a].y
+                -
+                particles[b].y;
 
-            const distance=
-                dx*dx+dy*dy;
+            const distance =
+                Math.sqrt(
+                    dx*dx+
+                    dy*dy
+                );
 
-            if(distance<15000){
+            if(distance < 110){
 
-                ctx.strokeStyle=
-                    `rgba(
-                    80,
-                    180,
-                    255,
-                    ${1-distance/15000}
-                    )`;
-
-                ctx.lineWidth=.35;
+                const opacity =
+                    (
+                        1-distance/110
+                    )
+                    *.15;
 
                 ctx.beginPath();
 
+                ctx.strokeStyle =
+                    `rgba(
+                        0,
+                        210,
+                        255,
+                        ${opacity}
+                    )`;
+
+                ctx.lineWidth =
+                    .5;
+
                 ctx.moveTo(
-                    particles[i].x,
-                    particles[i].y
+                    particles[a].x,
+                    particles[a].y
                 );
 
                 ctx.lineTo(
-                    particles[j].x,
-                    particles[j].y
+                    particles[b].x,
+                    particles[b].y
                 );
 
                 ctx.stroke();
@@ -4439,6 +4237,11 @@ function connectParticles(){
 
 }
 
+
+/* =========================================================
+   ANIMATE BACKGROUND
+========================================================= */
+
 function animateBackground(){
 
     ctx.clearRect(
@@ -4448,13 +4251,15 @@ function animateBackground(){
         canvas.height
     );
 
-    particles.forEach(p=>{
+    particles.forEach(
+        particle=>{
 
-        p.update();
+            particle.update();
 
-        p.draw();
+            particle.draw();
 
-    });
+        }
+    );
 
     connectParticles();
 
@@ -4467,69 +4272,84 @@ function animateBackground(){
 animateBackground();
 
 
-/* =====================================
-   MOUSE GLOW
-===================================== */
+/* =========================================================
+   RESIZE PARTICLES
+========================================================= */
 
-const mouseGlow=
-    document.getElementById(
-        'mouseGlow'
+window.addEventListener(
+    'resize',
+    ()=>{
+        createParticles();
+    }
+);
+
+
+/* =========================================================
+   CLICK OUTSIDE TODO
+========================================================= */
+
+document
+    .getElementById(
+        'todoOverlay'
+    )
+    .addEventListener(
+        'click',
+        event=>{
+
+            if(
+                event.target.id
+                ===
+                'todoOverlay'
+            ){
+
+                closeTodo();
+
+            }
+
+        }
     );
 
+
+/* =========================================================
+   ESC CLOSE
+========================================================= */
+
 document.addEventListener(
-    'mousemove',
+    'keydown',
     event=>{
 
-        mouseGlow.style.left=
-            event.clientX+'px';
+        if(
+            event.key==='Escape'
+        ){
 
-        mouseGlow.style.top=
-            event.clientY+'px';
+            closeTodo();
+
+            closeAna();
+
+        }
+
+        if(
+            event.key==='Enter'
+            &&
+            document.activeElement
+                .id==='taskName'
+        ){
+
+            addTask();
+
+        }
 
     }
 );
 
 
-/* =====================================
-   REFRESH ALL
-===================================== */
+/* =========================================================
+   INITIALIZE
+========================================================= */
 
-function refresh(){
+render();
 
-    renderDashboard();
-
-    renderChapters();
-
-    renderRevision();
-
-    renderTasks();
-
-    renderMocks();
-
-    renderCalendar();
-
-    renderAnalytics();
-
-}
-
-
-/* =====================================
-   INIT
-===================================== */
-
-createExams(
-    'exam2027',
-    exams2027
-);
-
-createExams(
-    'exam2028',
-    exams2028
-);
-
-renderFocus();
-
-refresh();
+updateTodoStats();
 
 </script>
 
