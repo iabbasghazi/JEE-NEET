@@ -4,15 +4,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ff007a">
+<meta name="mobile-web-app-capable" content="yes">
 
-<title>Ghazi Abbas | Study OS V2</title>
+<title>Ghazi Abbas | Study OS V3</title>
 
 <link rel="icon" type="image/png" href="https://i.postimg.cc/m2PRngnY/logo512-png.png">
 <link rel="apple-touch-icon" href="https://i.postimg.cc/m2PRngnY/logo512-png.png">
-
-<meta name="theme-color" content="#ff007a">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -20,18 +18,17 @@
 <style>
 :root{
     --bg:#03050a;
-    --bg2:#070b13;
-    --card:rgba(13,18,29,.82);
-    --card2:#0b101a;
+    --panel:rgba(10,15,25,.72);
+    --panel-solid:#0b111b;
     --pink:#ff007a;
     --blue:#00d2ff;
-    --green:#00ff88;
-    --yellow:#ffcc00;
-    --purple:#9d4edd;
-    --red:#ff3b5c;
-    --text:#eef4ff;
-    --muted:#8d99ae;
-    --border:rgba(255,255,255,.08);
+    --purple:#8b5cf6;
+    --green:#00e889;
+    --yellow:#ffd000;
+    --red:#ff4668;
+    --text:#edf4ff;
+    --muted:#8290a7;
+    --border:rgba(255,255,255,.09);
 }
 
 *{
@@ -40,107 +37,191 @@
     box-sizing:border-box;
 }
 
+html{
+    scroll-behavior:smooth;
+}
+
 body{
     font-family:'Poppins',sans-serif;
-    background:
-        radial-gradient(circle at 15% 10%,rgba(255,0,122,.10),transparent 25%),
-        radial-gradient(circle at 85% 20%,rgba(0,210,255,.08),transparent 28%),
-        var(--bg);
+    background:var(--bg);
     color:var(--text);
     min-height:100vh;
     overflow-x:hidden;
 }
 
-button,input,select,textarea{
-    font-family:inherit;
-}
+/* =========================
+   ADVANCED BACKGROUND
+========================= */
 
-button{
-    border:none;
-    cursor:pointer;
-}
-
-canvas#snow{
+#particleCanvas{
     position:fixed;
     inset:0;
+    width:100%;
+    height:100%;
+    z-index:-6;
     pointer-events:none;
-    z-index:-1;
 }
+
+.aurora{
+    position:fixed;
+    inset:-40%;
+    z-index:-5;
+    pointer-events:none;
+    background:
+        radial-gradient(circle at 20% 30%,rgba(255,0,122,.14),transparent 22%),
+        radial-gradient(circle at 75% 20%,rgba(0,210,255,.13),transparent 25%),
+        radial-gradient(circle at 50% 75%,rgba(139,92,246,.12),transparent 25%);
+    filter:blur(60px);
+    animation:auroraMove 16s ease-in-out infinite alternate;
+}
+
+@keyframes auroraMove{
+    0%{
+        transform:translate3d(-3%,-2%,0) scale(1);
+    }
+
+    50%{
+        transform:translate3d(3%,4%,0) scale(1.08) rotate(2deg);
+    }
+
+    100%{
+        transform:translate3d(-2%,5%,0) scale(1.04);
+    }
+}
+
+.orb{
+    position:fixed;
+    width:380px;
+    height:380px;
+    border-radius:50%;
+    filter:blur(85px);
+    opacity:.12;
+    z-index:-4;
+    pointer-events:none;
+    animation:orbFloat 14s ease-in-out infinite;
+}
+
+.orb.one{
+    background:var(--pink);
+    left:-140px;
+    top:10%;
+}
+
+.orb.two{
+    background:var(--blue);
+    right:-140px;
+    top:30%;
+    animation-delay:-5s;
+}
+
+.orb.three{
+    background:var(--purple);
+    left:35%;
+    bottom:-200px;
+    animation-delay:-9s;
+}
+
+@keyframes orbFloat{
+    0%,100%{
+        transform:translate3d(0,0,0) scale(1);
+    }
+
+    50%{
+        transform:translate3d(70px,-60px,0) scale(1.2);
+    }
+}
+
+.mouse-glow{
+    position:fixed;
+    width:400px;
+    height:400px;
+    border-radius:50%;
+    pointer-events:none;
+    z-index:-3;
+    background:radial-gradient(circle,rgba(0,210,255,.08),transparent 65%);
+    transform:translate(-50%,-50%);
+}
+
+/* ========================= */
 
 .app{
-    width:min(1550px,96%);
+    width:min(1500px,95%);
     margin:auto;
-    padding-bottom:120px;
+    padding-bottom:110px;
 }
 
-/* HEADER */
-
 .header{
-    padding:35px 0 25px;
     display:flex;
-    justify-content:space-between;
     align-items:center;
+    justify-content:space-between;
     gap:20px;
+    padding:28px 0;
 }
 
 .brand{
     display:flex;
     align-items:center;
-    gap:16px;
+    gap:15px;
 }
 
 .logo{
-    width:62px;
-    height:62px;
-    border-radius:20px;
-    background:linear-gradient(135deg,var(--pink),var(--purple),var(--blue));
+    width:58px;
+    height:58px;
+    border-radius:18px;
     display:grid;
     place-items:center;
-    font-size:1.7rem;
-    box-shadow:0 0 35px rgba(255,0,122,.35);
+    background:linear-gradient(135deg,var(--pink),var(--purple),var(--blue));
+    font-size:1.6rem;
+    box-shadow:
+        0 0 30px rgba(255,0,122,.4),
+        inset 0 0 15px rgba(255,255,255,.2);
 }
 
 .brand h1{
-    font-size:clamp(1.5rem,4vw,2.5rem);
+    font-size:clamp(1.3rem,4vw,2.2rem);
     font-weight:800;
     line-height:1;
 }
 
 .brand p{
     color:var(--muted);
-    font-size:.8rem;
-    margin-top:7px;
+    font-size:.68rem;
+    margin-top:6px;
+    letter-spacing:1px;
 }
 
 .header-actions{
     display:flex;
-    gap:10px;
+    gap:8px;
 }
 
 .icon-btn{
-    width:48px;
-    height:48px;
+    width:46px;
+    height:46px;
     border-radius:15px;
-    background:var(--card);
     border:1px solid var(--border);
+    background:var(--panel);
+    backdrop-filter:blur(20px);
     color:white;
-    font-size:1.1rem;
+    font-size:1rem;
+    cursor:pointer;
     transition:.25s;
 }
 
 .icon-btn:hover{
     transform:translateY(-3px);
     border-color:var(--pink);
+    box-shadow:0 10px 25px rgba(255,0,122,.15);
 }
 
 /* NAV */
 
 .nav{
     display:flex;
-    gap:10px;
+    gap:8px;
     overflow-x:auto;
-    padding:5px 0 20px;
     scrollbar-width:none;
+    margin-bottom:25px;
 }
 
 .nav::-webkit-scrollbar{
@@ -148,191 +229,208 @@ canvas#snow{
 }
 
 .nav button{
-    padding:12px 18px;
-    border-radius:15px;
-    background:rgba(255,255,255,.03);
-    color:var(--muted);
-    white-space:nowrap;
     border:1px solid var(--border);
+    background:var(--panel);
+    color:var(--muted);
+    padding:11px 16px;
+    border-radius:14px;
+    white-space:nowrap;
+    cursor:pointer;
     font-weight:700;
+    font-size:.75rem;
+    backdrop-filter:blur(20px);
     transition:.25s;
 }
 
 .nav button.active,
 .nav button:hover{
-    background:linear-gradient(135deg,var(--pink),#d10064);
     color:white;
-    box-shadow:0 10px 25px rgba(255,0,122,.25);
+    border-color:transparent;
+    background:linear-gradient(135deg,var(--pink),#b80062);
+    box-shadow:0 8px 25px rgba(255,0,122,.2);
 }
 
 /* PAGES */
 
 .page{
     display:none;
-    animation:fade .35s ease;
+    animation:pageIn .35s ease;
 }
 
 .page.active{
     display:block;
 }
 
-@keyframes fade{
+@keyframes pageIn{
     from{
         opacity:0;
-        transform:translateY(8px);
+        transform:translateY(12px);
     }
+
     to{
         opacity:1;
         transform:none;
     }
 }
 
-/* HERO */
+/* CARDS */
 
+.card,
 .hero{
-    background:
-        radial-gradient(circle at 10% 0%,rgba(255,0,122,.18),transparent 35%),
-        radial-gradient(circle at 90% 100%,rgba(0,210,255,.15),transparent 30%),
-        var(--card);
+    background:var(--panel);
     border:1px solid var(--border);
-    border-radius:30px;
-    padding:30px;
-    margin-bottom:25px;
-    box-shadow:0 20px 60px rgba(0,0,0,.3);
+    backdrop-filter:blur(18px);
+    border-radius:26px;
+    box-shadow:0 20px 50px rgba(0,0,0,.18);
 }
 
-.hero-top{
-    display:flex;
-    justify-content:space-between;
-    gap:20px;
-    align-items:center;
+.hero{
+    padding:28px;
+    margin-bottom:22px;
+    position:relative;
+    overflow:hidden;
+}
+
+.hero::after{
+    content:"";
+    position:absolute;
+    width:280px;
+    height:280px;
+    border-radius:50%;
+    right:-100px;
+    top:-130px;
+    background:radial-gradient(circle,rgba(255,0,122,.15),transparent 65%);
 }
 
 .hero h2{
-    font-size:clamp(1.6rem,4vw,2.6rem);
-    margin-bottom:8px;
+    font-size:clamp(1.5rem,4vw,2.4rem);
+    position:relative;
+    z-index:1;
 }
 
 .hero p{
     color:var(--muted);
+    font-size:.82rem;
+    margin-top:7px;
+    position:relative;
+    z-index:1;
 }
 
-.level-box{
-    text-align:center;
+.card{
+    padding:22px;
+}
+
+.card-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.card-title h3{
+    font-size:1rem;
+}
+
+/* DASHBOARD */
+
+.level-hero{
+    display:flex;
+    justify-content:space-between;
+    gap:25px;
+    align-items:center;
+}
+
+.level-info h2{
+    font-size:clamp(1.7rem,4vw,2.7rem);
+}
+
+.level-info p{
+    color:var(--muted);
+    margin-top:8px;
+    font-size:.82rem;
+}
+
+.level-badge{
     min-width:160px;
+    text-align:center;
+    padding:18px;
+    border-radius:20px;
     background:rgba(255,255,255,.04);
     border:1px solid var(--border);
-    padding:18px;
-    border-radius:22px;
 }
 
-.level-num{
-    font-size:2.5rem;
+.level-number{
+    font-size:2.4rem;
     font-weight:800;
     color:var(--yellow);
 }
 
 .xp-bar{
-    width:100%;
     height:10px;
-    background:#121926;
     border-radius:20px;
-    margin-top:20px;
+    background:#121a28;
     overflow:hidden;
+    margin-top:22px;
 }
 
 .xp-fill{
     height:100%;
-    width:0%;
-    background:linear-gradient(90deg,var(--pink),var(--purple),var(--blue));
+    width:0;
     border-radius:inherit;
+    background:linear-gradient(90deg,var(--pink),var(--purple),var(--blue));
     transition:1s;
 }
-
-/* STATS */
 
 .stats-grid{
     display:grid;
     grid-template-columns:repeat(6,1fr);
-    gap:15px;
-    margin-bottom:25px;
+    gap:14px;
+    margin-bottom:22px;
 }
 
-.stat-card{
-    background:var(--card);
+.stat{
+    background:var(--panel);
     border:1px solid var(--border);
-    border-radius:22px;
-    padding:20px;
+    border-radius:20px;
+    padding:18px;
     position:relative;
     overflow:hidden;
 }
 
-.stat-card::after{
-    content:"";
+.stat .icon{
     position:absolute;
-    width:80px;
-    height:80px;
-    border-radius:50%;
-    background:rgba(255,255,255,.03);
-    right:-25px;
-    bottom:-25px;
+    right:14px;
+    top:12px;
 }
 
-.stat-label{
+.stat label{
+    display:block;
     color:var(--muted);
-    font-size:.75rem;
+    font-size:.62rem;
     font-weight:700;
 }
 
-.stat-value{
-    font-size:1.8rem;
-    font-weight:800;
+.stat strong{
+    display:block;
+    font-size:1.5rem;
     margin-top:7px;
 }
 
-.stat-icon{
-    position:absolute;
-    right:15px;
-    top:15px;
-    font-size:1.3rem;
-}
-
-/* DASH GRID */
-
 .dashboard-grid{
     display:grid;
-    grid-template-columns:1.3fr .7fr;
-    gap:25px;
+    grid-template-columns:1.25fr .75fr;
+    gap:22px;
 }
 
-.panel{
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:25px;
-    padding:25px;
-    margin-bottom:25px;
-}
-
-.panel-title{
+.big-progress{
     display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:20px;
-}
-
-.panel-title h3{
-    font-size:1.2rem;
-}
-
-.progress-big{
-    display:flex;
-    align-items:center;
     gap:25px;
+    align-items:center;
 }
 
 .big-ring{
-    width:150px;
-    height:150px;
+    width:145px;
+    height:145px;
     position:relative;
     flex-shrink:0;
 }
@@ -349,14 +447,13 @@ canvas#snow{
 }
 
 .big-ring .bg{
-    stroke:#17202e;
+    stroke:#172131;
 }
 
 .big-ring .fg{
     stroke:var(--pink);
     stroke-linecap:round;
     filter:drop-shadow(0 0 8px var(--pink));
-    transition:1s;
 }
 
 .big-percent{
@@ -364,263 +461,155 @@ canvas#snow{
     inset:0;
     display:grid;
     place-items:center;
-    font-size:2rem;
+    font-size:1.8rem;
     font-weight:800;
 }
 
-.progress-info h3{
-    font-size:1.5rem;
+.progress-description h3{
+    font-size:1.35rem;
 }
 
-.progress-info p{
+.progress-description p{
     color:var(--muted);
-    margin:8px 0;
+    font-size:.78rem;
+    margin-top:7px;
+    line-height:1.7;
 }
 
-.mini-bar{
-    height:9px;
-    border-radius:10px;
-    background:#111824;
+.bar{
+    height:8px;
+    background:#141d2a;
+    border-radius:20px;
     overflow:hidden;
 }
 
-.mini-fill{
+.bar span{
+    display:block;
     height:100%;
-    background:linear-gradient(90deg,var(--blue),var(--green));
+    width:0;
     border-radius:inherit;
+    background:linear-gradient(90deg,var(--blue),var(--pink));
+    transition:1s;
 }
 
-/* DAILY GOAL */
+.subject-row{
+    margin:13px 0;
+}
 
-.goal-row{
+.subject-row-top{
     display:flex;
-    align-items:center;
-    gap:15px;
-    margin:15px 0;
+    justify-content:space-between;
+    font-size:.72rem;
+    margin-bottom:6px;
 }
 
-.goal-circle{
-    width:75px;
-    height:75px;
-    border-radius:50%;
-    display:grid;
-    place-items:center;
-    background:
-        conic-gradient(var(--green) calc(var(--goal) * 1%),#18202d 0);
-    position:relative;
-}
-
-.goal-circle::after{
-    content:"";
-    width:60px;
-    height:60px;
-    background:var(--card2);
-    border-radius:50%;
-    position:absolute;
-}
-
-.goal-circle span{
-    z-index:1;
-    font-weight:800;
-}
-
-.goal-info{
-    flex:1;
-}
-
-.goal-info p{
-    color:var(--muted);
-    font-size:.8rem;
-}
-
-.goal-controls{
-    display:flex;
-    gap:10px;
-    margin-top:15px;
-}
-
-.small-btn{
-    padding:9px 12px;
-    border-radius:10px;
-    background:#121926;
-    color:white;
-    border:1px solid var(--border);
-    font-size:.75rem;
-}
-
-/* STUDY TIMER */
-
-.timer-display{
-    text-align:center;
-    font-size:3rem;
-    font-weight:800;
-    letter-spacing:2px;
-    margin:25px 0;
-    color:var(--blue);
-    text-shadow:0 0 20px rgba(0,210,255,.4);
-}
-
-.timer-actions{
-    display:flex;
-    justify-content:center;
-    gap:10px;
-}
-
-.main-btn{
-    padding:12px 22px;
-    border-radius:14px;
-    background:linear-gradient(135deg,var(--pink),#d10064);
-    color:white;
-    font-weight:800;
-}
-
-.secondary-btn{
-    padding:12px 22px;
-    border-radius:14px;
-    background:#141c28;
-    color:white;
-    font-weight:700;
-}
-
-/* COUNTDOWN */
-
-.countdown-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:25px;
-}
-
-.year-block{
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:28px;
-    padding:25px;
-}
-
-.year-title{
-    color:var(--yellow);
-    text-align:center;
-    font-size:1.7rem;
-    font-weight:800;
-    margin-bottom:20px;
-}
-
-.exams-grid{
+.mini-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:15px;
 }
 
-.exam-box{
-    background:var(--card2);
-    border:1px solid var(--border);
-    border-radius:18px;
-    padding:18px;
-    text-align:center;
+.goal-ring{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    background:conic-gradient(var(--green) calc(var(--p)*1%),#172131 0);
+    display:grid;
+    place-items:center;
+    position:relative;
 }
 
-.exam-name{
+.goal-ring::after{
+    content:"";
+    position:absolute;
+    width:64px;
+    height:64px;
+    background:#0b111b;
+    border-radius:50%;
+}
+
+.goal-ring span{
+    position:relative;
+    z-index:1;
     font-size:.75rem;
     font-weight:800;
-    color:var(--blue);
-    margin-bottom:12px;
 }
 
-.countdown{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:6px;
-}
-
-.unit{
-    background:#131a26;
-    border-radius:10px;
-    padding:8px 3px;
-}
-
-.unit span{
-    display:block;
-    font-size:1rem;
-    font-weight:800;
-}
-
-.unit label{
-    font-size:.5rem;
-    color:var(--muted);
-}
-
-/* CHAPTER PAGE */
+/* CHAPTERS */
 
 .toolbar{
     display:flex;
-    gap:12px;
+    gap:10px;
     flex-wrap:wrap;
-    margin-bottom:25px;
+    margin-bottom:22px;
+}
+
+.search,
+.select{
+    border:1px solid var(--border);
+    background:var(--panel);
+    color:white;
+    border-radius:14px;
+    padding:13px 15px;
+    outline:none;
+    backdrop-filter:blur(15px);
 }
 
 .search{
     flex:1;
     min-width:220px;
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:13px 16px;
-    color:white;
-    outline:none;
 }
 
-.filter-select{
-    background:var(--card);
-    color:white;
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:0 15px;
-    outline:none;
+.select{
+    min-width:150px;
 }
 
 .class-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:30px;
+    gap:25px;
 }
 
-.col-title{
+.class-title{
     text-align:center;
-    font-size:2rem;
-    margin-bottom:25px;
+    font-size:1.8rem;
+    margin-bottom:18px;
 }
 
 .subject-card{
-    background:var(--card);
+    background:var(--panel);
     border:1px solid var(--border);
-    border-radius:25px;
-    padding:22px;
-    margin-bottom:25px;
+    border-radius:23px;
+    padding:20px;
+    margin-bottom:20px;
+    backdrop-filter:blur(18px);
 }
 
 .subject-head{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    gap:15px;
-    margin-bottom:18px;
+    margin-bottom:16px;
 }
 
 .subject-head h3{
     color:var(--blue);
-    font-size:1.4rem;
+}
+
+.subject-head small{
+    color:var(--muted);
 }
 
 .progress-circle{
-    width:72px;
-    height:72px;
+    width:68px;
+    height:68px;
     position:relative;
 }
 
 .progress-circle svg{
-    transform:rotate(-90deg);
     width:100%;
     height:100%;
+    transform:rotate(-90deg);
 }
 
 .progress-circle circle{
@@ -629,13 +618,12 @@ canvas#snow{
 }
 
 .progress-circle .bg{
-    stroke:#1a2230;
+    stroke:#172131;
 }
 
 .progress-circle .fg{
     stroke:var(--pink);
     stroke-linecap:round;
-    filter:drop-shadow(0 0 6px var(--pink));
 }
 
 .percent{
@@ -643,129 +631,228 @@ canvas#snow{
     inset:0;
     display:grid;
     place-items:center;
-    font-size:.8rem;
+    font-size:.72rem;
     font-weight:800;
-}
-
-.chapter-list{
-    display:flex;
-    flex-direction:column;
-    gap:8px;
 }
 
 .chapter{
     display:flex;
     align-items:center;
-    gap:10px;
-    padding:12px;
-    border-radius:14px;
+    gap:9px;
+    padding:10px;
+    border-radius:13px;
     background:rgba(255,255,255,.025);
-    border:1px solid transparent;
+    margin-top:7px;
     transition:.2s;
 }
 
 .chapter:hover{
-    border-color:rgba(255,255,255,.08);
+    background:rgba(255,255,255,.05);
 }
 
-.chapter.done-row{
-    background:rgba(0,255,136,.04);
+.chapter.done{
+    background:rgba(0,232,137,.04);
+}
+
+.check{
+    width:29px;
+    height:29px;
+    flex-shrink:0;
+    border:2px solid #394455;
+    border-radius:9px;
+    display:grid;
+    place-items:center;
+    cursor:pointer;
+    color:#05130d;
+}
+
+.check.active{
+    background:var(--green);
+    border-color:var(--green);
 }
 
 .chapter-name{
     flex:1;
-    font-size:.84rem;
+    font-size:.77rem;
     font-weight:600;
 }
 
-.chapter.done-row .chapter-name{
+.chapter.done .chapter-name{
     text-decoration:line-through;
     opacity:.55;
 }
 
-.chapter-badges{
+.chapter-actions{
     display:flex;
     gap:5px;
 }
 
-.badge{
-    font-size:.7rem;
-}
-
-.chapter-actions{
-    display:flex;
-    gap:6px;
-}
-
-.action-btn{
-    width:30px;
-    height:30px;
-    border-radius:9px;
-    background:#131b27;
-    color:#c9d3e1;
+.chapter-actions button{
+    width:29px;
+    height:29px;
+    border-radius:8px;
+    background:#131c29;
+    color:#d9e1ec;
     border:1px solid var(--border);
-    font-size:.75rem;
+    cursor:pointer;
+    font-size:.72rem;
 }
 
-.action-btn.active{
-    color:var(--yellow);
+.chapter-actions button.active{
     border-color:var(--yellow);
+    color:var(--yellow);
 }
 
-.action-btn.weak.active{
-    color:var(--red);
+.chapter-actions .weak.active{
     border-color:var(--red);
+    color:var(--red);
 }
 
-.check{
-    width:30px;
-    height:30px;
-    flex-shrink:0;
-    border-radius:9px;
-    border:2px solid #3a4352;
+/* PLANNER */
+
+.planner-form{
     display:grid;
-    place-items:center;
-    color:#041009;
-    transition:.2s;
-}
-
-.check.done{
-    background:var(--green);
-    border-color:var(--green);
-    box-shadow:0 0 12px rgba(0,255,136,.4);
-}
-
-/* REVISION */
-
-.revision-list{
-    display:flex;
-    flex-direction:column;
+    grid-template-columns:2fr 1fr 1fr 1fr auto;
     gap:10px;
 }
 
-.revision-item{
+.input{
+    width:100%;
+    border:1px solid var(--border);
+    background:#0d1521;
+    color:white;
+    padding:12px;
+    border-radius:12px;
+    outline:none;
+}
+
+.btn{
+    padding:11px 16px;
+    border-radius:12px;
+    background:linear-gradient(135deg,var(--pink),#bc0061);
+    color:white;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.btn.secondary{
+    background:#151f2c;
+}
+
+.task-list{
     display:flex;
-    justify-content:space-between;
+    flex-direction:column;
+    gap:9px;
+    margin-top:20px;
+}
+
+.task{
+    display:flex;
     align-items:center;
-    gap:15px;
-    padding:16px;
-    border-radius:16px;
-    background:var(--card);
+    gap:12px;
+    padding:14px;
+    border-radius:15px;
+    background:rgba(255,255,255,.025);
     border:1px solid var(--border);
 }
 
-.revision-meta h4{
-    font-size:.9rem;
+.task.done .task-name{
+    text-decoration:line-through;
+    opacity:.5;
 }
 
-.revision-meta p{
-    font-size:.7rem;
+.task-name{
+    flex:1;
+    font-size:.8rem;
+}
+
+.priority{
+    font-size:.6rem;
+    padding:4px 7px;
+    border-radius:7px;
+}
+
+.priority.high{
+    background:rgba(255,70,104,.14);
+    color:var(--red);
+}
+
+.priority.medium{
+    background:rgba(255,208,0,.12);
+    color:var(--yellow);
+}
+
+.priority.low{
+    background:rgba(0,210,255,.12);
+    color:var(--blue);
+}
+
+/* MOCK TEST */
+
+.mock-form{
+    display:grid;
+    grid-template-columns:1.5fr 1fr 1fr 1fr 1fr auto;
+    gap:10px;
+}
+
+.mock-list{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    margin-top:20px;
+}
+
+.mock{
+    background:#0d1521;
+    border:1px solid var(--border);
+    padding:18px;
+    border-radius:18px;
+}
+
+.mock-score{
+    font-size:1.7rem;
+    font-weight:800;
+    color:var(--green);
+}
+
+/* CALENDAR */
+
+.calendar-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.calendar{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:6px;
+}
+
+.cal-day-name{
+    text-align:center;
+    font-size:.65rem;
     color:var(--muted);
-    margin-top:4px;
+    padding:5px;
 }
 
-.due{
-    color:var(--red)!important;
+.cal-day{
+    min-height:70px;
+    padding:8px;
+    background:#0d1521;
+    border:1px solid var(--border);
+    border-radius:10px;
+    font-size:.7rem;
+}
+
+.cal-day.today{
+    border-color:var(--pink);
+    box-shadow:0 0 15px rgba(255,0,122,.15);
+}
+
+.cal-day.has-study{
+    background:rgba(0,232,137,.07);
 }
 
 /* ANALYTICS */
@@ -773,69 +860,138 @@ canvas#snow{
 .analytics-grid{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:18px;
+    gap:14px;
 }
 
 .analytics-card{
-    background:var(--card);
+    background:var(--panel);
     border:1px solid var(--border);
-    border-radius:22px;
     padding:20px;
+    border-radius:20px;
 }
 
-.analytics-card h4{
-    margin-bottom:12px;
-}
-
-.subject-progress-row{
-    margin:12px 0;
-}
-
-.subject-progress-row .row{
+.chart-box{
+    height:220px;
     display:flex;
+    align-items:flex-end;
+    gap:12px;
+    padding:15px 0;
+}
+
+.chart-bar-wrap{
+    flex:1;
+    text-align:center;
+    font-size:.6rem;
+    color:var(--muted);
+}
+
+.chart-bar{
+    width:100%;
+    min-height:4px;
+    background:linear-gradient(to top,var(--pink),var(--blue));
+    border-radius:8px 8px 2px 2px;
+    margin-bottom:7px;
+}
+
+/* REVISION */
+
+.revision-item{
+    display:flex;
+    align-items:center;
     justify-content:space-between;
-    font-size:.75rem;
-    margin-bottom:6px;
-}
-
-.bar{
-    height:8px;
-    border-radius:20px;
-    background:#131b27;
-    overflow:hidden;
-}
-
-.bar span{
-    display:block;
-    height:100%;
-    border-radius:inherit;
-    background:linear-gradient(90deg,var(--blue),var(--pink));
-}
-
-/* ACHIEVEMENTS */
-
-.achievement-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:18px;
-}
-
-.achievement{
-    padding:22px;
-    border-radius:20px;
-    background:var(--card);
+    gap:15px;
+    padding:14px;
+    border-radius:15px;
+    background:var(--panel);
     border:1px solid var(--border);
+    margin-top:9px;
+}
+
+.revision-item p{
+    color:var(--muted);
+    font-size:.68rem;
+    margin-top:4px;
+}
+
+/* FOCUS */
+
+.focus-display{
+    font-size:clamp(3rem,10vw,6rem);
+    font-weight:800;
+    text-align:center;
+    color:var(--blue);
+    text-shadow:0 0 30px rgba(0,210,255,.3);
+    padding:30px 0;
+}
+
+.focus-actions{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+}
+
+/* COUNTDOWN */
+
+.countdown-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px;
+}
+
+.year-block{
+    background:var(--panel);
+    border:1px solid var(--border);
+    padding:22px;
+    border-radius:25px;
+}
+
+.year-title{
+    text-align:center;
+    color:var(--yellow);
+    margin-bottom:15px;
+}
+
+.exam-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.exam{
+    background:#0d1521;
+    border:1px solid var(--border);
+    padding:15px;
+    border-radius:14px;
     text-align:center;
 }
 
-.achievement.locked{
-    opacity:.35;
-    filter:grayscale(1);
+.exam-name{
+    color:var(--blue);
+    font-size:.7rem;
+    font-weight:700;
+    margin-bottom:10px;
 }
 
-.achievement-icon{
-    font-size:2rem;
-    margin-bottom:10px;
+.exam-time{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:5px;
+}
+
+.time-box{
+    background:#151f2c;
+    padding:7px 2px;
+    border-radius:8px;
+}
+
+.time-box strong{
+    display:block;
+    font-size:.8rem;
+}
+
+.time-box small{
+    font-size:.48rem;
+    color:var(--muted);
 }
 
 /* MODAL */
@@ -843,7 +999,7 @@ canvas#snow{
 .modal{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.78);
+    background:rgba(0,0,0,.75);
     backdrop-filter:blur(10px);
     display:none;
     align-items:center;
@@ -858,38 +1014,27 @@ canvas#snow{
 
 .modal-box{
     width:min(600px,100%);
-    max-height:90vh;
-    overflow:auto;
-    background:#0a101a;
+    background:#0a1019;
     border:1px solid var(--border);
-    border-radius:28px;
-    padding:25px;
+    border-radius:25px;
+    padding:22px;
 }
 
 .modal-head{
     display:flex;
     justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-}
-
-.close{
-    width:38px;
-    height:38px;
-    border-radius:12px;
-    background:#241019;
-    color:#ff5573;
+    margin-bottom:15px;
 }
 
 textarea{
     width:100%;
-    min-height:150px;
+    min-height:160px;
     resize:vertical;
-    background:#101722;
-    border:1px solid var(--border);
-    border-radius:15px;
-    padding:15px;
+    background:#111a27;
     color:white;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:12px;
     outline:none;
 }
 
@@ -899,15 +1044,15 @@ textarea{
     position:fixed;
     right:20px;
     bottom:20px;
-    padding:14px 18px;
-    background:#101722;
+    z-index:2000;
+    background:#101824;
     border:1px solid var(--border);
     border-left:4px solid var(--green);
+    padding:14px 17px;
     border-radius:14px;
     transform:translateY(100px);
     opacity:0;
     transition:.3s;
-    z-index:2000;
 }
 
 .toast.show{
@@ -922,6 +1067,7 @@ textarea{
 }
 
 @media(max-width:1200px){
+
     .stats-grid{
         grid-template-columns:repeat(3,1fr);
     }
@@ -929,18 +1075,15 @@ textarea{
     .analytics-grid{
         grid-template-columns:repeat(2,1fr);
     }
+
+    .planner-form,
+    .mock-form{
+        grid-template-columns:1fr 1fr;
+    }
+
 }
 
 @media(max-width:900px){
-    .header{
-        align-items:flex-start;
-    }
-
-    .dashboard-grid,
-    .countdown-grid,
-    .class-grid{
-        grid-template-columns:1fr;
-    }
 
     .nav{
         display:none;
@@ -948,23 +1091,24 @@ textarea{
 
     .mobile-nav{
         position:fixed;
+        display:grid;
+        grid-template-columns:repeat(5,1fr);
         bottom:0;
         left:0;
         right:0;
         z-index:500;
-        display:grid;
-        grid-template-columns:repeat(5,1fr);
-        background:rgba(7,10,17,.95);
+        padding:8px;
+        background:rgba(5,8,14,.94);
         backdrop-filter:blur(20px);
         border-top:1px solid var(--border);
-        padding:8px;
     }
 
     .mobile-nav button{
         background:transparent;
         color:var(--muted);
         font-size:1rem;
-        padding:8px 3px;
+        border:none;
+        padding:6px;
     }
 
     .mobile-nav button.active{
@@ -973,45 +1117,46 @@ textarea{
 
     .mobile-nav span{
         display:block;
-        font-size:.52rem;
-        margin-top:3px;
+        font-size:.5rem;
     }
+
+    .dashboard-grid,
+    .class-grid,
+    .countdown-grid{
+        grid-template-columns:1fr;
+    }
+
+    .mock-list{
+        grid-template-columns:1fr 1fr;
+    }
+
 }
 
 @media(max-width:600px){
+
     .app{
         width:94%;
     }
 
     .header{
-        padding-top:20px;
-    }
-
-    .logo{
-        width:50px;
-        height:50px;
-        border-radius:16px;
+        padding:18px 0;
     }
 
     .header-actions{
-        gap:6px;
+        gap:5px;
     }
 
     .icon-btn{
-        width:42px;
-        height:42px;
+        width:40px;
+        height:40px;
     }
 
-    .hero{
-        padding:20px;
-    }
-
-    .hero-top{
+    .level-hero{
         flex-direction:column;
         align-items:flex-start;
     }
 
-    .level-box{
+    .level-badge{
         width:100%;
     }
 
@@ -1019,43 +1164,41 @@ textarea{
         grid-template-columns:1fr 1fr;
     }
 
-    .stat-card{
-        padding:16px;
-    }
-
-    .progress-big{
+    .big-progress{
         flex-direction:column;
         text-align:center;
     }
 
-    .exams-grid{
-        grid-template-columns:1fr;
-    }
-
-    .countdown{
-        grid-template-columns:repeat(4,1fr);
-    }
-
-    .achievement-grid{
-        grid-template-columns:1fr 1fr;
-    }
-
+    .mini-grid,
     .analytics-grid{
         grid-template-columns:1fr;
     }
 
+    .planner-form,
+    .mock-form{
+        grid-template-columns:1fr;
+    }
+
+    .mock-list{
+        grid-template-columns:1fr;
+    }
+
+    .exam-grid{
+        grid-template-columns:1fr;
+    }
+
     .chapter{
-        align-items:flex-start;
         flex-wrap:wrap;
     }
 
     .chapter-name{
-        width:calc(100% - 45px);
+        min-width:calc(100% - 42px);
     }
 
     .chapter-actions{
-        margin-left:40px;
+        margin-left:38px;
     }
+
 }
 </style>
 
@@ -1063,38 +1206,70 @@ textarea{
 
 <body>
 
-<canvas id="snow"></canvas>
+<canvas id="particleCanvas"></canvas>
+
+<div class="aurora"></div>
+<div class="orb one"></div>
+<div class="orb two"></div>
+<div class="orb three"></div>
+<div class="mouse-glow" id="mouseGlow"></div>
 
 <div class="app">
 
 <header class="header">
-    <div class="brand">
-        <div class="logo">⚡</div>
-        <div>
-            <h1>GHAZI ABBAS</h1>
-            <p>STUDY COMMAND CENTER • VERSION 2.0</p>
-        </div>
-    </div>
 
-```
-<div class="header-actions">
-    <button class="icon-btn" onclick="exportData()" title="Export Backup">💾</button>
-    <button class="icon-btn" onclick="document.getElementById('importFile').click()" title="Import Backup">📂</button>
-    <input id="importFile" type="file" accept=".json" hidden onchange="importData(event)">
-    <button class="icon-btn" onclick="toggleTheme()" title="Theme">🌙</button>
+<div class="brand">
+
+<div class="logo">⚡</div>
+
+<div>
+<h1>GHAZI ABBAS</h1>
+<p>STUDY COMMAND CENTER • VERSION 3.0</p>
 </div>
-```
+
+</div>
+
+<div class="header-actions">
+
+<button class="icon-btn" onclick="exportData()">💾</button>
+
+<button class="icon-btn" onclick="document.getElementById('importFile').click()">📂</button>
+
+<input
+id="importFile"
+type="file"
+accept=".json"
+hidden
+onchange="importData(event)"
+
+>
+
+<button class="icon-btn" onclick="requestNotification()">🔔</button>
+
+</div>
 
 </header>
 
 <nav class="nav">
-    <button class="active" onclick="showPage('dashboard',this)">🏠 Dashboard</button>
-    <button onclick="showPage('chapters',this)">📚 Chapters</button>
-    <button onclick="showPage('revision',this)">🔄 Revision</button>
-    <button onclick="showPage('timer',this)">⏱ Focus</button>
-    <button onclick="showPage('countdown',this)">🎯 Exams</button>
-    <button onclick="showPage('analytics',this)">📊 Analytics</button>
-    <button onclick="showPage('achievements',this)">🏆 Achievements</button>
+
+<button class="active" onclick="showPage('dashboard',this)">🏠 Dashboard</button>
+
+<button onclick="showPage('chapters',this)">📚 Chapters</button>
+
+<button onclick="showPage('planner',this)">🗓 Planner</button>
+
+<button onclick="showPage('revision',this)">🔄 Revision</button>
+
+<button onclick="showPage('mocktests',this)">📝 Mock Tests</button>
+
+<button onclick="showPage('calendar',this)">📅 Calendar</button>
+
+<button onclick="showPage('focus',this)">⏱ Focus</button>
+
+<button onclick="showPage('exams',this)">🎯 Exams</button>
+
+<button onclick="showPage('analytics',this)">📊 Analytics</button>
+
 </nav>
 
 <!-- DASHBOARD -->
@@ -1102,65 +1277,80 @@ textarea{
 <section id="dashboard" class="page active">
 
 <div class="hero">
-    <div class="hero-top">
-        <div>
-            <h2 id="welcomeText">Ready to conquer your goals? 🔥</h2>
-            <p id="heroText">Every completed chapter brings you closer to your dream.</p>
-        </div>
 
-```
-    <div class="level-box">
-        <div style="font-size:.7rem;color:var(--muted)">CURRENT LEVEL</div>
-        <div class="level-num" id="levelNum">1</div>
-        <div style="font-size:.75rem;color:var(--yellow)" id="xpText">0 XP</div>
-    </div>
+<div class="level-hero">
+
+<div class="level-info">
+
+<h2 id="welcomeText">Ready to dominate today? 🔥</h2>
+
+<p id="smartMessage">
+Your study journey is waiting for the next completed chapter.
+</p>
+
+</div>
+
+<div class="level-badge">
+
+<div style="font-size:.65rem;color:var(--muted)">
+CURRENT LEVEL
+</div>
+
+<div class="level-number" id="levelNumber">
+1
+</div>
+
+<div id="xpText" style="font-size:.7rem;color:var(--yellow)">
+0 XP
+</div>
+
+</div>
+
 </div>
 
 <div class="xp-bar">
-    <div class="xp-fill" id="xpFill"></div>
+<div class="xp-fill" id="xpFill"></div>
 </div>
-```
 
 </div>
 
 <div class="stats-grid">
-    <div class="stat-card">
-        <div class="stat-icon">📚</div>
-        <div class="stat-label">TOTAL CHAPTERS</div>
-        <div class="stat-value" id="totalChapters">0</div>
-    </div>
 
-```
-<div class="stat-card">
-    <div class="stat-icon">✅</div>
-    <div class="stat-label">COMPLETED</div>
-    <div class="stat-value" id="completedChapters">0</div>
+<div class="stat">
+<div class="icon">📚</div>
+<label>TOTAL</label>
+<strong id="totalChapters">0</strong>
 </div>
 
-<div class="stat-card">
-    <div class="stat-icon">⏳</div>
-    <div class="stat-label">REMAINING</div>
-    <div class="stat-value" id="remainingChapters">0</div>
+<div class="stat">
+<div class="icon">✅</div>
+<label>COMPLETED</label>
+<strong id="completedChapters">0</strong>
 </div>
 
-<div class="stat-card">
-    <div class="stat-icon">🔥</div>
-    <div class="stat-label">STREAK</div>
-    <div class="stat-value"><span id="streak">0</span> Days</div>
+<div class="stat">
+<div class="icon">⏳</div>
+<label>REMAINING</label>
+<strong id="remainingChapters">0</strong>
 </div>
 
-<div class="stat-card">
-    <div class="stat-icon">⭐</div>
-    <div class="stat-label">IMPORTANT</div>
-    <div class="stat-value" id="importantCount">0</div>
+<div class="stat">
+<div class="icon">🔥</div>
+<label>STREAK</label>
+<strong id="streak">0</strong>
 </div>
 
-<div class="stat-card">
-    <div class="stat-icon">⚠️</div>
-    <div class="stat-label">WEAK CHAPTERS</div>
-    <div class="stat-value" id="weakCount">0</div>
+<div class="stat">
+<div class="icon">⭐</div>
+<label>IMPORTANT</label>
+<strong id="importantCount">0</strong>
 </div>
-```
+
+<div class="stat">
+<div class="icon">⚠️</div>
+<label>WEAK</label>
+<strong id="weakCount">0</strong>
+</div>
 
 </div>
 
@@ -1168,43 +1358,71 @@ textarea{
 
 <div>
 
-<div class="panel">
-    <div class="panel-title">
-        <h3>🎯 Overall Mission Progress</h3>
-        <span id="overallLabel">0%</span>
-    </div>
+<div class="card">
 
-```
-<div class="progress-big">
-    <div class="big-ring">
-        <svg viewBox="0 0 120 120">
-            <circle class="bg" cx="60" cy="60" r="50"></circle>
-            <circle id="overallRing" class="fg" cx="60" cy="60" r="50"></circle>
-        </svg>
-        <div class="big-percent" id="overallPercent">0%</div>
-    </div>
-
-    <div class="progress-info">
-        <h3 id="missionStatus">Mission Started</h3>
-        <p id="missionMessage">Start completing chapters to build momentum.</p>
-
-        <div class="mini-bar">
-            <div id="overallBar" class="mini-fill" style="width:0%"></div>
-        </div>
-    </div>
-</div>
-```
-
+<div class="card-title">
+<h3>🎯 Overall Progress</h3>
+<span id="overallPercent">0%</span>
 </div>
 
-<div class="panel">
-    <div class="panel-title">
-        <h3>📈 Subject Progress</h3>
-    </div>
+<div class="big-progress">
 
-```
-<div id="dashboardSubjects"></div>
-```
+<div class="big-ring">
+
+<svg viewBox="0 0 120 120">
+
+<circle
+class="bg"
+cx="60"
+cy="60"
+r="50"
+
+> </circle>
+
+<circle
+id="overallRing"
+class="fg"
+cx="60"
+cy="60"
+r="50"
+
+> </circle>
+
+</svg>
+
+<div class="big-percent" id="overallBigPercent">
+0%
+</div>
+
+</div>
+
+<div class="progress-description">
+
+<h3 id="progressStatus">
+Mission Started
+</h3>
+
+<p id="progressText">
+Start completing chapters and your progress will appear here.
+</p>
+
+<div class="bar" style="margin-top:15px">
+<span id="overallBar"></span>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+<h3>📈 Subject Progress</h3>
+</div>
+
+<div id="subjectProgress"></div>
 
 </div>
 
@@ -1212,52 +1430,62 @@ textarea{
 
 <div>
 
-<div class="panel">
-    <div class="panel-title">
-        <h3>🎯 Daily Chapter Goal</h3>
-        <span id="dailyGoalText">0 / 3</span>
-    </div>
+<div class="card">
 
-```
-<div class="goal-row">
-    <div class="goal-circle" id="goalCircle" style="--goal:0">
-        <span id="goalPercent">0%</span>
-    </div>
-
-    <div class="goal-info">
-        <h3>Today's Progress</h3>
-        <p>Complete your daily target and maintain your streak.</p>
-    </div>
+<div class="card-title">
+<h3>🎯 Daily Goal</h3>
+<span id="dailyGoalText">0/3</span>
 </div>
 
-<div class="goal-controls">
-    <button class="small-btn" onclick="changeGoal(-1)">− Goal</button>
-    <button class="small-btn" onclick="changeGoal(1)">+ Goal</button>
-</div>
-```
+<div style="display:flex;align-items:center;gap:18px">
 
+<div class="goal-ring" id="goalRing" style="--p:0">
+<span id="goalPercent">0%</span>
 </div>
 
-<div class="panel">
-    <div class="panel-title">
-        <h3>🔄 Revision Center</h3>
-        <button class="small-btn" onclick="showPage('revision')">Open</button>
-    </div>
+<div>
 
-```
+<h3>Today's Mission</h3>
+
+<p style="color:var(--muted);font-size:.72rem;margin-top:5px">
+Complete chapters and maintain your consistency.
+</p>
+
+<div style="display:flex;gap:8px;margin-top:12px">
+
+<button class="btn secondary" onclick="changeGoal(-1)">−</button>
+
+<button class="btn secondary" onclick="changeGoal(1)">+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+<h3>🔄 Revision Due</h3>
+</div>
+
 <div id="dashboardRevision"></div>
-```
 
 </div>
 
-<div class="panel">
-    <div class="panel-title">
-        <h3>🧠 Smart Advice</h3>
-    </div>
+<div class="card">
 
-```
-<p id="smartAdvice" style="color:var(--muted);font-size:.85rem;line-height:1.8"></p>
-```
+<div class="card-title">
+<h3>🤖 Smart Planner</h3>
+</div>
+
+<p
+id="aiAdvice"
+style="color:var(--muted);font-size:.78rem;line-height:1.8"
+>
+</p>
 
 </div>
 
@@ -1271,33 +1499,105 @@ textarea{
 
 <section id="chapters" class="page">
 
-<div class="toolbar">
-    <input id="searchInput" class="search" placeholder="🔍 Search chapter..." oninput="renderChapters()">
+<div class="hero">
+<h2>📚 Chapter Command Center</h2>
+<p>Track every chapter, mark weak topics and keep revision under control.</p>
+</div>
 
-```
-<select id="filterSelect" class="filter-select" onchange="renderChapters()">
-    <option value="all">All Chapters</option>
-    <option value="pending">Pending</option>
-    <option value="completed">Completed</option>
-    <option value="important">Important</option>
-    <option value="weak">Weak</option>
-    <option value="revision">Revision Due</option>
+<div class="toolbar">
+
+<input
+id="chapterSearch"
+class="search"
+placeholder="🔍 Search any chapter..."
+oninput="renderChapters()"
+
+>
+
+<select
+id="chapterFilter"
+class="select"
+onchange="renderChapters()"
+
+>
+
+<option value="all">All Chapters</option>
+<option value="completed">Completed</option>
+<option value="pending">Pending</option>
+<option value="important">Important</option>
+<option value="weak">Weak</option>
+<option value="revision">Revision Due</option>
+
 </select>
-```
 
 </div>
 
 <div class="class-grid">
 
 <div>
-    <h2 class="col-title">Class 11th</h2>
-    <div id="class11"></div>
+<h2 class="class-title">Class 11th</h2>
+<div id="class11"></div>
 </div>
 
 <div>
-    <h2 class="col-title">Class 12th</h2>
-    <div id="class12"></div>
+<h2 class="class-title">Class 12th</h2>
+<div id="class12"></div>
 </div>
+
+</div>
+
+</section>
+
+<!-- PLANNER -->
+
+<section id="planner" class="page">
+
+<div class="hero">
+<h2>🗓 Daily Study Planner</h2>
+<p>Plan your day, organize priorities and track completed tasks.</p>
+</div>
+
+<div class="card">
+
+<div class="planner-form">
+
+<input
+id="taskName"
+class="input"
+placeholder="Task name..."
+
+>
+
+<select id="taskSubject" class="input">
+<option>Physics</option>
+<option>Chemistry</option>
+<option>Maths</option>
+<option>Biology</option>
+<option>Revision</option>
+<option>Mock Test</option>
+<option>Other</option>
+</select>
+
+<input
+id="taskTime"
+type="time"
+class="input"
+
+>
+
+<select id="taskPriority" class="input">
+<option value="high">High Priority</option>
+<option value="medium">Medium Priority</option>
+<option value="low">Low Priority</option>
+</select>
+
+<button class="btn" onclick="addTask()">
++ Add
+</button>
+
+</div>
+
+<div class="task-list" id="taskList"></div>
 
 </div>
 
@@ -1308,103 +1608,197 @@ textarea{
 <section id="revision" class="page">
 
 <div class="hero">
-    <h2>🔄 Smart Revision System</h2>
-    <p>Completed chapters automatically enter your revision cycle.</p>
+<h2>🔄 Smart Revision Engine</h2>
+<p>Your completed chapters automatically enter a spaced revision cycle.</p>
 </div>
 
-<div class="panel">
-    <div class="panel-title">
-        <h3>Today's Revision Queue</h3>
-        <span id="revisionCount">0 Chapters</span>
-    </div>
+<div class="card">
 
-```
-<div class="revision-list" id="revisionList"></div>
-```
-
+<div class="card-title">
+<h3>Revision Queue</h3>
+<span id="revisionCount">0</span>
 </div>
 
-</section>
-
-<!-- TIMER -->
-
-<section id="timer" class="page">
-
-<div class="hero">
-    <h2>⏱ Focus Mode</h2>
-    <p>Use Pomodoro sessions to track your real study time.</p>
-</div>
-
-<div class="dashboard-grid">
-
-<div class="panel">
-
-<div style="text-align:center">
-    <div style="display:flex;justify-content:center;gap:10px">
-        <button class="small-btn" onclick="setTimerMode(25)">25 MIN</button>
-        <button class="small-btn" onclick="setTimerMode(50)">50 MIN</button>
-        <button class="small-btn" onclick="setTimerMode(90)">90 MIN</button>
-    </div>
-
-```
-<div class="timer-display" id="timerDisplay">25:00</div>
-
-<div class="timer-actions">
-    <button class="main-btn" id="timerStartBtn" onclick="toggleTimer()">▶ Start</button>
-    <button class="secondary-btn" onclick="resetTimer()">↻ Reset</button>
-</div>
-```
-
-</div>
-
-</div>
-
-<div class="panel">
-
-<div class="panel-title">
-    <h3>📚 Focus Statistics</h3>
-</div>
-
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:15px">
-    <div class="stat-card">
-        <div class="stat-label">TODAY</div>
-        <div class="stat-value"><span id="todayStudyTime">0</span>m</div>
-    </div>
-
-```
-<div class="stat-card">
-    <div class="stat-label">TOTAL SESSIONS</div>
-    <div class="stat-value" id="totalSessions">0</div>
-</div>
-```
-
-</div>
-
-</div>
+<div id="revisionList"></div>
 
 </div>
 
 </section>
 
-<!-- COUNTDOWN -->
+<!-- MOCK TESTS -->
 
-<section id="countdown" class="page">
+<section id="mocktests" class="page">
 
 <div class="hero">
-    <h2>🎯 Exam Countdown</h2>
-    <p>Your target is getting closer every second.</p>
+<h2>📝 Mock Test Tracker</h2>
+<p>Track your scores and monitor your improvement.</p>
+</div>
+
+<div class="card">
+
+<div class="mock-form">
+
+<input
+id="mockName"
+class="input"
+placeholder="Test name"
+
+>
+
+<select id="mockExam" class="input">
+<option>JEE</option>
+<option>NEET</option>
+<option>Custom</option>
+</select>
+
+<input
+id="mockTotal"
+type="number"
+class="input"
+placeholder="Total Marks"
+
+>
+
+<input
+id="mockScore"
+type="number"
+class="input"
+placeholder="Obtained Marks"
+
+>
+
+<input
+id="mockDate"
+type="date"
+class="input"
+
+>
+
+<button class="btn" onclick="addMockTest()">
+Add Test
+</button>
+
+</div>
+
+<div class="mock-list" id="mockList"></div>
+
+</div>
+
+</section>
+
+<!-- CALENDAR -->
+
+<section id="calendar" class="page">
+
+<div class="hero">
+<h2>📅 Study Calendar</h2>
+<p>See your study activity throughout the month.</p>
+</div>
+
+<div class="card">
+
+<div class="calendar-head">
+
+<button class="btn secondary" onclick="changeMonth(-1)">
+←
+</button>
+
+<h3 id="calendarTitle"></h3>
+
+<button class="btn secondary" onclick="changeMonth(1)">
+→
+</button>
+
+</div>
+
+<div class="calendar" id="calendarGrid"></div>
+
+</div>
+
+</section>
+
+<!-- FOCUS -->
+
+<section id="focus" class="page">
+
+<div class="hero">
+<h2>⏱ Deep Focus Mode</h2>
+<p>Focus completely. One session at a time.</p>
+</div>
+
+<div class="card">
+
+<div style="display:flex;justify-content:center;gap:8px">
+
+<button class="btn secondary" onclick="setTimer(25)">25m</button>
+
+<button class="btn secondary" onclick="setTimer(50)">50m</button>
+
+<button class="btn secondary" onclick="setTimer(90)">90m</button>
+
+</div>
+
+<div
+id="focusDisplay"
+class="focus-display"
+>
+25:00
+</div>
+
+<div class="focus-actions">
+
+<button
+id="focusButton"
+class="btn"
+onclick="toggleFocus()"
+
+>
+
+▶ Start </button>
+
+<button
+class="btn secondary"
+onclick="resetFocus()"
+
+>
+
+↻ Reset </button>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- EXAMS -->
+
+<section id="exams" class="page">
+
+<div class="hero">
+<h2>🎯 Exam Countdown</h2>
+<p>Every second matters. Stay focused on the target.</p>
 </div>
 
 <div class="countdown-grid">
 
 <div class="year-block">
-    <div class="year-title">TARGET 2027</div>
-    <div class="exams-grid" id="timer2027"></div>
+
+<h2 class="year-title">
+TARGET 2027
+</h2>
+
+<div class="exam-grid" id="exam2027"></div>
+
 </div>
 
 <div class="year-block">
-    <div class="year-title">TARGET 2028</div>
-    <div class="exams-grid" id="timer2028"></div>
+
+<h2 class="year-title">
+TARGET 2028
+</h2>
+
+<div class="exam-grid" id="exam2028"></div>
+
 </div>
 
 </div>
@@ -1416,24 +1810,21 @@ textarea{
 <section id="analytics" class="page">
 
 <div class="hero">
-    <h2>📊 Advanced Analytics</h2>
-    <p>Understand your preparation and identify weak areas.</p>
+<h2>📊 Performance Analytics</h2>
+<p>Analyze your preparation and identify what needs attention.</p>
 </div>
 
 <div class="analytics-grid" id="analyticsGrid"></div>
 
-</section>
+<div class="card" style="margin-top:20px">
 
-<!-- ACHIEVEMENTS -->
-
-<section id="achievements" class="page">
-
-<div class="hero">
-    <h2>🏆 Achievement System</h2>
-    <p>Unlock achievements as you progress through your journey.</p>
+<div class="card-title">
+<h3>📈 Mock Test Performance</h3>
 </div>
 
-<div class="achievement-grid" id="achievementGrid"></div>
+<div class="chart-box" id="mockChart"></div>
+
+</div>
 
 </section>
 
@@ -1442,42 +1833,93 @@ textarea{
 <!-- MOBILE NAV -->
 
 <div class="mobile-nav">
-    <button class="active" onclick="showPage('dashboard',this)">🏠<span>Home</span></button>
-    <button onclick="showPage('chapters',this)">📚<span>Study</span></button>
-    <button onclick="showPage('revision',this)">🔄<span>Revise</span></button>
-    <button onclick="showPage('timer',this)">⏱<span>Focus</span></button>
-    <button onclick="showPage('analytics',this)">📊<span>Stats</span></button>
+
+<button
+class="active"
+onclick="showPage('dashboard',this)"
+
+>
+
+🏠 <span>Home</span> </button>
+
+<button onclick="showPage('chapters',this)">
+📚
+<span>Study</span>
+</button>
+
+<button onclick="showPage('planner',this)">
+🗓
+<span>Plan</span>
+</button>
+
+<button onclick="showPage('focus',this)">
+⏱
+<span>Focus</span>
+</button>
+
+<button onclick="showPage('analytics',this)">
+📊
+<span>Stats</span>
+</button>
+
 </div>
 
 <!-- NOTES MODAL -->
 
-<div class="modal" id="notesModal">
-    <div class="modal-box">
-        <div class="modal-head">
-            <h3 id="notesTitle">Chapter Notes</h3>
-            <button class="close" onclick="closeNotes()">✕</button>
-        </div>
+<div
+class="modal"
+id="notesModal"
+>
 
-```
-    <textarea id="notesInput" placeholder="Write your chapter notes here..."></textarea>
+<div class="modal-box">
 
-    <div style="margin-top:15px">
-        <button class="main-btn" onclick="saveNotes()">Save Notes</button>
-    </div>
+<div class="modal-head">
+
+<h3 id="notesTitle">
+Notes
+</h3>
+
+<button
+class="btn secondary"
+onclick="closeNotes()"
+
+>
+
+✕ </button>
+
 </div>
-```
+
+<textarea
+id="notesText"
+placeholder="Write chapter notes here..."
+></textarea>
+
+<button
+class="btn"
+style="margin-top:12px"
+onclick="saveNotes()"
+
+>
+
+Save Notes </button>
 
 </div>
 
-<div class="toast" id="toast"></div>
+</div>
+
+<div
+class="toast"
+id="toast"
+></div>
 
 <script>
 
-/* =========================
+/* =====================================
    DATABASE
-========================= */
+===================================== */
 
 const DB = [
+
 {
 cls:'11th',
 sub:'Maths',
@@ -1670,61 +2112,47 @@ ch:[
 'Evolution'
 ]
 }
+
 ];
 
 
-/* =========================
+/* =====================================
    STORAGE
-========================= */
+===================================== */
 
-const STORE = 'ghaziStudyOSV2';
+const STORAGE_KEY='ghazi_study_os_v3';
 
-function getData(){
-    return JSON.parse(localStorage.getItem(STORE) || '{}');
+function getStore(){
+    return JSON.parse(
+        localStorage.getItem(STORAGE_KEY)||'{}'
+    );
 }
 
-function saveData(data){
-    localStorage.setItem(STORE,JSON.stringify(data));
+function saveStore(data){
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(data)
+    );
 }
 
-function getState(key){
-    return getData()[key];
+function getValue(key,def=null){
+    const data=getStore();
+    return data[key]===undefined?def:data[key];
 }
 
-function setState(key,value){
-    const data=getData();
+function setValue(key,value){
+    const data=getStore();
     data[key]=value;
-    saveData(data);
+    saveStore(data);
 }
 
 function chapterKey(item,index){
-    return `${item.cls}_${item.sub}_${index}`;
+    return `chapter_${item.cls}_${item.sub}_${index}`;
 }
 
+function getChapter(key){
 
-/* =========================
-   BASIC DATA
-========================= */
-
-function getAllChapters(){
-    let arr=[];
-
-    DB.forEach(item=>{
-        item.ch.forEach((name,index)=>{
-            arr.push({
-                item,
-                name,
-                index,
-                key:chapterKey(item,index)
-            });
-        });
-    });
-
-    return arr;
-}
-
-function getChapterData(key){
-    return getState(key) || {
+    return getValue(key,{
         done:false,
         important:false,
         weak:false,
@@ -1732,92 +2160,67 @@ function getChapterData(key){
         completedAt:null,
         revisionIndex:0,
         lastRevision:null
-    };
-}
-
-function updateChapter(key,newData){
-    setState(key,{
-        ...getChapterData(key),
-        ...newData
     });
+
 }
 
-function isDone(key){
-    return getChapterData(key).done;
-}
+function updateChapter(key,changes){
 
+    const current=getChapter(key);
 
-/* =========================
-   STREAK
-========================= */
+    setValue(
+        key,
+        {
+            ...current,
+            ...changes
+        }
+    );
 
-function updateStreak(){
-    const today=new Date().toISOString().split('T')[0];
-
-    let streakData=getState('streakData') || {
-        count:0,
-        lastDate:null
-    };
-
-    if(streakData.lastDate===today) return;
-
-    const yesterday=new Date(Date.now()-86400000)
-        .toISOString()
-        .split('T')[0];
-
-    if(streakData.lastDate===yesterday){
-        streakData.count++;
-    }else{
-        streakData.count=1;
-    }
-
-    streakData.lastDate=today;
-    setState('streakData',streakData);
-}
-
-function getStreak(){
-    return (getState('streakData') || {}).count || 0;
 }
 
 
-/* =========================
-   DAILY GOAL
-========================= */
+/* =====================================
+   CHAPTER UTILITIES
+===================================== */
 
-function getGoal(){
-    return getState('dailyGoal') || 3;
+function getAllChapters(){
+
+    let all=[];
+
+    DB.forEach(item=>{
+
+        item.ch.forEach((name,index)=>{
+
+            all.push({
+                item,
+                name,
+                index,
+                key:chapterKey(item,index)
+            });
+
+        });
+
+    });
+
+    return all;
 }
 
-function changeGoal(amount){
-    let goal=Math.max(1,getGoal()+amount);
-    setState('dailyGoal',goal);
-    renderDashboard();
-}
 
-function getTodayCompleted(){
-
-    const today=new Date().toISOString().split('T')[0];
-
-    return getAllChapters().filter(ch=>{
-        const data=getChapterData(ch.key);
-
-        if(!data.completedAt) return false;
-
-        return data.completedAt.startsWith(today);
-    }).length;
-}
-
-
-/* =========================
-   XP SYSTEM
-========================= */
+/* =====================================
+   XP
+===================================== */
 
 function getXP(){
-    return getState('xp') || 0;
+    return getValue('xp',0);
 }
 
 function addXP(amount){
-    setState('xp',getXP()+amount);
+
+    setValue(
+        'xp',
+        Math.max(0,getXP()+amount)
+    );
+
 }
 
 function getLevel(){
@@ -1825,87 +2228,199 @@ function getLevel(){
 }
 
 
-/* =========================
-   CHAPTER COMPLETE
-========================= */
+/* =====================================
+   STREAK
+===================================== */
+
+function updateStreak(){
+
+    const today=
+        new Date().toISOString().split('T')[0];
+
+    let streak=
+        getValue(
+            'streakData',
+            {
+                count:0,
+                lastDate:null
+            }
+        );
+
+    if(streak.lastDate===today)
+        return;
+
+    const yesterday=
+        new Date(
+            Date.now()-86400000
+        )
+        .toISOString()
+        .split('T')[0];
+
+    if(streak.lastDate===yesterday){
+
+        streak.count++;
+
+    }else{
+
+        streak.count=1;
+
+    }
+
+    streak.lastDate=today;
+
+    setValue(
+        'streakData',
+        streak
+    );
+
+}
+
+function getStreak(){
+
+    return getValue(
+        'streakData',
+        {count:0}
+    ).count;
+
+}
+
+
+/* =====================================
+   DAILY GOAL
+===================================== */
+
+function getGoal(){
+    return getValue('dailyGoal',3);
+}
+
+function changeGoal(value){
+
+    setValue(
+        'dailyGoal',
+        Math.max(1,getGoal()+value)
+    );
+
+    refresh();
+
+}
+
+function getTodayCompleted(){
+
+    const today=
+        new Date().toISOString().split('T')[0];
+
+    return getAllChapters()
+        .filter(ch=>{
+
+            const data=getChapter(ch.key);
+
+            return data.done &&
+                data.completedAt &&
+                data.completedAt.startsWith(today);
+
+        }).length;
+
+}
+
+
+/* =====================================
+   CHAPTER ACTIONS
+===================================== */
 
 function toggleChapter(key){
 
-    const data=getChapterData(key);
+    const data=getChapter(key);
 
     if(!data.done){
 
-        updateChapter(key,{
-            done:true,
-            completedAt:new Date().toISOString(),
-            revisionIndex:0
-        });
+        updateChapter(
+            key,
+            {
+                done:true,
+                completedAt:new Date().toISOString(),
+                revisionIndex:0,
+                lastRevision:null
+            }
+        );
 
         addXP(10);
+
         updateStreak();
+
         celebrate();
+
         toast('Chapter completed! +10 XP 🔥');
 
     }else{
 
-        updateChapter(key,{
-            done:false,
-            completedAt:null
-        });
+        updateChapter(
+            key,
+            {
+                done:false,
+                completedAt:null
+            }
+        );
 
-        setState('xp',Math.max(0,getXP()-10));
+        addXP(-10);
 
-        toast('Chapter marked incomplete');
+        toast('Marked as pending');
+
     }
 
-    refreshAll();
+    refresh();
+
 }
-
-
-/* =========================
-   IMPORTANT / WEAK
-========================= */
 
 function toggleImportant(key){
 
-    const data=getChapterData(key);
+    const data=getChapter(key);
 
-    updateChapter(key,{
-        important:!data.important
-    });
+    updateChapter(
+        key,
+        {
+            important:!data.important
+        }
+    );
 
-    refreshAll();
+    refresh();
+
 }
 
 function toggleWeak(key){
 
-    const data=getChapterData(key);
+    const data=getChapter(key);
 
-    updateChapter(key,{
-        weak:!data.weak
-    });
+    updateChapter(
+        key,
+        {
+            weak:!data.weak
+        }
+    );
 
-    refreshAll();
+    refresh();
+
 }
 
 
-/* =========================
+/* =====================================
    NOTES
-========================= */
+===================================== */
 
-let currentNotesKey=null;
+let activeNotesKey=null;
 
-function openNotes(key,title){
+function openNotes(key,name){
 
-    currentNotesKey=key;
+    activeNotesKey=key;
 
-    document.getElementById('notesTitle').textContent=title;
+    document.getElementById('notesTitle')
+        .textContent=name;
 
-    document.getElementById('notesInput').value=
-        getChapterData(key).notes || '';
+    document.getElementById('notesText')
+        .value=getChapter(key).notes||'';
 
     document.getElementById('notesModal')
         .classList.add('show');
+
 }
 
 function closeNotes(){
@@ -1913,86 +2428,197 @@ function closeNotes(){
     document.getElementById('notesModal')
         .classList.remove('show');
 
-    currentNotesKey=null;
+    activeNotesKey=null;
+
 }
 
 function saveNotes(){
 
-    if(!currentNotesKey) return;
+    if(!activeNotesKey)
+        return;
 
-    updateChapter(currentNotesKey,{
-        notes:document.getElementById('notesInput').value
-    });
+    updateChapter(
+        activeNotesKey,
+        {
+            notes:
+            document.getElementById('notesText').value
+        }
+    );
 
-    toast('Notes saved successfully 📝');
+    toast('Notes saved 📝');
 
     closeNotes();
 
-    refreshAll();
+    refresh();
+
 }
 
 
-/* =========================
+/* =====================================
+   REVISION SYSTEM
+===================================== */
+
+const revisionSchedule=[
+    1,3,7,15,30
+];
+
+function getRevisionDate(data){
+
+    if(!data.done || !data.completedAt)
+        return null;
+
+    const index=
+        data.revisionIndex||0;
+
+    if(index>=revisionSchedule.length)
+        return null;
+
+    const base=
+        data.lastRevision
+        ?new Date(data.lastRevision)
+        :new Date(data.completedAt);
+
+    return new Date(
+        base.getTime()+
+        revisionSchedule[index]*86400000
+    );
+
+}
+
+function isRevisionDue(data){
+
+    const date=
+        getRevisionDate(data);
+
+    return date &&
+        Date.now()>=date.getTime();
+
+}
+
+function completeRevision(key){
+
+    const data=getChapter(key);
+
+    updateChapter(
+        key,
+        {
+            revisionIndex:
+                (data.revisionIndex||0)+1,
+
+            lastRevision:
+                new Date().toISOString()
+        }
+    );
+
+    addXP(5);
+
+    toast('Revision complete! +5 XP 🔄');
+
+    refresh();
+
+}
+
+
+/* =====================================
    CHAPTER RENDER
-========================= */
+===================================== */
 
 function renderChapters(){
 
-    const search=document.getElementById('searchInput')
+    const search=
+        document.getElementById('chapterSearch')
         .value
         .toLowerCase();
 
-    const filter=document.getElementById('filterSelect').value;
+    const filter=
+        document.getElementById('chapterFilter')
+        .value;
 
-    const c11=document.getElementById('class11');
-    const c12=document.getElementById('class12');
+    const class11=
+        document.getElementById('class11');
 
-    c11.innerHTML='';
-    c12.innerHTML='';
+    const class12=
+        document.getElementById('class12');
+
+    class11.innerHTML='';
+    class12.innerHTML='';
 
     DB.forEach(item=>{
 
-        let visible=item.ch
+        const completed=
+            item.ch.filter((_,index)=>
+                getChapter(
+                    chapterKey(item,index)
+                ).done
+            ).length;
+
+        const percent=
+            Math.round(
+                completed/item.ch.length*100
+            );
+
+        const chapters=
+            item.ch
             .map((name,index)=>({
+
                 name,
                 index,
                 key:chapterKey(item,index),
-                data:getChapterData(chapterKey(item,index))
+
+                data:getChapter(
+                    chapterKey(item,index)
+                )
+
             }))
             .filter(ch=>{
 
-                if(search && !ch.name.toLowerCase().includes(search))
+                if(
+                    search &&
+                    !ch.name
+                    .toLowerCase()
+                    .includes(search)
+                )
                     return false;
 
-                if(filter==='completed' && !ch.data.done)
+                if(
+                    filter==='completed' &&
+                    !ch.data.done
+                )
                     return false;
 
-                if(filter==='pending' && ch.data.done)
+                if(
+                    filter==='pending' &&
+                    ch.data.done
+                )
                     return false;
 
-                if(filter==='important' && !ch.data.important)
+                if(
+                    filter==='important' &&
+                    !ch.data.important
+                )
                     return false;
 
-                if(filter==='weak' && !ch.data.weak)
+                if(
+                    filter==='weak' &&
+                    !ch.data.weak
+                )
                     return false;
 
-                if(filter==='revision' && !isRevisionDue(ch.data))
+                if(
+                    filter==='revision' &&
+                    !isRevisionDue(ch.data)
+                )
                     return false;
 
                 return true;
+
             });
 
-        if(!visible.length) return;
+        if(!chapters.length)
+            return;
 
-        const completed=item.ch.filter((_,i)=>
-            getChapterData(chapterKey(item,i)).done
-        ).length;
-
-        const percent=Math.round(
-            completed/item.ch.length*100
-        );
-
-        const card=document.createElement('div');
+        const card=
+            document.createElement('div');
 
         card.className='subject-card';
 
@@ -2000,379 +2626,286 @@ function renderChapters(){
 
         <div class="subject-head">
 
-            <div>
-                <h3>${item.sub}</h3>
-                <div style="font-size:.7rem;color:var(--muted)">
-                    ${completed}/${item.ch.length} Completed
-                </div>
-            </div>
+        <div>
 
-            <div class="progress-circle">
+        <h3>${item.sub}</h3>
 
-                <svg viewBox="0 0 80 80">
-
-                    <circle class="bg"
-                        cx="40"
-                        cy="40"
-                        r="35"
-                    />
-
-                    <circle class="fg"
-                        cx="40"
-                        cy="40"
-                        r="35"
-                        style="
-                        stroke-dasharray:220;
-                        stroke-dashoffset:${220-(220*percent/100)}
-                        "
-                    />
-
-                </svg>
-
-                <div class="percent">${percent}%</div>
-
-            </div>
+        <small>
+        ${completed}/${item.ch.length} completed
+        </small>
 
         </div>
 
-        <div class="chapter-list">
+        <div class="progress-circle">
 
-        ${visible.map(ch=>`
+        <svg viewBox="0 0 80 80">
 
-        <div class="chapter ${ch.data.done?'done-row':''}">
+        <circle
+        class="bg"
+        cx="40"
+        cy="40"
+        r="35"
+        ></circle>
 
-            <div
-                class="check ${ch.data.done?'done':''}"
-                onclick="toggleChapter('${ch.key}')"
-            >
-                ${ch.data.done?'✓':''}
-            </div>
+        <circle
+        class="fg"
+        cx="40"
+        cy="40"
+        r="35"
+        style="
+        stroke-dasharray:220;
+        stroke-dashoffset:
+        ${220-(220*percent/100)}
+        "
+        ></circle>
 
-            <div class="chapter-name">
-                ${ch.name}
+        </svg>
 
-                <div class="chapter-badges">
+        <div class="percent">
+        ${percent}%
+        </div>
 
-                    ${ch.data.important?
-                    '<span class="badge">⭐ Important</span>':''}
+        </div>
 
-                    ${ch.data.weak?
-                    '<span class="badge">⚠️ Weak</span>':''}
+        </div>
 
-                    ${ch.data.notes?
-                    '<span class="badge">📝 Notes</span>':''}
+        ${chapters.map(ch=>`
 
-                </div>
+        <div
+        class="chapter
+        ${ch.data.done?'done':''}"
+        >
 
-            </div>
+        <div
+        class="check
+        ${ch.data.done?'active':''}"
+        onclick="toggleChapter('${ch.key}')"
+        >
+        ${ch.data.done?'✓':''}
+        </div>
 
-            <div class="chapter-actions">
+        <div class="chapter-name">
 
-                <button
-                    class="action-btn ${ch.data.important?'active':''}"
-                    onclick="toggleImportant('${ch.key}')"
-                    title="Important"
-                >
-                    ⭐
-                </button>
+        ${ch.name}
 
-                <button
-                    class="action-btn weak ${ch.data.weak?'active':''}"
-                    onclick="toggleWeak('${ch.key}')"
-                    title="Weak"
-                >
-                    ⚠️
-                </button>
+        ${ch.data.important?
+        ' ⭐':''}
 
-                <button
-                    class="action-btn"
-                    onclick="openNotes('${ch.key}', '${ch.name.replace(/'/g,"\\'")}')"
-                    title="Notes"
-                >
-                    📝
-                </button>
+        ${ch.data.weak?
+        ' ⚠️':''}
 
-            </div>
+        ${ch.data.notes?
+        ' 📝':''}
+
+        </div>
+
+        <div class="chapter-actions">
+
+        <button
+        class="${ch.data.important?'active':''}"
+        onclick="toggleImportant('${ch.key}')"
+        >
+        ⭐
+        </button>
+
+        <button
+        class="weak
+        ${ch.data.weak?'active':''}"
+        onclick="toggleWeak('${ch.key}')"
+        >
+        ⚠️
+        </button>
+
+        <button
+        onclick="openNotes(
+        '${ch.key}',
+        '${ch.name.replace(/'/g,"\\'")}'
+        )"
+        >
+        📝
+        </button>
+
+        </div>
 
         </div>
 
         `).join('')}
 
-        </div>
-
         `;
 
         if(item.cls==='11th'){
-            c11.appendChild(card);
+
+            class11.appendChild(card);
+
         }else{
-            c12.appendChild(card);
+
+            class12.appendChild(card);
+
         }
 
     });
+
 }
 
 
-/* =========================
-   REVISION SYSTEM
-========================= */
-
-const revisionDays=[1,3,7,15,30];
-
-function getRevisionDate(data){
-
-    if(!data.completedAt) return null;
-
-    const index=data.revisionIndex || 0;
-
-    if(index>=revisionDays.length) return null;
-
-    const base=data.lastRevision
-        ?new Date(data.lastRevision)
-        :new Date(data.completedAt);
-
-    return new Date(
-        base.getTime()+
-        revisionDays[index]*86400000
-    );
-}
-
-function isRevisionDue(data){
-
-    if(!data.done) return false;
-
-    const date=getRevisionDate(data);
-
-    if(!date) return false;
-
-    return Date.now()>=date.getTime();
-}
-
-function completeRevision(key){
-
-    const data=getChapterData(key);
-
-    const nextIndex=(data.revisionIndex || 0)+1;
-
-    updateChapter(key,{
-        revisionIndex:nextIndex,
-        lastRevision:new Date().toISOString()
-    });
-
-    addXP(5);
-
-    toast('Revision completed! +5 XP 🔄');
-
-    refreshAll();
-}
-
-function renderRevision(){
-
-    const list=document.getElementById('revisionList');
-
-    const due=getAllChapters()
-        .filter(ch=>isRevisionDue(
-            getChapterData(ch.key)
-        ));
-
-    document.getElementById('revisionCount').textContent=
-        `${due.length} Chapters`;
-
-    if(!due.length){
-
-        list.innerHTML=`
-        <div style="
-        text-align:center;
-        padding:40px;
-        color:var(--muted)
-        ">
-        🎉 No revision due right now.<br>
-        Great job staying ahead!
-        </div>
-        `;
-
-        return;
-    }
-
-    list.innerHTML=due.map(ch=>{
-
-        const data=getChapterData(ch.key);
-
-        const date=getRevisionDate(data);
-
-        return `
-
-        <div class="revision-item">
-
-            <div class="revision-meta">
-
-                <h4>${ch.name}</h4>
-
-                <p>
-                ${ch.item.cls} • ${ch.item.sub}
-                </p>
-
-                <p class="due">
-                Due since ${date.toLocaleDateString()}
-                </p>
-
-            </div>
-
-            <button
-                class="main-btn"
-                onclick="completeRevision('${ch.key}')"
-            >
-                Revise ✓
-            </button>
-
-        </div>
-
-        `;
-
-    }).join('');
-}
-
-
-/* =========================
+/* =====================================
    DASHBOARD
-========================= */
+===================================== */
 
 function renderDashboard(){
 
-    const chapters=getAllChapters();
+    const chapters=
+        getAllChapters();
 
-    const completed=chapters.filter(ch=>
-        getChapterData(ch.key).done
-    ).length;
+    const total=
+        chapters.length;
 
-    const important=chapters.filter(ch=>
-        getChapterData(ch.key).important
-    ).length;
+    const completed=
+        chapters.filter(ch=>
+            getChapter(ch.key).done
+        ).length;
 
-    const weak=chapters.filter(ch=>
-        getChapterData(ch.key).weak
-    ).length;
+    const important=
+        chapters.filter(ch=>
+            getChapter(ch.key).important
+        ).length;
 
-    const total=chapters.length;
+    const weak=
+        chapters.filter(ch=>
+            getChapter(ch.key).weak
+        ).length;
 
-    const percent=Math.round(
-        completed/total*100
-    );
+    const percent=
+        Math.round(
+            completed/total*100
+        );
 
-    document.getElementById('totalChapters').textContent=total;
-    document.getElementById('completedChapters').textContent=completed;
-    document.getElementById('remainingChapters').textContent=total-completed;
-    document.getElementById('importantCount').textContent=important;
-    document.getElementById('weakCount').textContent=weak;
-    document.getElementById('streak').textContent=getStreak();
+    document.getElementById('totalChapters')
+        .textContent=total;
 
-    document.getElementById('overallPercent').textContent=
-        percent+'%';
+    document.getElementById('completedChapters')
+        .textContent=completed;
 
-    document.getElementById('overallLabel').textContent=
-        percent+'%';
+    document.getElementById('remainingChapters')
+        .textContent=total-completed;
 
-    document.getElementById('overallBar').style.width=
-        percent+'%';
+    document.getElementById('importantCount')
+        .textContent=important;
 
-    const ring=document.getElementById('overallRing');
+    document.getElementById('weakCount')
+        .textContent=weak;
+
+    document.getElementById('streak')
+        .textContent=getStreak();
+
+    document.getElementById('overallPercent')
+        .textContent=percent+'%';
+
+    document.getElementById('overallBigPercent')
+        .textContent=percent+'%';
+
+    document.getElementById('overallBar')
+        .style.width=percent+'%';
+
+    const ring=
+        document.getElementById('overallRing');
 
     const circumference=314;
 
-    ring.style.strokeDasharray=circumference;
+    ring.style.strokeDasharray=
+        circumference;
 
     ring.style.strokeDashoffset=
-        circumference-(circumference*percent/100);
+        circumference-
+        circumference*percent/100;
 
     let status='Mission Started';
-    let message='Start completing chapters to build momentum.';
+    let message='Start your first chapter and begin building momentum.';
 
     if(percent>=90){
+
         status='Legend Mode 👑';
-        message='Outstanding! You are extremely close to finishing everything.';
-    }
-    else if(percent>=75){
-        status='Almost There 🔥';
-        message='You are entering the final phase of preparation.';
-    }
-    else if(percent>=50){
+
+        message='Outstanding. You are extremely close to completing the mission.';
+
+    }else if(percent>=75){
+
+        status='Final Phase 🔥';
+
+        message='You are in the final stretch. Revision and consistency are everything now.';
+
+    }else if(percent>=50){
+
         status='Halfway Warrior ⚡';
-        message='More than halfway done. Keep the momentum alive.';
-    }
-    else if(percent>=25){
+
+        message='More than half the mission is complete. Keep pushing.';
+
+    }else if(percent>=25){
+
         status='Momentum Building 🚀';
-        message='Your consistency is starting to create real progress.';
+
+        message='Your preparation is gaining speed. Stay consistent.';
+
     }
 
-    document.getElementById('missionStatus').textContent=status;
-    document.getElementById('missionMessage').textContent=message;
+    document.getElementById('progressStatus')
+        .textContent=status;
 
-    /* XP */
+    document.getElementById('progressText')
+        .textContent=message;
 
     const xp=getXP();
-    const level=getLevel();
-    const currentLevelXP=xp%100;
 
-    document.getElementById('levelNum').textContent=level;
+    document.getElementById('levelNumber')
+        .textContent=getLevel();
 
-    document.getElementById('xpText').textContent=
-        `${xp} XP`;
+    document.getElementById('xpText')
+        .textContent=xp+' XP';
 
-    document.getElementById('xpFill').style.width=
-        currentLevelXP+'%';
+    document.getElementById('xpFill')
+        .style.width=
+        xp%100+'%';
 
-    /* DAILY GOAL */
-
-    const goal=getGoal();
-    const todayCompleted=getTodayCompleted();
-
-    const goalPercent=Math.min(
-        100,
-        Math.round(todayCompleted/goal*100)
-    );
-
-    document.getElementById('dailyGoalText').textContent=
-        `${todayCompleted} / ${goal}`;
-
-    document.getElementById('goalPercent').textContent=
-        goalPercent+'%';
-
-    document.getElementById('goalCircle')
-        .style.setProperty('--goal',goalPercent);
-
-    /* SUBJECTS */
+    /* SUBJECT PROGRESS */
 
     const subjectBox=
-        document.getElementById('dashboardSubjects');
+        document.getElementById('subjectProgress');
 
     subjectBox.innerHTML='';
 
     DB.forEach(item=>{
 
-        const done=item.ch.filter((_,i)=>
-            getChapterData(chapterKey(item,i)).done
-        ).length;
+        const done=
+            item.ch.filter((_,i)=>
+                getChapter(
+                    chapterKey(item,i)
+                ).done
+            ).length;
 
-        const p=Math.round(done/item.ch.length*100);
+        const p=
+            Math.round(
+                done/item.ch.length*100
+            );
 
         subjectBox.innerHTML+=`
 
-        <div class="subject-progress-row">
+        <div class="subject-row">
 
-            <div class="row">
+        <div class="subject-row-top">
 
-                <span>
-                ${item.cls} ${item.sub}
-                </span>
+        <span>
+        ${item.cls} ${item.sub}
+        </span>
 
-                <span>
-                ${p}%
-                </span>
+        <span>
+        ${p}%
+        </span>
 
-            </div>
+        </div>
 
-            <div class="bar">
-                <span style="width:${p}%"></span>
-            </div>
+        <div class="bar">
+        <span style="width:${p}%"></span>
+        </div>
 
         </div>
 
@@ -2380,38 +2913,75 @@ function renderDashboard(){
 
     });
 
-    /* REVISION PREVIEW */
+    /* DAILY GOAL */
 
-    const due=chapters.filter(ch=>
-        isRevisionDue(getChapterData(ch.key))
-    );
+    const goal=getGoal();
 
-    const revBox=
+    const today=getTodayCompleted();
+
+    const goalPercent=
+        Math.min(
+            100,
+            Math.round(today/goal*100)
+        );
+
+    document.getElementById('dailyGoalText')
+        .textContent=
+        `${today}/${goal}`;
+
+    document.getElementById('goalPercent')
+        .textContent=
+        goalPercent+'%';
+
+    document.getElementById('goalRing')
+        .style.setProperty(
+            '--p',
+            goalPercent
+        );
+
+    /* REVISION */
+
+    const due=
+        chapters.filter(ch=>
+            isRevisionDue(
+                getChapter(ch.key)
+            )
+        );
+
+    const revisionBox=
         document.getElementById('dashboardRevision');
 
     if(!due.length){
 
-        revBox.innerHTML=
-        '<p style="color:var(--muted);font-size:.8rem">No chapters are due for revision right now. 🎉</p>';
+        revisionBox.innerHTML=`
+        <p style="
+        color:var(--muted);
+        font-size:.75rem
+        ">
+        🎉 No chapters are currently due.
+        </p>
+        `;
 
     }else{
 
-        revBox.innerHTML=
-        due.slice(0,3).map(ch=>`
+        revisionBox.innerHTML=
+        due.slice(0,4)
+        .map(ch=>`
 
         <div style="
         display:flex;
         justify-content:space-between;
-        align-items:center;
-        margin-bottom:10px;
-        font-size:.78rem
+        margin:9px 0;
+        font-size:.72rem
         ">
 
-            <span>${ch.name}</span>
+        <span>
+        ${ch.name}
+        </span>
 
-            <span style="color:var(--pink)">
-            Due
-            </span>
+        <span style="color:var(--pink)">
+        Due
+        </span>
 
         </div>
 
@@ -2421,28 +2991,849 @@ function renderDashboard(){
 
     /* SMART ADVICE */
 
-    let advice='Complete one chapter today to maintain your momentum.';
+    let advice=
+    'Complete one meaningful task today. Consistency matters more than motivation.';
 
-    if(weak>important && weak>0){
-        advice='⚠️ You have several weak chapters. Focus on strengthening weak areas before starting too many new chapters.';
-    }
-    else if(due.length>0){
-        advice='🔄 You have revision pending. Revision should come before starting completely new topics.';
-    }
-    else if(percent>=75){
-        advice='🔥 You are in a strong position. Focus on revision, mock tests and weak concepts.';
-    }
-    else if(todayCompleted>=goal){
-        advice='🏆 Daily goal completed! You are officially ahead of today’s mission.';
+    if(due.length>0){
+
+        advice=
+        '🔄 Revision is pending. Complete your revision queue before starting too many new chapters.';
+
+    }else if(weak>0){
+
+        advice=
+        `⚠️ You currently have ${weak} weak chapters. Give extra time to these topics.`;
+
+    }else if(today>=goal){
+
+        advice=
+        '🏆 Daily mission completed. You can now revise, solve questions or move ahead.';
+
+    }else if(percent>60){
+
+        advice=
+        '🔥 Your syllabus progress is strong. Begin increasing revision and mock-test frequency.';
+
     }
 
-    document.getElementById('smartAdvice').textContent=advice;
+    document.getElementById('aiAdvice')
+        .textContent=advice;
+
 }
 
 
-/* =========================
+/* =====================================
+   REVISION RENDER
+===================================== */
+
+function renderRevision(){
+
+    const all=
+        getAllChapters()
+        .filter(ch=>
+            isRevisionDue(
+                getChapter(ch.key)
+            )
+        );
+
+    document.getElementById('revisionCount')
+        .textContent=
+        all.length+' Due';
+
+    const list=
+        document.getElementById('revisionList');
+
+    if(!all.length){
+
+        list.innerHTML=`
+        <div style="
+        text-align:center;
+        color:var(--muted);
+        padding:40px
+        ">
+        🎉 No revision pending.
+        </div>
+        `;
+
+        return;
+
+    }
+
+    list.innerHTML=
+    all.map(ch=>`
+
+    <div class="revision-item">
+
+    <div>
+
+    <strong style="font-size:.82rem">
+    ${ch.name}
+    </strong>
+
+    <p>
+    ${ch.item.cls} •
+    ${ch.item.sub}
+    </p>
+
+    </div>
+
+    <button
+    class="btn"
+    onclick="completeRevision('${ch.key}')"
+    >
+    Revise ✓
+    </button>
+
+    </div>
+
+    `).join('');
+
+}
+
+
+/* =====================================
+   DAILY PLANNER
+===================================== */
+
+function getTasks(){
+
+    return getValue(
+        'tasks',
+        []
+    );
+
+}
+
+function saveTasks(tasks){
+
+    setValue(
+        'tasks',
+        tasks
+    );
+
+}
+
+function addTask(){
+
+    const name=
+        document.getElementById('taskName')
+        .value
+        .trim();
+
+    if(!name){
+
+        toast('Enter a task first');
+
+        return;
+
+    }
+
+    const task={
+
+        id:Date.now(),
+
+        name,
+
+        subject:
+        document.getElementById('taskSubject').value,
+
+        time:
+        document.getElementById('taskTime').value,
+
+        priority:
+        document.getElementById('taskPriority').value,
+
+        done:false,
+
+        date:
+        new Date().toISOString()
+
+    };
+
+    const tasks=getTasks();
+
+    tasks.unshift(task);
+
+    saveTasks(tasks);
+
+    document.getElementById('taskName')
+        .value='';
+
+    toast('Task added 🗓');
+
+    renderTasks();
+
+}
+
+function toggleTask(id){
+
+    const tasks=
+        getTasks();
+
+    const task=
+        tasks.find(t=>t.id===id);
+
+    if(task){
+
+        task.done=!task.done;
+
+        saveTasks(tasks);
+
+    }
+
+    renderTasks();
+
+}
+
+function deleteTask(id){
+
+    saveTasks(
+        getTasks()
+        .filter(t=>t.id!==id)
+    );
+
+    renderTasks();
+
+}
+
+function renderTasks(){
+
+    const tasks=getTasks();
+
+    const list=
+        document.getElementById('taskList');
+
+    if(!tasks.length){
+
+        list.innerHTML=`
+        <p style="
+        color:var(--muted);
+        text-align:center;
+        padding:30px
+        ">
+        No tasks yet. Plan your first study session.
+        </p>
+        `;
+
+        return;
+
+    }
+
+    list.innerHTML=
+    tasks.map(task=>`
+
+    <div
+    class="task
+    ${task.done?'done':''}"
+    >
+
+    <div
+    class="check
+    ${task.done?'active':''}"
+    onclick="toggleTask(${task.id})"
+    >
+    ${task.done?'✓':''}
+    </div>
+
+    <div class="task-name">
+
+    <strong>
+    ${task.name}
+    </strong>
+
+    <div style="
+    color:var(--muted);
+    font-size:.65rem;
+    margin-top:3px
+    ">
+
+    ${task.subject}
+    ${task.time?' • '+task.time:''}
+
+    </div>
+
+    </div>
+
+    <span
+    class="priority ${task.priority}"
+    >
+
+    ${task.priority.toUpperCase()}
+
+    </span>
+
+    <button
+    class="btn secondary"
+    onclick="deleteTask(${task.id})"
+    >
+    ✕
+    </button>
+
+    </div>
+
+    `).join('');
+
+}
+
+
+/* =====================================
+   MOCK TESTS
+===================================== */
+
+function getMocks(){
+
+    return getValue(
+        'mockTests',
+        []
+    );
+
+}
+
+function addMockTest(){
+
+    const name=
+        document.getElementById('mockName')
+        .value
+        .trim();
+
+    const total=
+        Number(
+            document.getElementById('mockTotal')
+            .value
+        );
+
+    const score=
+        Number(
+            document.getElementById('mockScore')
+            .value
+        );
+
+    if(
+        !name ||
+        !total ||
+        score<0
+    ){
+
+        toast('Enter valid mock test details');
+
+        return;
+
+    }
+
+    const mock={
+
+        id:Date.now(),
+
+        name,
+
+        exam:
+        document.getElementById('mockExam')
+        .value,
+
+        total,
+
+        score,
+
+        date:
+        document.getElementById('mockDate')
+        .value ||
+        new Date().toISOString().split('T')[0]
+
+    };
+
+    const mocks=getMocks();
+
+    mocks.unshift(mock);
+
+    setValue(
+        'mockTests',
+        mocks
+    );
+
+    document.getElementById('mockName').value='';
+    document.getElementById('mockTotal').value='';
+    document.getElementById('mockScore').value='';
+
+    toast('Mock test saved 📝');
+
+    renderMocks();
+
+    renderAnalytics();
+
+}
+
+function deleteMock(id){
+
+    setValue(
+        'mockTests',
+        getMocks()
+        .filter(m=>m.id!==id)
+    );
+
+    renderMocks();
+
+    renderAnalytics();
+
+}
+
+function renderMocks(){
+
+    const mocks=getMocks();
+
+    const list=
+        document.getElementById('mockList');
+
+    if(!mocks.length){
+
+        list.innerHTML=`
+        <p style="
+        color:var(--muted);
+        grid-column:1/-1;
+        text-align:center;
+        padding:30px
+        ">
+        No mock tests added yet.
+        </p>
+        `;
+
+        return;
+
+    }
+
+    list.innerHTML=
+    mocks.map(mock=>{
+
+        const percent=
+            Math.round(
+                mock.score/mock.total*100
+            );
+
+        return `
+
+        <div class="mock">
+
+        <div style="
+        display:flex;
+        justify-content:space-between
+        ">
+
+        <strong>
+        ${mock.name}
+        </strong>
+
+        <button
+        class="btn secondary"
+        onclick="deleteMock(${mock.id})"
+        >
+        ✕
+        </button>
+
+        </div>
+
+        <div class="mock-score">
+
+        ${mock.score}/${mock.total}
+
+        </div>
+
+        <div style="
+        color:var(--green);
+        font-size:.8rem;
+        margin-top:5px
+        ">
+
+        ${percent}%
+
+        </div>
+
+        <div style="
+        color:var(--muted);
+        font-size:.65rem;
+        margin-top:7px
+        ">
+
+        ${mock.exam} •
+        ${mock.date}
+
+        </div>
+
+        </div>
+
+        `;
+
+    }).join('');
+
+}
+
+
+/* =====================================
+   CALENDAR
+===================================== */
+
+let calendarDate=
+    new Date();
+
+function changeMonth(value){
+
+    calendarDate.setMonth(
+        calendarDate.getMonth()+value
+    );
+
+    renderCalendar();
+
+}
+
+function renderCalendar(){
+
+    const year=
+        calendarDate.getFullYear();
+
+    const month=
+        calendarDate.getMonth();
+
+    document.getElementById('calendarTitle')
+        .textContent=
+        new Date(
+            year,
+            month
+        ).toLocaleString(
+            'default',
+            {
+                month:'long',
+                year:'numeric'
+            }
+        );
+
+    const grid=
+        document.getElementById('calendarGrid');
+
+    grid.innerHTML='';
+
+    ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
+    .forEach(day=>{
+
+        grid.innerHTML+=`
+        <div class="cal-day-name">
+        ${day}
+        </div>
+        `;
+
+    });
+
+    const firstDay=
+        new Date(
+            year,
+            month,
+            1
+        ).getDay();
+
+    const days=
+        new Date(
+            year,
+            month+1,
+            0
+        ).getDate();
+
+    for(let i=0;i<firstDay;i++){
+
+        grid.innerHTML+=`
+        <div></div>
+        `;
+
+    }
+
+    const chapters=
+        getAllChapters();
+
+    for(let day=1;day<=days;day++){
+
+        const dateKey=
+        `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+
+        const studied=
+        chapters.some(ch=>{
+
+            const data=
+                getChapter(ch.key);
+
+            return data.completedAt &&
+                data.completedAt.startsWith(dateKey);
+
+        });
+
+        const today=
+            new Date();
+
+        const isToday=
+            today.getFullYear()===year &&
+            today.getMonth()===month &&
+            today.getDate()===day;
+
+        grid.innerHTML+=`
+
+        <div
+        class="
+        cal-day
+        ${studied?'has-study':''}
+        ${isToday?'today':''}
+        "
+        >
+
+        ${day}
+
+        ${studied?
+        '<div style="font-size:.5rem;color:var(--green);margin-top:5px">● Study</div>'
+        :''}
+
+        </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================
+   FOCUS TIMER
+===================================== */
+
+let focusSeconds=1500;
+let focusInterval=null;
+let focusRunning=false;
+
+function setTimer(minutes){
+
+    if(focusRunning)
+        return;
+
+    focusSeconds=minutes*60;
+
+    renderFocus();
+
+}
+
+function renderFocus(){
+
+    const min=
+        Math.floor(focusSeconds/60)
+        .toString()
+        .padStart(2,'0');
+
+    const sec=
+        (focusSeconds%60)
+        .toString()
+        .padStart(2,'0');
+
+    document.getElementById('focusDisplay')
+        .textContent=
+        `${min}:${sec}`;
+
+}
+
+function toggleFocus(){
+
+    if(focusRunning){
+
+        clearInterval(focusInterval);
+
+        focusRunning=false;
+
+        document.getElementById('focusButton')
+            .textContent=
+            '▶ Resume';
+
+        return;
+
+    }
+
+    focusRunning=true;
+
+    document.getElementById('focusButton')
+        .textContent=
+        '⏸ Pause';
+
+    focusInterval=
+        setInterval(()=>{
+
+            focusSeconds--;
+
+            renderFocus();
+
+            if(focusSeconds<=0){
+
+                clearInterval(focusInterval);
+
+                focusRunning=false;
+
+                document.getElementById('focusButton')
+                    .textContent=
+                    '▶ Start';
+
+                addXP(15);
+
+                celebrate();
+
+                toast(
+                    'Focus session complete! +15 XP'
+                );
+
+                focusSeconds=1500;
+
+                renderFocus();
+
+            }
+
+        },1000);
+
+}
+
+function resetFocus(){
+
+    clearInterval(focusInterval);
+
+    focusRunning=false;
+
+    focusSeconds=1500;
+
+    document.getElementById('focusButton')
+        .textContent=
+        '▶ Start';
+
+    renderFocus();
+
+}
+
+
+/* =====================================
+   EXAM COUNTDOWN
+===================================== */
+
+const exams2027=[
+['JEE Main Jan','2027-01-24'],
+['JEE Main Apr','2027-04-06'],
+['JEE Advanced','2027-05-23'],
+['NEET','2027-05-02']
+];
+
+const exams2028=[
+['JEE Main Jan','2028-01-24'],
+['JEE Main Apr','2028-04-06'],
+['JEE Advanced','2028-05-23'],
+['NEET','2028-05-07']
+];
+
+function createExams(id,exams){
+
+    const container=
+        document.getElementById(id);
+
+    container.innerHTML='';
+
+    exams.forEach((exam,index)=>{
+
+        const timerId=
+            id+'_'+index;
+
+        container.innerHTML+=`
+
+        <div class="exam">
+
+        <div class="exam-name">
+        ${exam[0]}
+        </div>
+
+        <div
+        class="exam-time"
+        id="${timerId}"
+        ></div>
+
+        </div>
+
+        `;
+
+        updateExam(
+            timerId,
+            exam[1]
+        );
+
+        setInterval(
+            ()=>updateExam(
+                timerId,
+                exam[1]
+            ),
+            1000
+        );
+
+    });
+
+}
+
+function updateExam(id,date){
+
+    const diff=
+        Math.max(
+            0,
+            new Date(date).getTime()-
+            Date.now()
+        );
+
+    const d=
+        Math.floor(
+            diff/86400000
+        );
+
+    const h=
+        Math.floor(
+            diff%86400000/3600000
+        );
+
+    const m=
+        Math.floor(
+            diff%3600000/60000
+        );
+
+    const s=
+        Math.floor(
+            diff%60000/1000
+        );
+
+    const el=
+        document.getElementById(id);
+
+    if(!el)
+        return;
+
+    el.innerHTML=`
+
+    <div class="time-box">
+    <strong>${d}</strong>
+    <small>D</small>
+    </div>
+
+    <div class="time-box">
+    <strong>${h}</strong>
+    <small>H</small>
+    </div>
+
+    <div class="time-box">
+    <strong>${m}</strong>
+    <small>M</small>
+    </div>
+
+    <div class="time-box">
+    <strong>${s}</strong>
+    <small>S</small>
+    </div>
+
+    `;
+
+}
+
+
+/* =====================================
    ANALYTICS
-========================= */
+===================================== */
 
 function renderAnalytics(){
 
@@ -2453,49 +3844,67 @@ function renderAnalytics(){
 
     DB.forEach(item=>{
 
-        const done=item.ch.filter((_,i)=>
-            getChapterData(chapterKey(item,i)).done
-        ).length;
+        const done=
+            item.ch.filter((_,i)=>
+                getChapter(
+                    chapterKey(item,i)
+                ).done
+            ).length;
 
-        const weak=item.ch.filter((_,i)=>
-            getChapterData(chapterKey(item,i)).weak
-        ).length;
+        const weak=
+            item.ch.filter((_,i)=>
+                getChapter(
+                    chapterKey(item,i)
+                ).weak
+            ).length;
 
-        const important=item.ch.filter((_,i)=>
-            getChapterData(chapterKey(item,i)).important
-        ).length;
-
-        const percent=Math.round(
-            done/item.ch.length*100
-        );
+        const percent=
+            Math.round(
+                done/item.ch.length*100
+            );
 
         grid.innerHTML+=`
 
         <div class="analytics-card">
 
-            <h4>
-            ${item.cls} ${item.sub}
-            </h4>
+        <h3 style="font-size:.9rem">
+        ${item.cls} ${item.sub}
+        </h3>
 
-            <div class="stat-value">
-            ${percent}%
-            </div>
+        <div style="
+        font-size:2rem;
+        font-weight:800;
+        margin:10px 0
+        ">
 
-            <div class="bar" style="margin:10px 0">
-                <span style="width:${percent}%"></span>
-            </div>
+        ${percent}%
 
-            <div style="
-            font-size:.75rem;
-            color:var(--muted);
-            line-height:1.8
-            ">
+        </div>
 
-                Completed: ${done}/${item.ch.length}<br>
-                Weak: ${weak}<br>
-                Important: ${important}
+        <div class="bar">
 
-            </div>
+        <span style="
+        width:${percent}%
+        "></span>
+
+        </div>
+
+        <div style="
+        margin-top:10px;
+        color:var(--muted);
+        font-size:.68rem;
+        line-height:1.8
+        ">
+
+        ${done}/${item.ch.length}
+        completed
+
+        <br>
+
+        ${weak}
+        weak chapters
+
+        </div>
 
         </div>
 
@@ -2503,440 +3912,154 @@ function renderAnalytics(){
 
     });
 
-}
+    /* MOCK CHART */
 
+    const mocks=
+        [...getMocks()].reverse();
 
-/* =========================
-   ACHIEVEMENTS
-========================= */
+    const chart=
+        document.getElementById('mockChart');
 
-function renderAchievements(){
+    if(!mocks.length){
 
-    const chapters=getAllChapters();
-
-    const completed=
-        chapters.filter(ch=>
-            getChapterData(ch.key).done
-        ).length;
-
-    const streak=getStreak();
-
-    const xp=getXP();
-
-    const achievements=[
-        {
-            icon:'🌱',
-            name:'First Step',
-            desc:'Complete your first chapter',
-            unlocked:completed>=1
-        },
-        {
-            icon:'🔥',
-            name:'On Fire',
-            desc:'Maintain a 3 day streak',
-            unlocked:streak>=3
-        },
-        {
-            icon:'⚡',
-            name:'Speed Runner',
-            desc:'Complete 25 chapters',
-            unlocked:completed>=25
-        },
-        {
-            icon:'🧠',
-            name:'Knowledge Hunter',
-            desc:'Complete 50 chapters',
-            unlocked:completed>=50
-        },
-        {
-            icon:'🏆',
-            name:'Century',
-            desc:'Complete 100 chapters',
-            unlocked:completed>=100
-        },
-        {
-            icon:'👑',
-            name:'Legend',
-            desc:'Reach 1000 XP',
-            unlocked:xp>=1000
-        }
-    ];
-
-    document.getElementById('achievementGrid')
-        .innerHTML=
-
-        achievements.map(a=>`
-
-        <div class="achievement ${a.unlocked?'':'locked'}">
-
-            <div class="achievement-icon">
-            ${a.icon}
-            </div>
-
-            <h3>
-            ${a.name}
-            </h3>
-
-            <p style="
-            color:var(--muted);
-            font-size:.75rem;
-            margin-top:7px
-            ">
-            ${a.desc}
-            </p>
-
-            <div style="
-            margin-top:10px;
-            font-size:.7rem;
-            color:${a.unlocked?'var(--green)':'var(--muted)'}
-            ">
-            ${a.unlocked?'UNLOCKED ✓':'LOCKED 🔒'}
-            </div>
-
-        </div>
-
-        `).join('');
-}
-
-
-/* =========================
-   TIMER
-========================= */
-
-let timerSeconds=1500;
-let timerInterval=null;
-let timerRunning=false;
-
-function setTimerMode(minutes){
-
-    if(timerRunning) return;
-
-    timerSeconds=minutes*60;
-
-    renderTimer();
-
-}
-
-function renderTimer(){
-
-    const min=Math.floor(timerSeconds/60)
-        .toString()
-        .padStart(2,'0');
-
-    const sec=(timerSeconds%60)
-        .toString()
-        .padStart(2,'0');
-
-    document.getElementById('timerDisplay')
-        .textContent=
-        `${min}:${sec}`;
-
-}
-
-function toggleTimer(){
-
-    if(timerRunning){
-
-        clearInterval(timerInterval);
-
-        timerRunning=false;
-
-        document.getElementById('timerStartBtn')
-            .textContent='▶ Resume';
+        chart.innerHTML=`
+        <p style="
+        color:var(--muted);
+        width:100%;
+        text-align:center
+        ">
+        Add mock tests to see performance chart.
+        </p>
+        `;
 
         return;
 
     }
 
-    timerRunning=true;
+    chart.innerHTML=
+    mocks.slice(-10)
+    .map(mock=>{
 
-    document.getElementById('timerStartBtn')
-        .textContent='⏸ Pause';
+        const p=
+            Math.min(
+                100,
+                mock.score/mock.total*100
+            );
 
-    timerInterval=setInterval(()=>{
+        return `
 
-        timerSeconds--;
+        <div class="chart-bar-wrap">
 
-        renderTimer();
+        <div
+        class="chart-bar"
+        style="height:${p}%"
+        title="${p.toFixed(1)}%"
+        ></div>
 
-        if(timerSeconds<=0){
-
-            clearInterval(timerInterval);
-
-            timerRunning=false;
-
-            document.getElementById('timerStartBtn')
-                .textContent='▶ Start';
-
-            completeFocusSession();
-
-            timerSeconds=1500;
-
-            renderTimer();
-
-        }
-
-    },1000);
-
-}
-
-function resetTimer(){
-
-    clearInterval(timerInterval);
-
-    timerRunning=false;
-
-    timerSeconds=1500;
-
-    document.getElementById('timerStartBtn')
-        .textContent='▶ Start';
-
-    renderTimer();
-
-}
-
-function completeFocusSession(){
-
-    let sessions=
-        getState('focusSessions') || 0;
-
-    let minutes=
-        getState('todayStudyMinutes') || 0;
-
-    setState('focusSessions',sessions+1);
-
-    setState(
-        'todayStudyMinutes',
-        minutes+25
-    );
-
-    addXP(15);
-
-    celebrate();
-
-    toast('Focus session complete! +15 XP 🧠');
-
-    renderFocusStats();
-}
-
-function renderFocusStats(){
-
-    document.getElementById('totalSessions')
-        .textContent=
-        getState('focusSessions') || 0;
-
-    document.getElementById('todayStudyTime')
-        .textContent=
-        getState('todayStudyMinutes') || 0;
-
-}
-
-
-/* =========================
-   COUNTDOWN
-========================= */
-
-const exams2027=[
-['JEE Main Jan','January 24, 2027'],
-['JEE Main Apr','April 6, 2027'],
-['JEE Advanced','May 23, 2027'],
-['NEET','May 2, 2027']
-];
-
-const exams2028=[
-['JEE Main Jan','January 24, 2028'],
-['JEE Main Apr','April 6, 2028'],
-['JEE Advanced','May 23, 2028'],
-['NEET','May 7, 2028']
-];
-
-function createExamBoxes(){
-
-    createExamYear(
-        'timer2027',
-        exams2027
-    );
-
-    createExamYear(
-        'timer2028',
-        exams2028
-    );
-}
-
-function createExamYear(id,exams){
-
-    const container=
-        document.getElementById(id);
-
-    container.innerHTML='';
-
-    exams.forEach((exam,index)=>{
-
-        const timerId=
-            `${id}_${index}`;
-
-        container.innerHTML+=`
-
-        <div class="exam-box">
-
-            <div class="exam-name">
-            ${exam[0]}
-            </div>
-
-            <div
-                class="countdown"
-                id="${timerId}"
-            ></div>
+        ${p.toFixed(0)}%
 
         </div>
 
         `;
 
-        updateExamTimer(
-            timerId,
-            exam[1]
-        );
-
-        setInterval(()=>{
-
-            updateExamTimer(
-                timerId,
-                exam[1]
-            );
-
-        },1000);
-
-    });
-
-}
-
-function updateExamTimer(id,date){
-
-    const diff=
-        new Date(date).getTime()-Date.now();
-
-    const safe=Math.max(0,diff);
-
-    const d=Math.floor(
-        safe/86400000
-    );
-
-    const h=Math.floor(
-        safe%86400000/3600000
-    );
-
-    const m=Math.floor(
-        safe%3600000/60000
-    );
-
-    const s=Math.floor(
-        safe%60000/1000
-    );
-
-    const el=document.getElementById(id);
-
-    if(!el) return;
-
-    el.innerHTML=`
-
-    <div class="unit">
-        <span>${d}</span>
-        <label>D</label>
-    </div>
-
-    <div class="unit">
-        <span>${h}</span>
-        <label>H</label>
-    </div>
-
-    <div class="unit">
-        <span>${m}</span>
-        <label>M</label>
-    </div>
-
-    <div class="unit">
-        <span>${s}</span>
-        <label>S</label>
-    </div>
-
-    `;
+    }).join('');
 
 }
 
 
-/* =========================
-   PAGE SYSTEM
-========================= */
+/* =====================================
+   PAGE NAVIGATION
+===================================== */
 
 function showPage(id,button){
 
-    document.querySelectorAll('.page')
-        .forEach(page=>
-            page.classList.remove('active')
-        );
+    document
+    .querySelectorAll('.page')
+    .forEach(page=>
+        page.classList.remove('active')
+    );
 
-    const target=document.getElementById(id);
+    const page=
+        document.getElementById(id);
 
-    if(target){
-        target.classList.add('active');
-    }
+    if(page)
+        page.classList.add('active');
 
-    document.querySelectorAll('.nav button,.mobile-nav button')
-        .forEach(btn=>
-            btn.classList.remove('active')
-        );
+    document
+    .querySelectorAll(
+        '.nav button,.mobile-nav button'
+    )
+    .forEach(btn=>
+        btn.classList.remove('active')
+    );
 
-    if(button){
+    if(button)
         button.classList.add('active');
-    }
 
     if(id==='chapters')
         renderChapters();
 
+    if(id==='planner')
+        renderTasks();
+
     if(id==='revision')
         renderRevision();
 
+    if(id==='mocktests')
+        renderMocks();
+
+    if(id==='calendar')
+        renderCalendar();
+
     if(id==='analytics')
         renderAnalytics();
-
-    if(id==='achievements')
-        renderAchievements();
 
     window.scrollTo({
         top:0,
         behavior:'smooth'
     });
+
 }
 
 
-/* =========================
+/* =====================================
    BACKUP
-========================= */
+===================================== */
 
 function exportData(){
 
-    const data=getData();
-
-    const blob=new Blob(
-        [JSON.stringify(data,null,2)],
-        {type:'application/json'}
-    );
+    const blob=
+        new Blob(
+            [
+                JSON.stringify(
+                    getStore(),
+                    null,
+                    2
+                )
+            ],
+            {
+                type:
+                'application/json'
+            }
+        );
 
     const url=
         URL.createObjectURL(blob);
 
-    const a=document.createElement('a');
+    const a=
+        document.createElement('a');
 
     a.href=url;
 
     a.download=
-        'Ghazi-Abbas-Study-OS-Backup.json';
+        'Ghazi-Abbas-Study-OS-V3-Backup.json';
 
     a.click();
 
     URL.revokeObjectURL(url);
 
-    toast('Backup exported successfully 💾');
+    toast('Backup downloaded 💾');
+
 }
 
 function importData(event){
@@ -2944,152 +4067,277 @@ function importData(event){
     const file=
         event.target.files[0];
 
-    if(!file) return;
+    if(!file)
+        return;
 
-    const reader=new FileReader();
+    const reader=
+        new FileReader();
 
-    reader.onload=function(e){
+    reader.onload=
+        function(e){
 
-        try{
+            try{
 
-            const data=
-                JSON.parse(e.target.result);
+                const data=
+                    JSON.parse(
+                        e.target.result
+                    );
 
-            saveData(data);
+                saveStore(data);
 
-            refreshAll();
+                refresh();
 
-            toast('Backup imported successfully 📂');
+                toast(
+                    'Backup restored successfully 📂'
+                );
 
-        }catch(err){
+            }catch(error){
 
-            toast('Invalid backup file');
+                toast(
+                    'Invalid backup file'
+                );
 
-        }
+            }
 
-    };
+        };
 
     reader.readAsText(file);
+
 }
 
 
-/* =========================
-   THEME
-========================= */
+/* =====================================
+   NOTIFICATIONS
+===================================== */
 
-function toggleTheme(){
+function requestNotification(){
 
-    document.body.classList.toggle('light');
+    if(!('Notification' in window)){
 
-    toast('Theme mode changed 🌙');
+        toast(
+            'Notifications are not supported'
+        );
+
+        return;
+
+    }
+
+    Notification
+        .requestPermission()
+        .then(permission=>{
+
+            if(permission==='granted'){
+
+                new Notification(
+                    'Ghazi Abbas Study OS',
+                    {
+                        body:
+                        'Study reminder system is now active 🔥'
+                    }
+                );
+
+                toast(
+                    'Notifications enabled 🔔'
+                );
+
+            }else{
+
+                toast(
+                    'Notification permission denied'
+                );
+
+            }
+
+        });
+
 }
 
 
-/* =========================
+/* =====================================
    TOAST
-========================= */
+===================================== */
 
 function toast(message){
 
-    const t=document.getElementById('toast');
+    const box=
+        document.getElementById('toast');
 
-    t.textContent=message;
+    box.textContent=message;
 
-    t.classList.add('show');
+    box.classList.add('show');
 
-    clearTimeout(window.toastTimer);
+    clearTimeout(
+        window.toastTimeout
+    );
 
-    window.toastTimer=setTimeout(()=>{
+    window.toastTimeout=
+        setTimeout(()=>{
 
-        t.classList.remove('show');
+            box.classList.remove('show');
 
-    },2500);
+        },2500);
 
 }
 
 
-/* =========================
+/* =====================================
    CONFETTI
-========================= */
+===================================== */
 
 function celebrate(){
 
-    const end=Date.now()+2000;
+    const end=
+        Date.now()+1800;
 
     (function frame(){
 
         confetti({
-            particleCount:6,
+            particleCount:5,
             angle:60,
             spread:55,
             origin:{x:0},
-            colors:['#ff007a','#00d2ff','#00ff88']
+            colors:[
+                '#ff007a',
+                '#00d2ff',
+                '#00e889'
+            ]
         });
 
         confetti({
-            particleCount:6,
+            particleCount:5,
             angle:120,
             spread:55,
             origin:{x:1},
-            colors:['#ff007a','#00d2ff','#00ff88']
+            colors:[
+                '#ff007a',
+                '#00d2ff',
+                '#00e889'
+            ]
         });
 
-        if(Date.now()<end){
+        if(Date.now()<end)
             requestAnimationFrame(frame);
-        }
 
     })();
 
 }
 
 
-/* =========================
-   SNOW PARTICLES
-========================= */
+/* =====================================
+   ADVANCED PARTICLE BACKGROUND
+===================================== */
 
-const cvs=document.getElementById('snow');
+const canvas=
+    document.getElementById(
+        'particleCanvas'
+    );
 
-const ctx=cvs.getContext('2d');
+const ctx=
+    canvas.getContext('2d');
 
 let particles=[];
 
-function resizeCanvas(){
+let mouse={
+    x:null,
+    y:null
+};
 
-    cvs.width=window.innerWidth;
-    cvs.height=window.innerHeight;
+function resizeParticles(){
+
+    canvas.width=
+        window.innerWidth;
+
+    canvas.height=
+        window.innerHeight;
 
 }
 
 window.addEventListener(
     'resize',
-    resizeCanvas
+    resizeParticles
 );
 
-resizeCanvas();
+resizeParticles();
+
+document.addEventListener(
+    'mousemove',
+    event=>{
+
+        mouse.x=event.clientX;
+        mouse.y=event.clientY;
+
+    }
+);
 
 class Particle{
 
     constructor(){
+
         this.reset();
-        this.y=Math.random()*cvs.height;
+
+        this.y=
+            Math.random()*canvas.height;
+
     }
 
     reset(){
 
-        this.x=Math.random()*cvs.width;
+        this.x=
+            Math.random()*canvas.width;
+
         this.y=-10;
-        this.size=1+Math.random()*3;
-        this.speed=.2+Math.random()*.8;
-        this.opacity=.1+Math.random()*.4;
+
+        this.vx=
+            (Math.random()-.5)*.25;
+
+        this.vy=
+            .15+Math.random()*.45;
+
+        this.size=
+            1+Math.random()*2.5;
+
+        this.alpha=
+            .15+Math.random()*.35;
 
     }
 
     update(){
 
-        this.y+=this.speed;
+        this.x+=this.vx;
+        this.y+=this.vy;
 
-        if(this.y>cvs.height+10){
+        if(
+            this.y>
+            canvas.height+10
+        ){
             this.reset();
+        }
+
+        if(
+            mouse.x!==null
+        ){
+
+            const dx=
+                this.x-mouse.x;
+
+            const dy=
+                this.y-mouse.y;
+
+            const distance=
+                Math.sqrt(
+                    dx*dx+dy*dy
+                );
+
+            if(distance<100){
+
+                this.x+=
+                    dx/distance*.3;
+
+                this.y+=
+                    dy/distance*.3;
+
+            }
+
         }
 
     }
@@ -3097,7 +4345,7 @@ class Particle{
     draw(){
 
         ctx.fillStyle=
-            `rgba(255,255,255,${this.opacity})`;
+            `rgba(120,220,255,${this.alpha})`;
 
         ctx.beginPath();
 
@@ -3115,17 +4363,89 @@ class Particle{
 
 }
 
-for(let i=0;i<60;i++){
-    particles.push(new Particle());
+const particleCount=
+    window.innerWidth<700
+    ?30
+    :65;
+
+for(
+    let i=0;
+    i<particleCount;
+    i++
+){
+
+    particles.push(
+        new Particle()
+    );
+
 }
 
-function animateParticles(){
+function connectParticles(){
+
+    for(
+        let i=0;
+        i<particles.length;
+        i++
+    ){
+
+        for(
+            let j=i+1;
+            j<particles.length;
+            j++
+        ){
+
+            const dx=
+                particles[i].x-
+                particles[j].x;
+
+            const dy=
+                particles[i].y-
+                particles[j].y;
+
+            const distance=
+                dx*dx+dy*dy;
+
+            if(distance<15000){
+
+                ctx.strokeStyle=
+                    `rgba(
+                    80,
+                    180,
+                    255,
+                    ${1-distance/15000}
+                    )`;
+
+                ctx.lineWidth=.35;
+
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    particles[i].x,
+                    particles[i].y
+                );
+
+                ctx.lineTo(
+                    particles[j].x,
+                    particles[j].y
+                );
+
+                ctx.stroke();
+
+            }
+
+        }
+
+    }
+
+}
+
+function animateBackground(){
 
     ctx.clearRect(
         0,
         0,
-        cvs.width,
-        cvs.height
+        canvas.width,
+        canvas.height
     );
 
     particles.forEach(p=>{
@@ -3136,40 +4456,80 @@ function animateParticles(){
 
     });
 
+    connectParticles();
+
     requestAnimationFrame(
-        animateParticles
+        animateBackground
     );
 
 }
 
-animateParticles();
+animateBackground();
 
 
-/* =========================
-   REFRESH
-========================= */
+/* =====================================
+   MOUSE GLOW
+===================================== */
 
-function refreshAll(){
+const mouseGlow=
+    document.getElementById(
+        'mouseGlow'
+    );
+
+document.addEventListener(
+    'mousemove',
+    event=>{
+
+        mouseGlow.style.left=
+            event.clientX+'px';
+
+        mouseGlow.style.top=
+            event.clientY+'px';
+
+    }
+);
+
+
+/* =====================================
+   REFRESH ALL
+===================================== */
+
+function refresh(){
 
     renderDashboard();
+
     renderChapters();
+
     renderRevision();
+
+    renderTasks();
+
+    renderMocks();
+
+    renderCalendar();
+
     renderAnalytics();
-    renderAchievements();
-    renderFocusStats();
 
 }
 
 
-/* =========================
+/* =====================================
    INIT
-========================= */
+===================================== */
 
-createExamBoxes();
+createExams(
+    'exam2027',
+    exams2027
+);
 
-renderTimer();
+createExams(
+    'exam2028',
+    exams2028
+);
 
-refreshAll();
+renderFocus();
+
+refresh();
 
 </script>
 
