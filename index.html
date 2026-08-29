@@ -1,223 +1,3177 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ghazi Abbas | Final Legend Tracker</title>
-    
-    <link rel="icon" type="image/png" href="https://i.postimg.cc/m2PRngnY/logo512-png.png">
-    <link rel="apple-touch-icon" href="https://i.postimg.cc/m2PRngnY/logo512-png.png">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="theme-color" content="#ff007a">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <style>
-        :root {
-            --bg: #03050a; --card: rgba(12, 16, 24, 0.9); --pink: #ff007a; --blue: #00d2ff;
-            --green: #00ff88; --yellow: #ffcc00; --text: #e0e6ed;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; min-height: 100vh; }
-        #snow { position: fixed; inset: 0; pointer-events: none; z-index: -1; }
-        .container { width: min(1500px, 96%); margin: auto; padding-bottom: 150px; }
+<title>Ghazi Abbas | Study OS V2</title>
 
-        /* HEADER GLOW */
-        .header { padding: 60px 0 40px; text-align: center; }
-        .brand { 
-            display: inline-block; padding: 15px 45px; border-radius: 60px;
-            border: 4px solid var(--pink); 
-            box-shadow: 0 0 40px var(--pink), inset 0 0 25px var(--pink);
-            background: rgba(255, 0, 122, 0.08);
-        }
-        .brand h1 { 
-            font-size: clamp(2.8rem, 9vw, 5rem); font-weight: 800; color: #fff; 
-            text-shadow: 0 0 30px var(--pink), 0 0 60px var(--pink); letter-spacing: -2px;
-        }
+<link rel="icon" type="image/png" href="https://i.postimg.cc/m2PRngnY/logo512-png.png">
+<link rel="apple-touch-icon" href="https://i.postimg.cc/m2PRngnY/logo512-png.png">
 
-        /* BIG COUNTDOWN */
-        .timer-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 50px; }
-        .year-block { background: var(--card); border-radius: 35px; padding: 30px; border: 1px solid rgba(255,255,255,0.05); }
-        .year-title { font-size: 2.2rem; font-weight: 800; margin-bottom: 25px; color: var(--yellow); text-align: center; text-shadow: 0 0 15px var(--yellow); }
-        .exams-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .exam-box { background: #080b12; border-radius: 20px; padding: 22px; border: 1px solid rgba(255,255,255,0.05); text-align: center; }
-        .exam-name { font-size: 0.95rem; font-weight: 800; margin-bottom: 15px; color: var(--blue); }
-        .countdown { display: flex; justify-content: center; gap: 10px; }
-        .unit { background: #131924; padding: 12px; border-radius: 14px; min-width: 65px; border: 2px solid rgba(255,255,255,0.1); }
-        .unit span { display: block; font-size: 1.6rem; font-weight: 800; color: #fff; line-height: 1; }
-        .unit label { font-size: 0.6rem; color: #888; text-transform: uppercase; margin-top: 5px; display: block; }
+<meta name="theme-color" content="#ff007a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-        /* MAIN GRID */
-        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .col-title { font-size: 2.4rem; font-weight: 800; margin-bottom: 30px; text-align: center; color: #fff; }
-        .subject-card { background: var(--card); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; padding: 25px; margin-bottom: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .subject-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .sub-info h3 { font-size: 1.7rem; font-weight: 800; color: var(--blue); }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-        /* CIRCLE LOGIC */
-        .progress-circle { width: 80px; height: 80px; position: relative; }
-        .progress-circle svg { transform: rotate(-90deg); width: 100%; height: 100%; }
-        .progress-circle circle { fill: none; stroke-width: 8; stroke-linecap: round; }
-        .progress-circle .bg { stroke: #1a202c; }
-        .progress-circle .fg { stroke: var(--pink); transition: stroke-dashoffset 0.8s ease; filter: drop-shadow(0 0 8px var(--pink)); }
-        .percent { position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; font-size: 0.95rem; font-weight: 800; }
+<style>
+:root{
+    --bg:#03050a;
+    --bg2:#070b13;
+    --card:rgba(13,18,29,.82);
+    --card2:#0b101a;
+    --pink:#ff007a;
+    --blue:#00d2ff;
+    --green:#00ff88;
+    --yellow:#ffcc00;
+    --purple:#9d4edd;
+    --red:#ff3b5c;
+    --text:#eef4ff;
+    --muted:#8d99ae;
+    --border:rgba(255,255,255,.08);
+}
 
-        /* CHAPTERS */
-        .ch-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: rgba(255,255,255,0.02); border-radius: 12px; font-size: 0.95rem; font-weight: 600; margin-bottom: 10px; transition: 0.2s; }
-        .check { width: 32px; height: 32px; border-radius: 10px; border: 2.5px solid #333; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
-        .check.done { background: var(--green); border-color: var(--green); color: #000; box-shadow: 0 0 15px var(--green); }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        /* POPUP SEPARATE ANALYTICS */
-        .ana-btn { position: fixed; right: 30px; bottom: 30px; width: 75px; height: 75px; border-radius: 25px; background: linear-gradient(45deg, var(--pink), var(--blue)); display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 100; font-size: 2rem; box-shadow: 0 15px 35px rgba(0,0,0,0.7); }
-        .popup { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; justify-content: center; align-items: center; z-index: 1000; }
-        .popup-box { width: min(1000px, 95%); background: #080b11; border-radius: 40px; padding: 40px; border: 2px solid #1a202c; position: relative; max-height: 90vh; overflow-y: auto; }
-        .close-pop { position: absolute; top: 20px; right: 20px; background: #ff0033; width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 0 15px #ff0033; font-weight: bold; }
-        .ana-content { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .ana-inner { border-radius: 30px; padding: 25px; text-align: center; background: rgba(255,255,255,0.01); border: 2.5px solid; margin-bottom: 20px; }
-        .prog-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 15px; }
+body{
+    font-family:'Poppins',sans-serif;
+    background:
+        radial-gradient(circle at 15% 10%,rgba(255,0,122,.10),transparent 25%),
+        radial-gradient(circle at 85% 20%,rgba(0,210,255,.08),transparent 28%),
+        var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    overflow-x:hidden;
+}
 
-        @media (max-width: 950px) { .timer-container, .main-grid, .ana-content { grid-template-columns: 1fr; } }
-    </style>
+button,input,select,textarea{
+    font-family:inherit;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+}
+
+canvas#snow{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-1;
+}
+
+.app{
+    width:min(1550px,96%);
+    margin:auto;
+    padding-bottom:120px;
+}
+
+/* HEADER */
+
+.header{
+    padding:35px 0 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
+.logo{
+    width:62px;
+    height:62px;
+    border-radius:20px;
+    background:linear-gradient(135deg,var(--pink),var(--purple),var(--blue));
+    display:grid;
+    place-items:center;
+    font-size:1.7rem;
+    box-shadow:0 0 35px rgba(255,0,122,.35);
+}
+
+.brand h1{
+    font-size:clamp(1.5rem,4vw,2.5rem);
+    font-weight:800;
+    line-height:1;
+}
+
+.brand p{
+    color:var(--muted);
+    font-size:.8rem;
+    margin-top:7px;
+}
+
+.header-actions{
+    display:flex;
+    gap:10px;
+}
+
+.icon-btn{
+    width:48px;
+    height:48px;
+    border-radius:15px;
+    background:var(--card);
+    border:1px solid var(--border);
+    color:white;
+    font-size:1.1rem;
+    transition:.25s;
+}
+
+.icon-btn:hover{
+    transform:translateY(-3px);
+    border-color:var(--pink);
+}
+
+/* NAV */
+
+.nav{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding:5px 0 20px;
+    scrollbar-width:none;
+}
+
+.nav::-webkit-scrollbar{
+    display:none;
+}
+
+.nav button{
+    padding:12px 18px;
+    border-radius:15px;
+    background:rgba(255,255,255,.03);
+    color:var(--muted);
+    white-space:nowrap;
+    border:1px solid var(--border);
+    font-weight:700;
+    transition:.25s;
+}
+
+.nav button.active,
+.nav button:hover{
+    background:linear-gradient(135deg,var(--pink),#d10064);
+    color:white;
+    box-shadow:0 10px 25px rgba(255,0,122,.25);
+}
+
+/* PAGES */
+
+.page{
+    display:none;
+    animation:fade .35s ease;
+}
+
+.page.active{
+    display:block;
+}
+
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(8px);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+/* HERO */
+
+.hero{
+    background:
+        radial-gradient(circle at 10% 0%,rgba(255,0,122,.18),transparent 35%),
+        radial-gradient(circle at 90% 100%,rgba(0,210,255,.15),transparent 30%),
+        var(--card);
+    border:1px solid var(--border);
+    border-radius:30px;
+    padding:30px;
+    margin-bottom:25px;
+    box-shadow:0 20px 60px rgba(0,0,0,.3);
+}
+
+.hero-top{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    align-items:center;
+}
+
+.hero h2{
+    font-size:clamp(1.6rem,4vw,2.6rem);
+    margin-bottom:8px;
+}
+
+.hero p{
+    color:var(--muted);
+}
+
+.level-box{
+    text-align:center;
+    min-width:160px;
+    background:rgba(255,255,255,.04);
+    border:1px solid var(--border);
+    padding:18px;
+    border-radius:22px;
+}
+
+.level-num{
+    font-size:2.5rem;
+    font-weight:800;
+    color:var(--yellow);
+}
+
+.xp-bar{
+    width:100%;
+    height:10px;
+    background:#121926;
+    border-radius:20px;
+    margin-top:20px;
+    overflow:hidden;
+}
+
+.xp-fill{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,var(--pink),var(--purple),var(--blue));
+    border-radius:inherit;
+    transition:1s;
+}
+
+/* STATS */
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.stat-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:20px;
+    position:relative;
+    overflow:hidden;
+}
+
+.stat-card::after{
+    content:"";
+    position:absolute;
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    background:rgba(255,255,255,.03);
+    right:-25px;
+    bottom:-25px;
+}
+
+.stat-label{
+    color:var(--muted);
+    font-size:.75rem;
+    font-weight:700;
+}
+
+.stat-value{
+    font-size:1.8rem;
+    font-weight:800;
+    margin-top:7px;
+}
+
+.stat-icon{
+    position:absolute;
+    right:15px;
+    top:15px;
+    font-size:1.3rem;
+}
+
+/* DASH GRID */
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:1.3fr .7fr;
+    gap:25px;
+}
+
+.panel{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:25px;
+    padding:25px;
+    margin-bottom:25px;
+}
+
+.panel-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.panel-title h3{
+    font-size:1.2rem;
+}
+
+.progress-big{
+    display:flex;
+    align-items:center;
+    gap:25px;
+}
+
+.big-ring{
+    width:150px;
+    height:150px;
+    position:relative;
+    flex-shrink:0;
+}
+
+.big-ring svg{
+    width:100%;
+    height:100%;
+    transform:rotate(-90deg);
+}
+
+.big-ring circle{
+    fill:none;
+    stroke-width:10;
+}
+
+.big-ring .bg{
+    stroke:#17202e;
+}
+
+.big-ring .fg{
+    stroke:var(--pink);
+    stroke-linecap:round;
+    filter:drop-shadow(0 0 8px var(--pink));
+    transition:1s;
+}
+
+.big-percent{
+    position:absolute;
+    inset:0;
+    display:grid;
+    place-items:center;
+    font-size:2rem;
+    font-weight:800;
+}
+
+.progress-info h3{
+    font-size:1.5rem;
+}
+
+.progress-info p{
+    color:var(--muted);
+    margin:8px 0;
+}
+
+.mini-bar{
+    height:9px;
+    border-radius:10px;
+    background:#111824;
+    overflow:hidden;
+}
+
+.mini-fill{
+    height:100%;
+    background:linear-gradient(90deg,var(--blue),var(--green));
+    border-radius:inherit;
+}
+
+/* DAILY GOAL */
+
+.goal-row{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin:15px 0;
+}
+
+.goal-circle{
+    width:75px;
+    height:75px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    background:
+        conic-gradient(var(--green) calc(var(--goal) * 1%),#18202d 0);
+    position:relative;
+}
+
+.goal-circle::after{
+    content:"";
+    width:60px;
+    height:60px;
+    background:var(--card2);
+    border-radius:50%;
+    position:absolute;
+}
+
+.goal-circle span{
+    z-index:1;
+    font-weight:800;
+}
+
+.goal-info{
+    flex:1;
+}
+
+.goal-info p{
+    color:var(--muted);
+    font-size:.8rem;
+}
+
+.goal-controls{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+}
+
+.small-btn{
+    padding:9px 12px;
+    border-radius:10px;
+    background:#121926;
+    color:white;
+    border:1px solid var(--border);
+    font-size:.75rem;
+}
+
+/* STUDY TIMER */
+
+.timer-display{
+    text-align:center;
+    font-size:3rem;
+    font-weight:800;
+    letter-spacing:2px;
+    margin:25px 0;
+    color:var(--blue);
+    text-shadow:0 0 20px rgba(0,210,255,.4);
+}
+
+.timer-actions{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+}
+
+.main-btn{
+    padding:12px 22px;
+    border-radius:14px;
+    background:linear-gradient(135deg,var(--pink),#d10064);
+    color:white;
+    font-weight:800;
+}
+
+.secondary-btn{
+    padding:12px 22px;
+    border-radius:14px;
+    background:#141c28;
+    color:white;
+    font-weight:700;
+}
+
+/* COUNTDOWN */
+
+.countdown-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:25px;
+}
+
+.year-block{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:28px;
+    padding:25px;
+}
+
+.year-title{
+    color:var(--yellow);
+    text-align:center;
+    font-size:1.7rem;
+    font-weight:800;
+    margin-bottom:20px;
+}
+
+.exams-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.exam-box{
+    background:var(--card2);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:18px;
+    text-align:center;
+}
+
+.exam-name{
+    font-size:.75rem;
+    font-weight:800;
+    color:var(--blue);
+    margin-bottom:12px;
+}
+
+.countdown{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:6px;
+}
+
+.unit{
+    background:#131a26;
+    border-radius:10px;
+    padding:8px 3px;
+}
+
+.unit span{
+    display:block;
+    font-size:1rem;
+    font-weight:800;
+}
+
+.unit label{
+    font-size:.5rem;
+    color:var(--muted);
+}
+
+/* CHAPTER PAGE */
+
+.toolbar{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
+}
+
+.search{
+    flex:1;
+    min-width:220px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:13px 16px;
+    color:white;
+    outline:none;
+}
+
+.filter-select{
+    background:var(--card);
+    color:white;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:0 15px;
+    outline:none;
+}
+
+.class-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+}
+
+.col-title{
+    text-align:center;
+    font-size:2rem;
+    margin-bottom:25px;
+}
+
+.subject-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:25px;
+    padding:22px;
+    margin-bottom:25px;
+}
+
+.subject-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:18px;
+}
+
+.subject-head h3{
+    color:var(--blue);
+    font-size:1.4rem;
+}
+
+.progress-circle{
+    width:72px;
+    height:72px;
+    position:relative;
+}
+
+.progress-circle svg{
+    transform:rotate(-90deg);
+    width:100%;
+    height:100%;
+}
+
+.progress-circle circle{
+    fill:none;
+    stroke-width:8;
+}
+
+.progress-circle .bg{
+    stroke:#1a2230;
+}
+
+.progress-circle .fg{
+    stroke:var(--pink);
+    stroke-linecap:round;
+    filter:drop-shadow(0 0 6px var(--pink));
+}
+
+.percent{
+    position:absolute;
+    inset:0;
+    display:grid;
+    place-items:center;
+    font-size:.8rem;
+    font-weight:800;
+}
+
+.chapter-list{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.chapter{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px;
+    border-radius:14px;
+    background:rgba(255,255,255,.025);
+    border:1px solid transparent;
+    transition:.2s;
+}
+
+.chapter:hover{
+    border-color:rgba(255,255,255,.08);
+}
+
+.chapter.done-row{
+    background:rgba(0,255,136,.04);
+}
+
+.chapter-name{
+    flex:1;
+    font-size:.84rem;
+    font-weight:600;
+}
+
+.chapter.done-row .chapter-name{
+    text-decoration:line-through;
+    opacity:.55;
+}
+
+.chapter-badges{
+    display:flex;
+    gap:5px;
+}
+
+.badge{
+    font-size:.7rem;
+}
+
+.chapter-actions{
+    display:flex;
+    gap:6px;
+}
+
+.action-btn{
+    width:30px;
+    height:30px;
+    border-radius:9px;
+    background:#131b27;
+    color:#c9d3e1;
+    border:1px solid var(--border);
+    font-size:.75rem;
+}
+
+.action-btn.active{
+    color:var(--yellow);
+    border-color:var(--yellow);
+}
+
+.action-btn.weak.active{
+    color:var(--red);
+    border-color:var(--red);
+}
+
+.check{
+    width:30px;
+    height:30px;
+    flex-shrink:0;
+    border-radius:9px;
+    border:2px solid #3a4352;
+    display:grid;
+    place-items:center;
+    color:#041009;
+    transition:.2s;
+}
+
+.check.done{
+    background:var(--green);
+    border-color:var(--green);
+    box-shadow:0 0 12px rgba(0,255,136,.4);
+}
+
+/* REVISION */
+
+.revision-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.revision-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    padding:16px;
+    border-radius:16px;
+    background:var(--card);
+    border:1px solid var(--border);
+}
+
+.revision-meta h4{
+    font-size:.9rem;
+}
+
+.revision-meta p{
+    font-size:.7rem;
+    color:var(--muted);
+    margin-top:4px;
+}
+
+.due{
+    color:var(--red)!important;
+}
+
+/* ANALYTICS */
+
+.analytics-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.analytics-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:20px;
+}
+
+.analytics-card h4{
+    margin-bottom:12px;
+}
+
+.subject-progress-row{
+    margin:12px 0;
+}
+
+.subject-progress-row .row{
+    display:flex;
+    justify-content:space-between;
+    font-size:.75rem;
+    margin-bottom:6px;
+}
+
+.bar{
+    height:8px;
+    border-radius:20px;
+    background:#131b27;
+    overflow:hidden;
+}
+
+.bar span{
+    display:block;
+    height:100%;
+    border-radius:inherit;
+    background:linear-gradient(90deg,var(--blue),var(--pink));
+}
+
+/* ACHIEVEMENTS */
+
+.achievement-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.achievement{
+    padding:22px;
+    border-radius:20px;
+    background:var(--card);
+    border:1px solid var(--border);
+    text-align:center;
+}
+
+.achievement.locked{
+    opacity:.35;
+    filter:grayscale(1);
+}
+
+.achievement-icon{
+    font-size:2rem;
+    margin-bottom:10px;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.78);
+    backdrop-filter:blur(10px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:1000;
+    padding:15px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:min(600px,100%);
+    max-height:90vh;
+    overflow:auto;
+    background:#0a101a;
+    border:1px solid var(--border);
+    border-radius:28px;
+    padding:25px;
+}
+
+.modal-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.close{
+    width:38px;
+    height:38px;
+    border-radius:12px;
+    background:#241019;
+    color:#ff5573;
+}
+
+textarea{
+    width:100%;
+    min-height:150px;
+    resize:vertical;
+    background:#101722;
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:15px;
+    color:white;
+    outline:none;
+}
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    padding:14px 18px;
+    background:#101722;
+    border:1px solid var(--border);
+    border-left:4px solid var(--green);
+    border-radius:14px;
+    transform:translateY(100px);
+    opacity:0;
+    transition:.3s;
+    z-index:2000;
+}
+
+.toast.show{
+    transform:none;
+    opacity:1;
+}
+
+/* MOBILE */
+
+.mobile-nav{
+    display:none;
+}
+
+@media(max-width:1200px){
+    .stats-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .analytics-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:900px){
+    .header{
+        align-items:flex-start;
+    }
+
+    .dashboard-grid,
+    .countdown-grid,
+    .class-grid{
+        grid-template-columns:1fr;
+    }
+
+    .nav{
+        display:none;
+    }
+
+    .mobile-nav{
+        position:fixed;
+        bottom:0;
+        left:0;
+        right:0;
+        z-index:500;
+        display:grid;
+        grid-template-columns:repeat(5,1fr);
+        background:rgba(7,10,17,.95);
+        backdrop-filter:blur(20px);
+        border-top:1px solid var(--border);
+        padding:8px;
+    }
+
+    .mobile-nav button{
+        background:transparent;
+        color:var(--muted);
+        font-size:1rem;
+        padding:8px 3px;
+    }
+
+    .mobile-nav button.active{
+        color:var(--pink);
+    }
+
+    .mobile-nav span{
+        display:block;
+        font-size:.52rem;
+        margin-top:3px;
+    }
+}
+
+@media(max-width:600px){
+    .app{
+        width:94%;
+    }
+
+    .header{
+        padding-top:20px;
+    }
+
+    .logo{
+        width:50px;
+        height:50px;
+        border-radius:16px;
+    }
+
+    .header-actions{
+        gap:6px;
+    }
+
+    .icon-btn{
+        width:42px;
+        height:42px;
+    }
+
+    .hero{
+        padding:20px;
+    }
+
+    .hero-top{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .level-box{
+        width:100%;
+    }
+
+    .stats-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .stat-card{
+        padding:16px;
+    }
+
+    .progress-big{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .exams-grid{
+        grid-template-columns:1fr;
+    }
+
+    .countdown{
+        grid-template-columns:repeat(4,1fr);
+    }
+
+    .achievement-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .analytics-grid{
+        grid-template-columns:1fr;
+    }
+
+    .chapter{
+        align-items:flex-start;
+        flex-wrap:wrap;
+    }
+
+    .chapter-name{
+        width:calc(100% - 45px);
+    }
+
+    .chapter-actions{
+        margin-left:40px;
+    }
+}
+</style>
+
 </head>
+
 <body>
 
 <canvas id="snow"></canvas>
-<div class="container">
-    <header class="header"><div class="brand"><h1>GHAZI ABBAS ✔️</h1></div></header>
 
-    <div class="timer-container">
-        <div class="year-block">
-            <div class="year-title">TARGET 2027</div>
-            <div class="exams-grid" id="timer_2027_grid"></div>
-        </div>
-        <div class="year-block">
-            <div class="year-title">TARGET 2028</div>
-            <div class="exams-grid" id="timer_2028_grid"></div>
+<div class="app">
+
+<header class="header">
+    <div class="brand">
+        <div class="logo">⚡</div>
+        <div>
+            <h1>GHAZI ABBAS</h1>
+            <p>STUDY COMMAND CENTER • VERSION 2.0</p>
         </div>
     </div>
 
-    <div class="main-grid">
-        <div id="col11"><h2 class="col-title">Class 11th</h2><div id="data11"></div></div>
-        <div id="col12"><h2 class="col-title">Class 12th</h2><div id="data12"></div></div>
+```
+<div class="header-actions">
+    <button class="icon-btn" onclick="exportData()" title="Export Backup">💾</button>
+    <button class="icon-btn" onclick="document.getElementById('importFile').click()" title="Import Backup">📂</button>
+    <input id="importFile" type="file" accept=".json" hidden onchange="importData(event)">
+    <button class="icon-btn" onclick="toggleTheme()" title="Theme">🌙</button>
+</div>
+```
+
+</header>
+
+<nav class="nav">
+    <button class="active" onclick="showPage('dashboard',this)">🏠 Dashboard</button>
+    <button onclick="showPage('chapters',this)">📚 Chapters</button>
+    <button onclick="showPage('revision',this)">🔄 Revision</button>
+    <button onclick="showPage('timer',this)">⏱ Focus</button>
+    <button onclick="showPage('countdown',this)">🎯 Exams</button>
+    <button onclick="showPage('analytics',this)">📊 Analytics</button>
+    <button onclick="showPage('achievements',this)">🏆 Achievements</button>
+</nav>
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="page active">
+
+<div class="hero">
+    <div class="hero-top">
+        <div>
+            <h2 id="welcomeText">Ready to conquer your goals? 🔥</h2>
+            <p id="heroText">Every completed chapter brings you closer to your dream.</p>
+        </div>
+
+```
+    <div class="level-box">
+        <div style="font-size:.7rem;color:var(--muted)">CURRENT LEVEL</div>
+        <div class="level-num" id="levelNum">1</div>
+        <div style="font-size:.75rem;color:var(--yellow)" id="xpText">0 XP</div>
     </div>
 </div>
 
-<div class="ana-btn" onclick="openAna()">📊</div>
+<div class="xp-bar">
+    <div class="xp-fill" id="xpFill"></div>
+</div>
+```
 
-<div class="popup" id="pop">
-    <div class="popup-box">
-        <div class="close-pop" onclick="closeAna()">✕</div>
-        <div class="ana-content">
-            <div>
-                <div class="ana-inner" style="border-color:var(--blue)">
-                    <h3 style="color:var(--blue)">JEE 11th Progress</h3>
-                    <div class="prog-row" id="jee11"></div>
-                </div>
-                <div class="ana-inner" style="border-color:var(--blue)">
-                    <h3 style="color:var(--blue)">JEE 12th Progress</h3>
-                    <div class="prog-row" id="jee12"></div>
-                </div>
-            </div>
-            <div>
-                <div class="ana-inner" style="border-color:var(--pink)">
-                    <h3 style="color:var(--pink)">NEET 11th Progress</h3>
-                    <div class="prog-row" id="neet11"></div>
-                </div>
-                <div class="ana-inner" style="border-color:var(--pink)">
-                    <h3 style="color:var(--pink)">NEET 12th Progress</h3>
-                    <div class="prog-row" id="neet12"></div>
-                </div>
-            </div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon">📚</div>
+        <div class="stat-label">TOTAL CHAPTERS</div>
+        <div class="stat-value" id="totalChapters">0</div>
+    </div>
+
+```
+<div class="stat-card">
+    <div class="stat-icon">✅</div>
+    <div class="stat-label">COMPLETED</div>
+    <div class="stat-value" id="completedChapters">0</div>
+</div>
+
+<div class="stat-card">
+    <div class="stat-icon">⏳</div>
+    <div class="stat-label">REMAINING</div>
+    <div class="stat-value" id="remainingChapters">0</div>
+</div>
+
+<div class="stat-card">
+    <div class="stat-icon">🔥</div>
+    <div class="stat-label">STREAK</div>
+    <div class="stat-value"><span id="streak">0</span> Days</div>
+</div>
+
+<div class="stat-card">
+    <div class="stat-icon">⭐</div>
+    <div class="stat-label">IMPORTANT</div>
+    <div class="stat-value" id="importantCount">0</div>
+</div>
+
+<div class="stat-card">
+    <div class="stat-icon">⚠️</div>
+    <div class="stat-label">WEAK CHAPTERS</div>
+    <div class="stat-value" id="weakCount">0</div>
+</div>
+```
+
+</div>
+
+<div class="dashboard-grid">
+
+<div>
+
+<div class="panel">
+    <div class="panel-title">
+        <h3>🎯 Overall Mission Progress</h3>
+        <span id="overallLabel">0%</span>
+    </div>
+
+```
+<div class="progress-big">
+    <div class="big-ring">
+        <svg viewBox="0 0 120 120">
+            <circle class="bg" cx="60" cy="60" r="50"></circle>
+            <circle id="overallRing" class="fg" cx="60" cy="60" r="50"></circle>
+        </svg>
+        <div class="big-percent" id="overallPercent">0%</div>
+    </div>
+
+    <div class="progress-info">
+        <h3 id="missionStatus">Mission Started</h3>
+        <p id="missionMessage">Start completing chapters to build momentum.</p>
+
+        <div class="mini-bar">
+            <div id="overallBar" class="mini-fill" style="width:0%"></div>
         </div>
     </div>
 </div>
+```
+
+</div>
+
+<div class="panel">
+    <div class="panel-title">
+        <h3>📈 Subject Progress</h3>
+    </div>
+
+```
+<div id="dashboardSubjects"></div>
+```
+
+</div>
+
+</div>
+
+<div>
+
+<div class="panel">
+    <div class="panel-title">
+        <h3>🎯 Daily Chapter Goal</h3>
+        <span id="dailyGoalText">0 / 3</span>
+    </div>
+
+```
+<div class="goal-row">
+    <div class="goal-circle" id="goalCircle" style="--goal:0">
+        <span id="goalPercent">0%</span>
+    </div>
+
+    <div class="goal-info">
+        <h3>Today's Progress</h3>
+        <p>Complete your daily target and maintain your streak.</p>
+    </div>
+</div>
+
+<div class="goal-controls">
+    <button class="small-btn" onclick="changeGoal(-1)">− Goal</button>
+    <button class="small-btn" onclick="changeGoal(1)">+ Goal</button>
+</div>
+```
+
+</div>
+
+<div class="panel">
+    <div class="panel-title">
+        <h3>🔄 Revision Center</h3>
+        <button class="small-btn" onclick="showPage('revision')">Open</button>
+    </div>
+
+```
+<div id="dashboardRevision"></div>
+```
+
+</div>
+
+<div class="panel">
+    <div class="panel-title">
+        <h3>🧠 Smart Advice</h3>
+    </div>
+
+```
+<p id="smartAdvice" style="color:var(--muted);font-size:.85rem;line-height:1.8"></p>
+```
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- CHAPTERS -->
+
+<section id="chapters" class="page">
+
+<div class="toolbar">
+    <input id="searchInput" class="search" placeholder="🔍 Search chapter..." oninput="renderChapters()">
+
+```
+<select id="filterSelect" class="filter-select" onchange="renderChapters()">
+    <option value="all">All Chapters</option>
+    <option value="pending">Pending</option>
+    <option value="completed">Completed</option>
+    <option value="important">Important</option>
+    <option value="weak">Weak</option>
+    <option value="revision">Revision Due</option>
+</select>
+```
+
+</div>
+
+<div class="class-grid">
+
+<div>
+    <h2 class="col-title">Class 11th</h2>
+    <div id="class11"></div>
+</div>
+
+<div>
+    <h2 class="col-title">Class 12th</h2>
+    <div id="class12"></div>
+</div>
+
+</div>
+
+</section>
+
+<!-- REVISION -->
+
+<section id="revision" class="page">
+
+<div class="hero">
+    <h2>🔄 Smart Revision System</h2>
+    <p>Completed chapters automatically enter your revision cycle.</p>
+</div>
+
+<div class="panel">
+    <div class="panel-title">
+        <h3>Today's Revision Queue</h3>
+        <span id="revisionCount">0 Chapters</span>
+    </div>
+
+```
+<div class="revision-list" id="revisionList"></div>
+```
+
+</div>
+
+</section>
+
+<!-- TIMER -->
+
+<section id="timer" class="page">
+
+<div class="hero">
+    <h2>⏱ Focus Mode</h2>
+    <p>Use Pomodoro sessions to track your real study time.</p>
+</div>
+
+<div class="dashboard-grid">
+
+<div class="panel">
+
+<div style="text-align:center">
+    <div style="display:flex;justify-content:center;gap:10px">
+        <button class="small-btn" onclick="setTimerMode(25)">25 MIN</button>
+        <button class="small-btn" onclick="setTimerMode(50)">50 MIN</button>
+        <button class="small-btn" onclick="setTimerMode(90)">90 MIN</button>
+    </div>
+
+```
+<div class="timer-display" id="timerDisplay">25:00</div>
+
+<div class="timer-actions">
+    <button class="main-btn" id="timerStartBtn" onclick="toggleTimer()">▶ Start</button>
+    <button class="secondary-btn" onclick="resetTimer()">↻ Reset</button>
+</div>
+```
+
+</div>
+
+</div>
+
+<div class="panel">
+
+<div class="panel-title">
+    <h3>📚 Focus Statistics</h3>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:15px">
+    <div class="stat-card">
+        <div class="stat-label">TODAY</div>
+        <div class="stat-value"><span id="todayStudyTime">0</span>m</div>
+    </div>
+
+```
+<div class="stat-card">
+    <div class="stat-label">TOTAL SESSIONS</div>
+    <div class="stat-value" id="totalSessions">0</div>
+</div>
+```
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- COUNTDOWN -->
+
+<section id="countdown" class="page">
+
+<div class="hero">
+    <h2>🎯 Exam Countdown</h2>
+    <p>Your target is getting closer every second.</p>
+</div>
+
+<div class="countdown-grid">
+
+<div class="year-block">
+    <div class="year-title">TARGET 2027</div>
+    <div class="exams-grid" id="timer2027"></div>
+</div>
+
+<div class="year-block">
+    <div class="year-title">TARGET 2028</div>
+    <div class="exams-grid" id="timer2028"></div>
+</div>
+
+</div>
+
+</section>
+
+<!-- ANALYTICS -->
+
+<section id="analytics" class="page">
+
+<div class="hero">
+    <h2>📊 Advanced Analytics</h2>
+    <p>Understand your preparation and identify weak areas.</p>
+</div>
+
+<div class="analytics-grid" id="analyticsGrid"></div>
+
+</section>
+
+<!-- ACHIEVEMENTS -->
+
+<section id="achievements" class="page">
+
+<div class="hero">
+    <h2>🏆 Achievement System</h2>
+    <p>Unlock achievements as you progress through your journey.</p>
+</div>
+
+<div class="achievement-grid" id="achievementGrid"></div>
+
+</section>
+
+</div>
+
+<!-- MOBILE NAV -->
+
+<div class="mobile-nav">
+    <button class="active" onclick="showPage('dashboard',this)">🏠<span>Home</span></button>
+    <button onclick="showPage('chapters',this)">📚<span>Study</span></button>
+    <button onclick="showPage('revision',this)">🔄<span>Revise</span></button>
+    <button onclick="showPage('timer',this)">⏱<span>Focus</span></button>
+    <button onclick="showPage('analytics',this)">📊<span>Stats</span></button>
+</div>
+
+<!-- NOTES MODAL -->
+
+<div class="modal" id="notesModal">
+    <div class="modal-box">
+        <div class="modal-head">
+            <h3 id="notesTitle">Chapter Notes</h3>
+            <button class="close" onclick="closeNotes()">✕</button>
+        </div>
+
+```
+    <textarea id="notesInput" placeholder="Write your chapter notes here..."></textarea>
+
+    <div style="margin-top:15px">
+        <button class="main-btn" onclick="saveNotes()">Save Notes</button>
+    </div>
+</div>
+```
+
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script>
+
+/* =========================
+   DATABASE
+========================= */
+
 const DB = [
-    { cls:'11th', sub:'Maths', ch:['Basic Math','Sets','Trignometric functions','Trignometric Equation','Quadratic Equations','Sequence and series','Relations and functions','Permutations and combination','Binomial theorem','Limit and Derivatives','Linear inequalities','Straight Lines','Circles','Parabola','Ellipse','Hyperbola','Probability (XI)','Introduction To 3D','Complex Numbers','Statistics','Solution of Triangle'] },
-    { cls:'11th', sub:'Physics', ch:['Unit and Dimension','Basic Maths','Vectors','Motion in a Straight Line','Errors anf measurement','Motion in a plane','Laws of motion','Circular Motion','Work power energy','Centre of mass','Thermal properties of matter','Mechanical properties of solids','Rotational motion','Ktg and thermodynamics','Oscillations','Waves','Mechanical properties of fluids','Gravitation'] },
-    { cls:'11th', sub:'Chemistry', ch:['Mole concept','Structure of atom','State of matter','Thermodynamics','Redox reaction','Chemical equilibrium','Ionic equilibrium','IUPAC Naming','Isomerism','GOC','Hydrocarbons','Purification','Environmental chemistry','Periodic table','Chemical bonding','P-Block','S-Block','Hydrogen'] },
-    { cls:'11th', sub:'Biology', ch:['Cell - the unit of life','Cell cycle and cell devision','The living world','Biological classification','Plant kingdom','Morphlogy','Anatomy','Photosynsthesis','Respiration','Plant growth','Structural organization','Breathing','Body fluids','Excretory product','Locomotion','Neural control','Chemical coordination','Animal kingdom','Biomolecules'] },
-    { cls:'12th', sub:'Maths', ch:['Determinants','Matrices','Relations and functions','Inverse trignometric function','LCD','Method of differentiation','Application of derivatives','Indefinite integration','Definite integration','Application of intergrals','Differential equation','Vector algebra','Three dimensional geometry','Probability'] },
-    { cls:'12th', sub:'Physics', ch:['Electric charges and fields','Electrostatic potential','Current electricity','Moving charges','Magnetism and matter','Electromagnetic induction','Alternating current','EM Waves','Ray optics','Wave optics','Dual nature','Atoms','Nuclei','Semiconductors'] },
-    { cls:'12th', sub:'Chemistry', ch:['Solution','Electrochemistry','Chemical kinetics','Surface chemistry','Optical isomerism','Hydrocarbon (12th)','Haloalkanes','Alcohols','Aldehydes','Amines','Biomolecules (Chem)','Polymers','Everyday Life','Environmental Chem (12)','Coordination compounds','P-Block (12)','D and F block','Qualitative analysis','Isolation of metals'] },
-    { cls:'12th', sub:'Biology', ch:['Sexual reproduction','Principles of inheritance','Molecular basis','Microbes','Tissue culture','Organisms','Ecosystem','Biodiversity','Human reproduction','Reproductive health','Human health','Biotech principles','Biotech applications','Evolution'] }
+{
+cls:'11th',
+sub:'Maths',
+ch:[
+'Basic Math',
+'Sets',
+'Trigonometric Functions',
+'Trigonometric Equation',
+'Quadratic Equations',
+'Sequence and Series',
+'Relations and Functions',
+'Permutations and Combination',
+'Binomial Theorem',
+'Limit and Derivatives',
+'Linear Inequalities',
+'Straight Lines',
+'Circles',
+'Parabola',
+'Ellipse',
+'Hyperbola',
+'Probability (XI)',
+'Introduction To 3D',
+'Complex Numbers',
+'Statistics',
+'Solution of Triangle'
+]
+},
+
+{
+cls:'11th',
+sub:'Physics',
+ch:[
+'Unit and Dimension',
+'Basic Maths',
+'Vectors',
+'Motion in a Straight Line',
+'Errors and Measurement',
+'Motion in a Plane',
+'Laws of Motion',
+'Circular Motion',
+'Work Power Energy',
+'Centre of Mass',
+'Thermal Properties of Matter',
+'Mechanical Properties of Solids',
+'Rotational Motion',
+'KTG and Thermodynamics',
+'Oscillations',
+'Waves',
+'Mechanical Properties of Fluids',
+'Gravitation'
+]
+},
+
+{
+cls:'11th',
+sub:'Chemistry',
+ch:[
+'Mole Concept',
+'Structure of Atom',
+'State of Matter',
+'Thermodynamics',
+'Redox Reaction',
+'Chemical Equilibrium',
+'Ionic Equilibrium',
+'IUPAC Naming',
+'Isomerism',
+'GOC',
+'Hydrocarbons',
+'Purification',
+'Environmental Chemistry',
+'Periodic Table',
+'Chemical Bonding',
+'P-Block',
+'S-Block',
+'Hydrogen'
+]
+},
+
+{
+cls:'11th',
+sub:'Biology',
+ch:[
+'Cell - The Unit of Life',
+'Cell Cycle and Cell Division',
+'The Living World',
+'Biological Classification',
+'Plant Kingdom',
+'Morphology',
+'Anatomy',
+'Photosynthesis',
+'Respiration',
+'Plant Growth',
+'Structural Organization',
+'Breathing',
+'Body Fluids',
+'Excretory Products',
+'Locomotion',
+'Neural Control',
+'Chemical Coordination',
+'Animal Kingdom',
+'Biomolecules'
+]
+},
+
+{
+cls:'12th',
+sub:'Maths',
+ch:[
+'Determinants',
+'Matrices',
+'Relations and Functions',
+'Inverse Trigonometric Function',
+'LCD',
+'Method of Differentiation',
+'Application of Derivatives',
+'Indefinite Integration',
+'Definite Integration',
+'Application of Integrals',
+'Differential Equation',
+'Vector Algebra',
+'Three Dimensional Geometry',
+'Probability'
+]
+},
+
+{
+cls:'12th',
+sub:'Physics',
+ch:[
+'Electric Charges and Fields',
+'Electrostatic Potential',
+'Current Electricity',
+'Moving Charges',
+'Magnetism and Matter',
+'Electromagnetic Induction',
+'Alternating Current',
+'EM Waves',
+'Ray Optics',
+'Wave Optics',
+'Dual Nature',
+'Atoms',
+'Nuclei',
+'Semiconductors'
+]
+},
+
+{
+cls:'12th',
+sub:'Chemistry',
+ch:[
+'Solution',
+'Electrochemistry',
+'Chemical Kinetics',
+'Surface Chemistry',
+'Optical Isomerism',
+'Hydrocarbon (12th)',
+'Haloalkanes',
+'Alcohols',
+'Aldehydes',
+'Amines',
+'Biomolecules (Chem)',
+'Polymers',
+'Everyday Life',
+'Environmental Chem (12)',
+'Coordination Compounds',
+'P-Block (12)',
+'D and F Block',
+'Qualitative Analysis',
+'Isolation of Metals'
+]
+},
+
+{
+cls:'12th',
+sub:'Biology',
+ch:[
+'Sexual Reproduction',
+'Principles of Inheritance',
+'Molecular Basis',
+'Microbes',
+'Tissue Culture',
+'Organisms',
+'Ecosystem',
+'Biodiversity',
+'Human Reproduction',
+'Reproductive Health',
+'Human Health',
+'Biotech Principles',
+'Biotech Applications',
+'Evolution'
+]
+}
 ];
 
-function render() {
-    const c11 = document.getElementById('data11'), c12 = document.getElementById('data12');
-    c11.innerHTML = ''; c12.innerHTML = '';
-    DB.forEach(item => {
-        let d = 0; item.ch.forEach((_, i) => { if(localStorage.getItem(item.cls+item.sub+i)) d++; });
-        let p = Math.round((d/item.ch.length)*100);
-        const card = document.createElement('div'); card.className = 'subject-card';
-        card.innerHTML = `<div class="subject-head"><div class="sub-info"><h3>${item.sub}</h3></div>
-            <div class="progress-circle"><svg viewBox="0 0 80 80"><circle class="bg" cx="40" cy="40" r="35"/><circle class="fg" cx="40" cy="40" r="35" style="stroke-dasharray: 220; stroke-dashoffset: ${220-(220*p/100)}"/></svg><div class="percent">${p}%</div></div></div>
-            <div class="ch-list">${item.ch.map((cn, i) => {
-                let k = item.cls+item.sub+i; let isD = localStorage.getItem(k);
-                return `<div class="ch-item"><span>${cn}</span><div class="check ${isD?'done':''}" onclick="tk('${k}')">${isD?'✓':''}</div></div>`
-            }).join('')}</div>`;
-        (item.cls==='11th') ? c11.appendChild(card) : c12.appendChild(card);
+
+/* =========================
+   STORAGE
+========================= */
+
+const STORE = 'ghaziStudyOSV2';
+
+function getData(){
+    return JSON.parse(localStorage.getItem(STORE) || '{}');
+}
+
+function saveData(data){
+    localStorage.setItem(STORE,JSON.stringify(data));
+}
+
+function getState(key){
+    return getData()[key];
+}
+
+function setState(key,value){
+    const data=getData();
+    data[key]=value;
+    saveData(data);
+}
+
+function chapterKey(item,index){
+    return `${item.cls}_${item.sub}_${index}`;
+}
+
+
+/* =========================
+   BASIC DATA
+========================= */
+
+function getAllChapters(){
+    let arr=[];
+
+    DB.forEach(item=>{
+        item.ch.forEach((name,index)=>{
+            arr.push({
+                item,
+                name,
+                index,
+                key:chapterKey(item,index)
+            });
+        });
+    });
+
+    return arr;
+}
+
+function getChapterData(key){
+    return getState(key) || {
+        done:false,
+        important:false,
+        weak:false,
+        notes:'',
+        completedAt:null,
+        revisionIndex:0,
+        lastRevision:null
+    };
+}
+
+function updateChapter(key,newData){
+    setState(key,{
+        ...getChapterData(key),
+        ...newData
     });
 }
 
-function tk(k){ 
-    if(!localStorage.getItem(k)){ localStorage.setItem(k,'1'); celebrate(); } 
-    else { localStorage.removeItem(k); }
-    render(); 
+function isDone(key){
+    return getChapterData(key).done;
 }
 
-function celebrate() {
-    let end = Date.now() + 3000;
-    (function frame() {
-        confetti({ particleCount: 7, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff007a', '#00d2ff'] });
-        confetti({ particleCount: 7, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff007a', '#00d2ff'] });
-        if (Date.now() < end) requestAnimationFrame(frame);
-    }());
-}
 
-function setT(gridId, name, date) {
-    const container = document.getElementById(gridId);
-    const box = document.createElement('div'); box.className = 'exam-box';
-    const id = "t_" + Math.random().toString(36).substr(2, 9);
-    box.innerHTML = `<div class="exam-name">${name}</div><div class="countdown" id="${id}"></div>`;
-    container.appendChild(box);
-    const target = new Date(date).getTime();
-    setInterval(() => {
-        const diff = target - Date.now();
-        const d = Math.floor(diff/86400000), h = Math.floor((diff%86400000)/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
-        document.getElementById(id).innerHTML = `<div class="unit"><span>${d}</span><label>D</label></div><div class="unit"><span>${h}</span><label>H</label></div><div class="unit"><span>${m}</span><label>M</label></div><div class="unit"><span>${s}</span><label>S</label></div>`;
-    }, 1000);
-}
+/* =========================
+   STREAK
+========================= */
 
-setT('timer_2027_grid','JEE Main Jan','Jan 24, 2027'); setT('timer_2027_grid','JEE Main Apr','Apr 06, 2027'); setT('timer_2027_grid','JEE Advanced','May 23, 2027'); setT('timer_2027_grid','NEET (02 May)','May 02, 2027');
-setT('timer_2028_grid','JEE Main Jan','Jan 24, 2028'); setT('timer_2028_grid','JEE Main Apr','Apr 06, 2028'); setT('timer_2028_grid','JEE Advanced','May 23, 2028'); setT('timer_2028_grid','NEET (07 May)','May 07, 2028');
+function updateStreak(){
+    const today=new Date().toISOString().split('T')[0];
 
-function openAna(){
-    document.getElementById('pop').style.display='flex';
-    const getP = (cls, sub) => {
-        let itm = DB.find(x => x.cls === cls && x.sub === sub);
-        let d = 0; itm.ch.forEach((_,i) => { if(localStorage.getItem(cls+sub+i)) d++; });
-        return Math.round((d/itm.ch.length)*100) || 0;
+    let streakData=getState('streakData') || {
+        count:0,
+        lastDate:null
     };
-    const ring = (p, l, color) => `<div style="text-align:center;"><div class="progress-circle" style="width:65px; height:65px; margin:auto;">
-        <svg viewBox="0 0 80 80"><circle class="bg" cx="40" cy="40" r="35" stroke-width="8"/><circle cx="40" cy="40" r="35" stroke="${color}" stroke-width="8" fill="none" style="stroke-dasharray: 220; stroke-dashoffset: ${220-(220*p/100)}; transition:1s;"/></svg>
-        <div class="percent" style="font-size:0.75rem;">${p}%</div></div><div style="font-size:0.65rem; margin-top:8px; font-weight:700; color:#fff;">${l}</div></div>`;
-    
-    document.getElementById('jee11').innerHTML = ring(getP('11th','Physics'),'Physics','#00d2ff')+ring(getP('11th','Chemistry'),'Chemistry','#00d2ff')+ring(getP('11th','Maths'),'Maths','#00d2ff');
-    document.getElementById('jee12').innerHTML = ring(getP('12th','Physics'),'Physics','#00d2ff')+ring(getP('12th','Chemistry'),'Chemistry','#00d2ff')+ring(getP('12th','Maths'),'Maths','#00d2ff');
-    document.getElementById('neet11').innerHTML = ring(getP('11th','Physics'),'Physics','#ff007a')+ring(getP('11th','Chemistry'),'Chemistry','#ff007a')+ring(getP('11th','Biology'),'Biology','#ff007a');
-    document.getElementById('neet12').innerHTML = ring(getP('12th','Physics'),'Physics','#ff007a')+ring(getP('12th','Chemistry'),'Chemistry','#ff007a')+ring(getP('12th','Biology'),'Biology','#ff007a');
-}
-function closeAna(){ document.getElementById('pop').style.display='none'; }
 
-const cvs = document.getElementById('snow'); const ctx = cvs.getContext('2d');
-let pts = []; function res(){ cvs.width=window.innerWidth; cvs.height=window.innerHeight; } window.onresize=res; res();
-class P { constructor(){this.r();} r(){this.x=Math.random()*cvs.width;this.y=Math.random()*cvs.height;this.v=0.4+Math.random();this.s=2.5+Math.random()*3.5;} u(){this.y+=this.v;if(this.y>cvs.height)this.y=-10;} d(){ctx.fillStyle='rgba(255,255,255,0.4)';ctx.beginPath();ctx.arc(this.x,this.y,this.s,0,Math.PI*2);ctx.fill();}}
-for(let i=0;i<50;i++) pts.push(new P());
-function ani(){ ctx.clearRect(0,0,cvs.width,cvs.height); pts.forEach(p=>{p.u();p.d();}); requestAnimationFrame(ani); } ani();
-render();
+    if(streakData.lastDate===today) return;
+
+    const yesterday=new Date(Date.now()-86400000)
+        .toISOString()
+        .split('T')[0];
+
+    if(streakData.lastDate===yesterday){
+        streakData.count++;
+    }else{
+        streakData.count=1;
+    }
+
+    streakData.lastDate=today;
+    setState('streakData',streakData);
+}
+
+function getStreak(){
+    return (getState('streakData') || {}).count || 0;
+}
+
+
+/* =========================
+   DAILY GOAL
+========================= */
+
+function getGoal(){
+    return getState('dailyGoal') || 3;
+}
+
+function changeGoal(amount){
+    let goal=Math.max(1,getGoal()+amount);
+    setState('dailyGoal',goal);
+    renderDashboard();
+}
+
+function getTodayCompleted(){
+
+    const today=new Date().toISOString().split('T')[0];
+
+    return getAllChapters().filter(ch=>{
+        const data=getChapterData(ch.key);
+
+        if(!data.completedAt) return false;
+
+        return data.completedAt.startsWith(today);
+    }).length;
+}
+
+
+/* =========================
+   XP SYSTEM
+========================= */
+
+function getXP(){
+    return getState('xp') || 0;
+}
+
+function addXP(amount){
+    setState('xp',getXP()+amount);
+}
+
+function getLevel(){
+    return Math.floor(getXP()/100)+1;
+}
+
+
+/* =========================
+   CHAPTER COMPLETE
+========================= */
+
+function toggleChapter(key){
+
+    const data=getChapterData(key);
+
+    if(!data.done){
+
+        updateChapter(key,{
+            done:true,
+            completedAt:new Date().toISOString(),
+            revisionIndex:0
+        });
+
+        addXP(10);
+        updateStreak();
+        celebrate();
+        toast('Chapter completed! +10 XP 🔥');
+
+    }else{
+
+        updateChapter(key,{
+            done:false,
+            completedAt:null
+        });
+
+        setState('xp',Math.max(0,getXP()-10));
+
+        toast('Chapter marked incomplete');
+    }
+
+    refreshAll();
+}
+
+
+/* =========================
+   IMPORTANT / WEAK
+========================= */
+
+function toggleImportant(key){
+
+    const data=getChapterData(key);
+
+    updateChapter(key,{
+        important:!data.important
+    });
+
+    refreshAll();
+}
+
+function toggleWeak(key){
+
+    const data=getChapterData(key);
+
+    updateChapter(key,{
+        weak:!data.weak
+    });
+
+    refreshAll();
+}
+
+
+/* =========================
+   NOTES
+========================= */
+
+let currentNotesKey=null;
+
+function openNotes(key,title){
+
+    currentNotesKey=key;
+
+    document.getElementById('notesTitle').textContent=title;
+
+    document.getElementById('notesInput').value=
+        getChapterData(key).notes || '';
+
+    document.getElementById('notesModal')
+        .classList.add('show');
+}
+
+function closeNotes(){
+
+    document.getElementById('notesModal')
+        .classList.remove('show');
+
+    currentNotesKey=null;
+}
+
+function saveNotes(){
+
+    if(!currentNotesKey) return;
+
+    updateChapter(currentNotesKey,{
+        notes:document.getElementById('notesInput').value
+    });
+
+    toast('Notes saved successfully 📝');
+
+    closeNotes();
+
+    refreshAll();
+}
+
+
+/* =========================
+   CHAPTER RENDER
+========================= */
+
+function renderChapters(){
+
+    const search=document.getElementById('searchInput')
+        .value
+        .toLowerCase();
+
+    const filter=document.getElementById('filterSelect').value;
+
+    const c11=document.getElementById('class11');
+    const c12=document.getElementById('class12');
+
+    c11.innerHTML='';
+    c12.innerHTML='';
+
+    DB.forEach(item=>{
+
+        let visible=item.ch
+            .map((name,index)=>({
+                name,
+                index,
+                key:chapterKey(item,index),
+                data:getChapterData(chapterKey(item,index))
+            }))
+            .filter(ch=>{
+
+                if(search && !ch.name.toLowerCase().includes(search))
+                    return false;
+
+                if(filter==='completed' && !ch.data.done)
+                    return false;
+
+                if(filter==='pending' && ch.data.done)
+                    return false;
+
+                if(filter==='important' && !ch.data.important)
+                    return false;
+
+                if(filter==='weak' && !ch.data.weak)
+                    return false;
+
+                if(filter==='revision' && !isRevisionDue(ch.data))
+                    return false;
+
+                return true;
+            });
+
+        if(!visible.length) return;
+
+        const completed=item.ch.filter((_,i)=>
+            getChapterData(chapterKey(item,i)).done
+        ).length;
+
+        const percent=Math.round(
+            completed/item.ch.length*100
+        );
+
+        const card=document.createElement('div');
+
+        card.className='subject-card';
+
+        card.innerHTML=`
+
+        <div class="subject-head">
+
+            <div>
+                <h3>${item.sub}</h3>
+                <div style="font-size:.7rem;color:var(--muted)">
+                    ${completed}/${item.ch.length} Completed
+                </div>
+            </div>
+
+            <div class="progress-circle">
+
+                <svg viewBox="0 0 80 80">
+
+                    <circle class="bg"
+                        cx="40"
+                        cy="40"
+                        r="35"
+                    />
+
+                    <circle class="fg"
+                        cx="40"
+                        cy="40"
+                        r="35"
+                        style="
+                        stroke-dasharray:220;
+                        stroke-dashoffset:${220-(220*percent/100)}
+                        "
+                    />
+
+                </svg>
+
+                <div class="percent">${percent}%</div>
+
+            </div>
+
+        </div>
+
+        <div class="chapter-list">
+
+        ${visible.map(ch=>`
+
+        <div class="chapter ${ch.data.done?'done-row':''}">
+
+            <div
+                class="check ${ch.data.done?'done':''}"
+                onclick="toggleChapter('${ch.key}')"
+            >
+                ${ch.data.done?'✓':''}
+            </div>
+
+            <div class="chapter-name">
+                ${ch.name}
+
+                <div class="chapter-badges">
+
+                    ${ch.data.important?
+                    '<span class="badge">⭐ Important</span>':''}
+
+                    ${ch.data.weak?
+                    '<span class="badge">⚠️ Weak</span>':''}
+
+                    ${ch.data.notes?
+                    '<span class="badge">📝 Notes</span>':''}
+
+                </div>
+
+            </div>
+
+            <div class="chapter-actions">
+
+                <button
+                    class="action-btn ${ch.data.important?'active':''}"
+                    onclick="toggleImportant('${ch.key}')"
+                    title="Important"
+                >
+                    ⭐
+                </button>
+
+                <button
+                    class="action-btn weak ${ch.data.weak?'active':''}"
+                    onclick="toggleWeak('${ch.key}')"
+                    title="Weak"
+                >
+                    ⚠️
+                </button>
+
+                <button
+                    class="action-btn"
+                    onclick="openNotes('${ch.key}', '${ch.name.replace(/'/g,"\\'")}')"
+                    title="Notes"
+                >
+                    📝
+                </button>
+
+            </div>
+
+        </div>
+
+        `).join('')}
+
+        </div>
+
+        `;
+
+        if(item.cls==='11th'){
+            c11.appendChild(card);
+        }else{
+            c12.appendChild(card);
+        }
+
+    });
+}
+
+
+/* =========================
+   REVISION SYSTEM
+========================= */
+
+const revisionDays=[1,3,7,15,30];
+
+function getRevisionDate(data){
+
+    if(!data.completedAt) return null;
+
+    const index=data.revisionIndex || 0;
+
+    if(index>=revisionDays.length) return null;
+
+    const base=data.lastRevision
+        ?new Date(data.lastRevision)
+        :new Date(data.completedAt);
+
+    return new Date(
+        base.getTime()+
+        revisionDays[index]*86400000
+    );
+}
+
+function isRevisionDue(data){
+
+    if(!data.done) return false;
+
+    const date=getRevisionDate(data);
+
+    if(!date) return false;
+
+    return Date.now()>=date.getTime();
+}
+
+function completeRevision(key){
+
+    const data=getChapterData(key);
+
+    const nextIndex=(data.revisionIndex || 0)+1;
+
+    updateChapter(key,{
+        revisionIndex:nextIndex,
+        lastRevision:new Date().toISOString()
+    });
+
+    addXP(5);
+
+    toast('Revision completed! +5 XP 🔄');
+
+    refreshAll();
+}
+
+function renderRevision(){
+
+    const list=document.getElementById('revisionList');
+
+    const due=getAllChapters()
+        .filter(ch=>isRevisionDue(
+            getChapterData(ch.key)
+        ));
+
+    document.getElementById('revisionCount').textContent=
+        `${due.length} Chapters`;
+
+    if(!due.length){
+
+        list.innerHTML=`
+        <div style="
+        text-align:center;
+        padding:40px;
+        color:var(--muted)
+        ">
+        🎉 No revision due right now.<br>
+        Great job staying ahead!
+        </div>
+        `;
+
+        return;
+    }
+
+    list.innerHTML=due.map(ch=>{
+
+        const data=getChapterData(ch.key);
+
+        const date=getRevisionDate(data);
+
+        return `
+
+        <div class="revision-item">
+
+            <div class="revision-meta">
+
+                <h4>${ch.name}</h4>
+
+                <p>
+                ${ch.item.cls} • ${ch.item.sub}
+                </p>
+
+                <p class="due">
+                Due since ${date.toLocaleDateString()}
+                </p>
+
+            </div>
+
+            <button
+                class="main-btn"
+                onclick="completeRevision('${ch.key}')"
+            >
+                Revise ✓
+            </button>
+
+        </div>
+
+        `;
+
+    }).join('');
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+function renderDashboard(){
+
+    const chapters=getAllChapters();
+
+    const completed=chapters.filter(ch=>
+        getChapterData(ch.key).done
+    ).length;
+
+    const important=chapters.filter(ch=>
+        getChapterData(ch.key).important
+    ).length;
+
+    const weak=chapters.filter(ch=>
+        getChapterData(ch.key).weak
+    ).length;
+
+    const total=chapters.length;
+
+    const percent=Math.round(
+        completed/total*100
+    );
+
+    document.getElementById('totalChapters').textContent=total;
+    document.getElementById('completedChapters').textContent=completed;
+    document.getElementById('remainingChapters').textContent=total-completed;
+    document.getElementById('importantCount').textContent=important;
+    document.getElementById('weakCount').textContent=weak;
+    document.getElementById('streak').textContent=getStreak();
+
+    document.getElementById('overallPercent').textContent=
+        percent+'%';
+
+    document.getElementById('overallLabel').textContent=
+        percent+'%';
+
+    document.getElementById('overallBar').style.width=
+        percent+'%';
+
+    const ring=document.getElementById('overallRing');
+
+    const circumference=314;
+
+    ring.style.strokeDasharray=circumference;
+
+    ring.style.strokeDashoffset=
+        circumference-(circumference*percent/100);
+
+    let status='Mission Started';
+    let message='Start completing chapters to build momentum.';
+
+    if(percent>=90){
+        status='Legend Mode 👑';
+        message='Outstanding! You are extremely close to finishing everything.';
+    }
+    else if(percent>=75){
+        status='Almost There 🔥';
+        message='You are entering the final phase of preparation.';
+    }
+    else if(percent>=50){
+        status='Halfway Warrior ⚡';
+        message='More than halfway done. Keep the momentum alive.';
+    }
+    else if(percent>=25){
+        status='Momentum Building 🚀';
+        message='Your consistency is starting to create real progress.';
+    }
+
+    document.getElementById('missionStatus').textContent=status;
+    document.getElementById('missionMessage').textContent=message;
+
+    /* XP */
+
+    const xp=getXP();
+    const level=getLevel();
+    const currentLevelXP=xp%100;
+
+    document.getElementById('levelNum').textContent=level;
+
+    document.getElementById('xpText').textContent=
+        `${xp} XP`;
+
+    document.getElementById('xpFill').style.width=
+        currentLevelXP+'%';
+
+    /* DAILY GOAL */
+
+    const goal=getGoal();
+    const todayCompleted=getTodayCompleted();
+
+    const goalPercent=Math.min(
+        100,
+        Math.round(todayCompleted/goal*100)
+    );
+
+    document.getElementById('dailyGoalText').textContent=
+        `${todayCompleted} / ${goal}`;
+
+    document.getElementById('goalPercent').textContent=
+        goalPercent+'%';
+
+    document.getElementById('goalCircle')
+        .style.setProperty('--goal',goalPercent);
+
+    /* SUBJECTS */
+
+    const subjectBox=
+        document.getElementById('dashboardSubjects');
+
+    subjectBox.innerHTML='';
+
+    DB.forEach(item=>{
+
+        const done=item.ch.filter((_,i)=>
+            getChapterData(chapterKey(item,i)).done
+        ).length;
+
+        const p=Math.round(done/item.ch.length*100);
+
+        subjectBox.innerHTML+=`
+
+        <div class="subject-progress-row">
+
+            <div class="row">
+
+                <span>
+                ${item.cls} ${item.sub}
+                </span>
+
+                <span>
+                ${p}%
+                </span>
+
+            </div>
+
+            <div class="bar">
+                <span style="width:${p}%"></span>
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+    /* REVISION PREVIEW */
+
+    const due=chapters.filter(ch=>
+        isRevisionDue(getChapterData(ch.key))
+    );
+
+    const revBox=
+        document.getElementById('dashboardRevision');
+
+    if(!due.length){
+
+        revBox.innerHTML=
+        '<p style="color:var(--muted);font-size:.8rem">No chapters are due for revision right now. 🎉</p>';
+
+    }else{
+
+        revBox.innerHTML=
+        due.slice(0,3).map(ch=>`
+
+        <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:10px;
+        font-size:.78rem
+        ">
+
+            <span>${ch.name}</span>
+
+            <span style="color:var(--pink)">
+            Due
+            </span>
+
+        </div>
+
+        `).join('');
+
+    }
+
+    /* SMART ADVICE */
+
+    let advice='Complete one chapter today to maintain your momentum.';
+
+    if(weak>important && weak>0){
+        advice='⚠️ You have several weak chapters. Focus on strengthening weak areas before starting too many new chapters.';
+    }
+    else if(due.length>0){
+        advice='🔄 You have revision pending. Revision should come before starting completely new topics.';
+    }
+    else if(percent>=75){
+        advice='🔥 You are in a strong position. Focus on revision, mock tests and weak concepts.';
+    }
+    else if(todayCompleted>=goal){
+        advice='🏆 Daily goal completed! You are officially ahead of today’s mission.';
+    }
+
+    document.getElementById('smartAdvice').textContent=advice;
+}
+
+
+/* =========================
+   ANALYTICS
+========================= */
+
+function renderAnalytics(){
+
+    const grid=
+        document.getElementById('analyticsGrid');
+
+    grid.innerHTML='';
+
+    DB.forEach(item=>{
+
+        const done=item.ch.filter((_,i)=>
+            getChapterData(chapterKey(item,i)).done
+        ).length;
+
+        const weak=item.ch.filter((_,i)=>
+            getChapterData(chapterKey(item,i)).weak
+        ).length;
+
+        const important=item.ch.filter((_,i)=>
+            getChapterData(chapterKey(item,i)).important
+        ).length;
+
+        const percent=Math.round(
+            done/item.ch.length*100
+        );
+
+        grid.innerHTML+=`
+
+        <div class="analytics-card">
+
+            <h4>
+            ${item.cls} ${item.sub}
+            </h4>
+
+            <div class="stat-value">
+            ${percent}%
+            </div>
+
+            <div class="bar" style="margin:10px 0">
+                <span style="width:${percent}%"></span>
+            </div>
+
+            <div style="
+            font-size:.75rem;
+            color:var(--muted);
+            line-height:1.8
+            ">
+
+                Completed: ${done}/${item.ch.length}<br>
+                Weak: ${weak}<br>
+                Important: ${important}
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+
+/* =========================
+   ACHIEVEMENTS
+========================= */
+
+function renderAchievements(){
+
+    const chapters=getAllChapters();
+
+    const completed=
+        chapters.filter(ch=>
+            getChapterData(ch.key).done
+        ).length;
+
+    const streak=getStreak();
+
+    const xp=getXP();
+
+    const achievements=[
+        {
+            icon:'🌱',
+            name:'First Step',
+            desc:'Complete your first chapter',
+            unlocked:completed>=1
+        },
+        {
+            icon:'🔥',
+            name:'On Fire',
+            desc:'Maintain a 3 day streak',
+            unlocked:streak>=3
+        },
+        {
+            icon:'⚡',
+            name:'Speed Runner',
+            desc:'Complete 25 chapters',
+            unlocked:completed>=25
+        },
+        {
+            icon:'🧠',
+            name:'Knowledge Hunter',
+            desc:'Complete 50 chapters',
+            unlocked:completed>=50
+        },
+        {
+            icon:'🏆',
+            name:'Century',
+            desc:'Complete 100 chapters',
+            unlocked:completed>=100
+        },
+        {
+            icon:'👑',
+            name:'Legend',
+            desc:'Reach 1000 XP',
+            unlocked:xp>=1000
+        }
+    ];
+
+    document.getElementById('achievementGrid')
+        .innerHTML=
+
+        achievements.map(a=>`
+
+        <div class="achievement ${a.unlocked?'':'locked'}">
+
+            <div class="achievement-icon">
+            ${a.icon}
+            </div>
+
+            <h3>
+            ${a.name}
+            </h3>
+
+            <p style="
+            color:var(--muted);
+            font-size:.75rem;
+            margin-top:7px
+            ">
+            ${a.desc}
+            </p>
+
+            <div style="
+            margin-top:10px;
+            font-size:.7rem;
+            color:${a.unlocked?'var(--green)':'var(--muted)'}
+            ">
+            ${a.unlocked?'UNLOCKED ✓':'LOCKED 🔒'}
+            </div>
+
+        </div>
+
+        `).join('');
+}
+
+
+/* =========================
+   TIMER
+========================= */
+
+let timerSeconds=1500;
+let timerInterval=null;
+let timerRunning=false;
+
+function setTimerMode(minutes){
+
+    if(timerRunning) return;
+
+    timerSeconds=minutes*60;
+
+    renderTimer();
+
+}
+
+function renderTimer(){
+
+    const min=Math.floor(timerSeconds/60)
+        .toString()
+        .padStart(2,'0');
+
+    const sec=(timerSeconds%60)
+        .toString()
+        .padStart(2,'0');
+
+    document.getElementById('timerDisplay')
+        .textContent=
+        `${min}:${sec}`;
+
+}
+
+function toggleTimer(){
+
+    if(timerRunning){
+
+        clearInterval(timerInterval);
+
+        timerRunning=false;
+
+        document.getElementById('timerStartBtn')
+            .textContent='▶ Resume';
+
+        return;
+
+    }
+
+    timerRunning=true;
+
+    document.getElementById('timerStartBtn')
+        .textContent='⏸ Pause';
+
+    timerInterval=setInterval(()=>{
+
+        timerSeconds--;
+
+        renderTimer();
+
+        if(timerSeconds<=0){
+
+            clearInterval(timerInterval);
+
+            timerRunning=false;
+
+            document.getElementById('timerStartBtn')
+                .textContent='▶ Start';
+
+            completeFocusSession();
+
+            timerSeconds=1500;
+
+            renderTimer();
+
+        }
+
+    },1000);
+
+}
+
+function resetTimer(){
+
+    clearInterval(timerInterval);
+
+    timerRunning=false;
+
+    timerSeconds=1500;
+
+    document.getElementById('timerStartBtn')
+        .textContent='▶ Start';
+
+    renderTimer();
+
+}
+
+function completeFocusSession(){
+
+    let sessions=
+        getState('focusSessions') || 0;
+
+    let minutes=
+        getState('todayStudyMinutes') || 0;
+
+    setState('focusSessions',sessions+1);
+
+    setState(
+        'todayStudyMinutes',
+        minutes+25
+    );
+
+    addXP(15);
+
+    celebrate();
+
+    toast('Focus session complete! +15 XP 🧠');
+
+    renderFocusStats();
+}
+
+function renderFocusStats(){
+
+    document.getElementById('totalSessions')
+        .textContent=
+        getState('focusSessions') || 0;
+
+    document.getElementById('todayStudyTime')
+        .textContent=
+        getState('todayStudyMinutes') || 0;
+
+}
+
+
+/* =========================
+   COUNTDOWN
+========================= */
+
+const exams2027=[
+['JEE Main Jan','January 24, 2027'],
+['JEE Main Apr','April 6, 2027'],
+['JEE Advanced','May 23, 2027'],
+['NEET','May 2, 2027']
+];
+
+const exams2028=[
+['JEE Main Jan','January 24, 2028'],
+['JEE Main Apr','April 6, 2028'],
+['JEE Advanced','May 23, 2028'],
+['NEET','May 7, 2028']
+];
+
+function createExamBoxes(){
+
+    createExamYear(
+        'timer2027',
+        exams2027
+    );
+
+    createExamYear(
+        'timer2028',
+        exams2028
+    );
+}
+
+function createExamYear(id,exams){
+
+    const container=
+        document.getElementById(id);
+
+    container.innerHTML='';
+
+    exams.forEach((exam,index)=>{
+
+        const timerId=
+            `${id}_${index}`;
+
+        container.innerHTML+=`
+
+        <div class="exam-box">
+
+            <div class="exam-name">
+            ${exam[0]}
+            </div>
+
+            <div
+                class="countdown"
+                id="${timerId}"
+            ></div>
+
+        </div>
+
+        `;
+
+        updateExamTimer(
+            timerId,
+            exam[1]
+        );
+
+        setInterval(()=>{
+
+            updateExamTimer(
+                timerId,
+                exam[1]
+            );
+
+        },1000);
+
+    });
+
+}
+
+function updateExamTimer(id,date){
+
+    const diff=
+        new Date(date).getTime()-Date.now();
+
+    const safe=Math.max(0,diff);
+
+    const d=Math.floor(
+        safe/86400000
+    );
+
+    const h=Math.floor(
+        safe%86400000/3600000
+    );
+
+    const m=Math.floor(
+        safe%3600000/60000
+    );
+
+    const s=Math.floor(
+        safe%60000/1000
+    );
+
+    const el=document.getElementById(id);
+
+    if(!el) return;
+
+    el.innerHTML=`
+
+    <div class="unit">
+        <span>${d}</span>
+        <label>D</label>
+    </div>
+
+    <div class="unit">
+        <span>${h}</span>
+        <label>H</label>
+    </div>
+
+    <div class="unit">
+        <span>${m}</span>
+        <label>M</label>
+    </div>
+
+    <div class="unit">
+        <span>${s}</span>
+        <label>S</label>
+    </div>
+
+    `;
+
+}
+
+
+/* =========================
+   PAGE SYSTEM
+========================= */
+
+function showPage(id,button){
+
+    document.querySelectorAll('.page')
+        .forEach(page=>
+            page.classList.remove('active')
+        );
+
+    const target=document.getElementById(id);
+
+    if(target){
+        target.classList.add('active');
+    }
+
+    document.querySelectorAll('.nav button,.mobile-nav button')
+        .forEach(btn=>
+            btn.classList.remove('active')
+        );
+
+    if(button){
+        button.classList.add('active');
+    }
+
+    if(id==='chapters')
+        renderChapters();
+
+    if(id==='revision')
+        renderRevision();
+
+    if(id==='analytics')
+        renderAnalytics();
+
+    if(id==='achievements')
+        renderAchievements();
+
+    window.scrollTo({
+        top:0,
+        behavior:'smooth'
+    });
+}
+
+
+/* =========================
+   BACKUP
+========================= */
+
+function exportData(){
+
+    const data=getData();
+
+    const blob=new Blob(
+        [JSON.stringify(data,null,2)],
+        {type:'application/json'}
+    );
+
+    const url=
+        URL.createObjectURL(blob);
+
+    const a=document.createElement('a');
+
+    a.href=url;
+
+    a.download=
+        'Ghazi-Abbas-Study-OS-Backup.json';
+
+    a.click();
+
+    URL.revokeObjectURL(url);
+
+    toast('Backup exported successfully 💾');
+}
+
+function importData(event){
+
+    const file=
+        event.target.files[0];
+
+    if(!file) return;
+
+    const reader=new FileReader();
+
+    reader.onload=function(e){
+
+        try{
+
+            const data=
+                JSON.parse(e.target.result);
+
+            saveData(data);
+
+            refreshAll();
+
+            toast('Backup imported successfully 📂');
+
+        }catch(err){
+
+            toast('Invalid backup file');
+
+        }
+
+    };
+
+    reader.readAsText(file);
+}
+
+
+/* =========================
+   THEME
+========================= */
+
+function toggleTheme(){
+
+    document.body.classList.toggle('light');
+
+    toast('Theme mode changed 🌙');
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+function toast(message){
+
+    const t=document.getElementById('toast');
+
+    t.textContent=message;
+
+    t.classList.add('show');
+
+    clearTimeout(window.toastTimer);
+
+    window.toastTimer=setTimeout(()=>{
+
+        t.classList.remove('show');
+
+    },2500);
+
+}
+
+
+/* =========================
+   CONFETTI
+========================= */
+
+function celebrate(){
+
+    const end=Date.now()+2000;
+
+    (function frame(){
+
+        confetti({
+            particleCount:6,
+            angle:60,
+            spread:55,
+            origin:{x:0},
+            colors:['#ff007a','#00d2ff','#00ff88']
+        });
+
+        confetti({
+            particleCount:6,
+            angle:120,
+            spread:55,
+            origin:{x:1},
+            colors:['#ff007a','#00d2ff','#00ff88']
+        });
+
+        if(Date.now()<end){
+            requestAnimationFrame(frame);
+        }
+
+    })();
+
+}
+
+
+/* =========================
+   SNOW PARTICLES
+========================= */
+
+const cvs=document.getElementById('snow');
+
+const ctx=cvs.getContext('2d');
+
+let particles=[];
+
+function resizeCanvas(){
+
+    cvs.width=window.innerWidth;
+    cvs.height=window.innerHeight;
+
+}
+
+window.addEventListener(
+    'resize',
+    resizeCanvas
+);
+
+resizeCanvas();
+
+class Particle{
+
+    constructor(){
+        this.reset();
+        this.y=Math.random()*cvs.height;
+    }
+
+    reset(){
+
+        this.x=Math.random()*cvs.width;
+        this.y=-10;
+        this.size=1+Math.random()*3;
+        this.speed=.2+Math.random()*.8;
+        this.opacity=.1+Math.random()*.4;
+
+    }
+
+    update(){
+
+        this.y+=this.speed;
+
+        if(this.y>cvs.height+10){
+            this.reset();
+        }
+
+    }
+
+    draw(){
+
+        ctx.fillStyle=
+            `rgba(255,255,255,${this.opacity})`;
+
+        ctx.beginPath();
+
+        ctx.arc(
+            this.x,
+            this.y,
+            this.size,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+    }
+
+}
+
+for(let i=0;i<60;i++){
+    particles.push(new Particle());
+}
+
+function animateParticles(){
+
+    ctx.clearRect(
+        0,
+        0,
+        cvs.width,
+        cvs.height
+    );
+
+    particles.forEach(p=>{
+
+        p.update();
+
+        p.draw();
+
+    });
+
+    requestAnimationFrame(
+        animateParticles
+    );
+
+}
+
+animateParticles();
+
+
+/* =========================
+   REFRESH
+========================= */
+
+function refreshAll(){
+
+    renderDashboard();
+    renderChapters();
+    renderRevision();
+    renderAnalytics();
+    renderAchievements();
+    renderFocusStats();
+
+}
+
+
+/* =========================
+   INIT
+========================= */
+
+createExamBoxes();
+
+renderTimer();
+
+refreshAll();
+
 </script>
+
 </body>
 </html>
